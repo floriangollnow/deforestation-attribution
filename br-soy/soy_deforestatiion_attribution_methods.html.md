@@ -546,7 +546,7 @@ ggplot(
 :::
 
 
-# key insight:
+## Key insight:
 - trends and patterns are consistent across attribution methods
 
 
@@ -1108,5 +1108,5 @@ soy_supply_chain_2022_v2_imp |>
 :::
 
 
-### Key insights:
+## Key insights:
 - small changes in deforestation exposure change rankings slightly - but not dramatically.
