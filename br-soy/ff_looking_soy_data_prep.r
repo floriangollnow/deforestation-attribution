@@ -446,6 +446,24 @@ hidden_def_new <- hidden_def_5yr_l |>
   bind_rows(hidden_def_3yr_gfc_only_l) |>
   bind_rows(hidden_def_orig_l)
 
+hidden_def_new_amort <- hidden_def_new |>
+  ungroup() |>
+  group_by(ibge_munic, ibge_state, name, trase_id, variable) |>
+  arrange(year, .by_group = TRUE) |>
+  mutate(
+    ha_5y_amort = rollmean(
+      ha,
+      k = 5,
+      align = "right",
+      fill = NA,
+      na.rm = TRUE
+    )
+  ) |>
+  ungroup() |>
+  mutate(variable = paste0(variable, "_5y_amortized"), ha = ha_5y_amort) |>
+  select(-ha_5y_amort)
+
+hidden_def_new <- hidden_def_new |> bind_rows(hidden_def_new_amort)
 
 ###############################
 ## plots municipality level
