@@ -109,7 +109,7 @@ ggplot(
     x = "Year",
     color = NULL
   ) +
-  theme_minimal() +
+  #theme_minimal() +
   theme(legend.position = "bottom") +
   guides(color = guide_legend(nrow = 3))
 ```
@@ -169,7 +169,7 @@ ggplot(
     x = "Year",
     color = NULL
   ) +
-  theme_minimal() +
+  #theme_minimal() +
   theme(legend.position = "bottom") +
   guides(color = guide_legend(nrow = 3))
 ```
@@ -214,7 +214,7 @@ ggplot(
     x = "Year",
     color = NULL
   ) +
-  theme_minimal() +
+  #theme_minimal() +
   theme(legend.position = "bottom") +
   guides(color = guide_legend(nrow = 2))
 ```
@@ -262,7 +262,7 @@ ggplot(
     x = "Year",
     color = NULL
   ) +
-  theme_minimal() +
+  #theme_minimal() +
   theme(legend.position = "bottom") +
   guides(color = guide_legend(nrow = 3))
 ```
@@ -328,7 +328,7 @@ ggplot(
     x = "Year",
     color = NULL
   ) +
-  theme_minimal() +
+  #theme_grey() +
   theme(legend.position = "bottom") +
   guides(color = guide_legend(nrow = 3))
 ```
@@ -377,7 +377,7 @@ ggplot(
     x = "Year",
     color = NULL
   ) +
-  theme_minimal() +
+  #theme_minimal() +
   theme(legend.position = "bottom") +
   guides(color = guide_legend(nrow = 3))
 ```
