@@ -95,7 +95,7 @@ ggplot(
         .default = variable
       )
     ),
-  aes(year, ha / 10000, color = fct_reorder(variable, ha, .desc = TRUE))
+  aes(year, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
 ) +
   geom_line(lwd = 1.5) +
   labs(
@@ -109,7 +109,7 @@ ggplot(
 ```
 
 ::: {.cell-output-display}
-![](soy_deforestatiion_attribution_methods_files/figure-html/country-annual-comparison-1.png){width=864}
+![](soy_deforestation_attribution_methods_files/figure-html/country-annual-comparison-1.png){width=864}
 :::
 :::
 
@@ -170,7 +170,7 @@ ggplot(
         .default = variable
       )
     ),
-  aes(year, ha / 10000, color = fct_reorder(variable, ha, .desc = TRUE))
+  aes(year, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
 ) +
   geom_line(lwd = 1.5) +
   labs(
@@ -185,7 +185,7 @@ ggplot(
 ```
 
 ::: {.cell-output-display}
-![](soy_deforestatiion_attribution_methods_files/figure-html/country-amortized-plot-1.png){width=864}
+![](soy_deforestation_attribution_methods_files/figure-html/country-amortized-plot-1.png){width=864}
 :::
 :::
 
@@ -245,7 +245,7 @@ ggplot(soy_br_amort_perc_l, aes(year, percent)) +
 ```
 
 ::: {.cell-output-display}
-![](soy_deforestatiion_attribution_methods_files/figure-html/country-percentage-diff-1.png){width=960}
+![](soy_deforestation_attribution_methods_files/figure-html/country-percentage-diff-1.png){width=960}
 :::
 :::
 
@@ -287,7 +287,7 @@ ggplot(
         .default = variable
       )
     ),
-  aes(year, ha / 10000, color = fct_reorder(variable, ha, .desc = TRUE))
+  aes(year, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
 ) +
   geom_line(lwd = 1.5) +
   labs(
@@ -301,7 +301,7 @@ ggplot(
 ```
 
 ::: {.cell-output-display}
-![](soy_deforestatiion_attribution_methods_files/figure-html/country-annual-comparison 1-1.png){width=864}
+![](soy_deforestation_attribution_methods_files/figure-html/country-annual-comparison 1-1.png){width=864}
 :::
 :::
 
@@ -335,7 +335,7 @@ ggplot(
         .default = variable
       )
     ),
-  aes(year, ha / 10000, color = fct_reorder(variable, ha, .desc = TRUE))
+  aes(year, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
 ) +
   geom_line(lwd = 1.5) +
   labs(
@@ -349,7 +349,7 @@ ggplot(
 ```
 
 ::: {.cell-output-display}
-![](soy_deforestatiion_attribution_methods_files/figure-html/unnamed-chunk-1-1.png){width=672}
+![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-1-1.png){width=672}
 :::
 :::
 
@@ -413,7 +413,7 @@ ggplot(
         .default = variable
       )
     ),
-  aes(year - 2000, ha / 10000, color = fct_reorder(variable, ha, .desc = TRUE))
+  aes(year - 2000, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
 ) +
   geom_line() +
   scale_x_continuous(breaks = breaks_pretty()) +
@@ -424,7 +424,7 @@ ggplot(
 ```
 
 ::: {.cell-output-display}
-![](soy_deforestatiion_attribution_methods_files/figure-html/state-facet-geo-1.png){width=1056}
+![](soy_deforestation_attribution_methods_files/figure-html/state-facet-geo-1.png){width=1056}
 :::
 :::
 
@@ -454,7 +454,7 @@ ggplot(
         .default = variable
       )
     ),
-  aes(year - 2000, ha / 10000, color = fct_reorder(variable, ha, .desc = TRUE))
+  aes(year - 2000, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
 ) +
   geom_line() +
   scale_x_continuous(breaks = breaks_pretty()) +
@@ -465,7 +465,7 @@ ggplot(
 ```
 
 ::: {.cell-output-display}
-![](soy_deforestatiion_attribution_methods_files/figure-html/unnamed-chunk-2-1.png){width=960}
+![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-2-1.png){width=960}
 :::
 :::
 
@@ -496,7 +496,7 @@ ggplot(
         .default = variable
       )
     ),
-  aes(year - 2000, ha / 10000, color = fct_reorder(variable, ha, .desc = TRUE))
+  aes(year - 2000, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
 ) +
   geom_line() +
   scale_x_continuous(breaks = breaks_pretty()) +
@@ -507,7 +507,7 @@ ggplot(
 ```
 
 ::: {.cell-output-display}
-![](soy_deforestatiion_attribution_methods_files/figure-html/unnamed-chunk-3-1.png){width=960}
+![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-3-1.png){width=960}
 :::
 :::
 
@@ -536,7 +536,7 @@ ggplot(
         .default = variable
       )
     ),
-  aes(year - 2000, ha / 10000, color = fct_reorder(variable, ha, .desc = TRUE))
+  aes(year - 2000, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
 ) +
   geom_line() +
   scale_x_continuous(breaks = breaks_pretty()) +
@@ -547,7 +547,7 @@ ggplot(
 ```
 
 ::: {.cell-output-display}
-![](soy_deforestatiion_attribution_methods_files/figure-html/unnamed-chunk-4-1.png){width=960}
+![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-4-1.png){width=960}
 :::
 :::
 

@@ -91,7 +91,7 @@ ggplot(
         .default = variable
       )
     ),
-  aes(year, ha / 10000, color = fct_reorder(variable, ha, .desc = TRUE))
+  aes(year, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
 ) +
   geom_line(lwd = 1.5) +
   labs(
@@ -156,7 +156,7 @@ ggplot(
         .default = variable
       )
     ),
-  aes(year, ha / 10000, color = fct_reorder(variable, ha, .desc = TRUE))
+  aes(year, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
 ) +
   geom_line(lwd = 1.5) +
   labs(
@@ -261,7 +261,7 @@ ggplot(
         .default = variable
       )
     ),
-  aes(year, ha / 10000, color = fct_reorder(variable, ha, .desc = TRUE))
+  aes(year, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
 ) +
   geom_line(lwd = 1.5) +
   labs(
@@ -300,7 +300,7 @@ ggplot(
         .default = variable
       )
     ),
-  aes(year, ha / 10000, color = fct_reorder(variable, ha, .desc = TRUE))
+  aes(year, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
 ) +
   geom_line(lwd = 1.5) +
   labs(
@@ -368,7 +368,7 @@ ggplot(
         .default = variable
       )
     ),
-  aes(year - 2000, ha / 10000, color = fct_reorder(variable, ha, .desc = TRUE))
+  aes(year - 2000, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
 ) +
   geom_line() +
   scale_x_continuous(breaks = breaks_pretty()) +
@@ -402,7 +402,7 @@ ggplot(
         .default = variable
       )
     ),
-  aes(year - 2000, ha / 10000, color = fct_reorder(variable, ha, .desc = TRUE))
+  aes(year - 2000, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
 ) +
   geom_line() +
   scale_x_continuous(breaks = breaks_pretty()) +
@@ -437,7 +437,7 @@ ggplot(
         .default = variable
       )
     ),
-  aes(year - 2000, ha / 10000, color = fct_reorder(variable, ha, .desc = TRUE))
+  aes(year - 2000, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
 ) +
   geom_line() +
   scale_x_continuous(breaks = breaks_pretty()) +
@@ -470,7 +470,7 @@ ggplot(
         .default = variable
       )
     ),
-  aes(year - 2000, ha / 10000, color = fct_reorder(variable, ha, .desc = TRUE))
+  aes(year - 2000, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
 ) +
   geom_line() +
   scale_x_continuous(breaks = breaks_pretty()) +
