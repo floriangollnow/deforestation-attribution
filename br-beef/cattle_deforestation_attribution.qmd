@@ -590,3 +590,8 @@ ggplot(
 
   theme(legend.position = "bottom")
 ```
+
+## key insights 
+- looks good - no concerns. 
+
+# supply chain: companies exposure
