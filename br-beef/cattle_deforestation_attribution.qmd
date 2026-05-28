@@ -451,3 +451,142 @@ ggplot(cattle_br_amort_perc_l, aes(year, percent)) +
 - difference is smaller in recent years, indicating a potentially faster transition from forest to mapped pastuure
 - last years difference is an outlier, realy indicating an issue with the most recent pasture mappin in Mapbiomas
 - difference between 5 and 3 year forward looking attribution ins less the 5% in most recent years
+
+
+# state level analysis
+I now scale the calculations down to individual Brazilian states to determine if sub-national trends and patterns align with national averages.
+
+```{r}
+#| label: state-facet-geo-pasture
+#| fig-width: 11
+#| fig-height: 8
+ggplot(
+  beef_states |>
+    filter(year >= 2014 & year <= 2024) |>
+    filter(
+      variable %in%
+        c(
+          #"pasture_def_back_ha",
+          "pasture_def_annualized_back_ha",
+          #"pasture_def_harvest5y_ha_5y_amort",
+          "pasture_def_harvest3y_ha_5y_amort",
+          "pasture_def_def3y_gfc_ha"
+        )
+    ) |>
+    mutate(
+      variable = case_when(
+        variable == "pasture_def_back" ~ "Trase-5y-sum",
+        variable == "pasture_def_annualized_back_ha" ~ "Trase-5y-annualized",
+        variable ==
+          "pasture_def_harvest5y_amort" ~ "Pasture-def-@harvest_5y_amort",
+        variable ==
+          "pasture_def_harvest3y_ha_5y_amort" ~ "Pasture-def-@harvest_3y_amort",
+        variable == "pasture_def_def3y_gfc_ha" ~ "DeDuCE-spatial",
+        .default = variable
+      )
+    ),
+  aes(year - 2000, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
+) +
+  geom_line() +
+  scale_x_continuous(breaks = breaks_pretty()) +
+  labs(
+    x = "Years (Since 2000)",
+    y = "Deforestation (kha)",
+    title = "Pasture deforestation",
+    color = NULL
+  ) +
+  facet_geo(~abbreviation, grid = "br_states_grid1") +
+
+  theme(legend.position = "bottom")
+```
+## taking out the 5 year sum
+
+```{r}
+#| label: state-facet-geo-cattle
+#| fig-width: 11
+#| fig-height: 8
+ggplot(
+  beef_states |>
+    filter(year >= 2014 & year <= 2024) |>
+    filter(
+      variable %in%
+        c(
+          "cattle_def_back_ha_5y_summed_ha",
+          "cattle_def_annualized_back_ha_5y_summed_ha",
+          "cattle_def_harvest5y_ha_5y_summed_ha",
+          "cattle_def_harvest3y_ha_5y_summed_ha" #,
+          #"pasture_def_def3y_gfc_ha"
+        )
+    ) |>
+    mutate(
+      variable = case_when(
+        variable == "cattle_def_back_ha_5y_summed_ha" ~ "Trase-5y-sum",
+        variable ==
+          "cattle_def_annualized_back_ha_5y_summed_ha" ~ "Trase-5y-annualized",
+        variable ==
+          "cattle_def_harvest5y_ha_5y_summed_ha" ~ "Pasture-def-@harvest_5y_amort",
+        variable ==
+          "cattle_def_harvest3y_ha_5y_summed_ha" ~ "Pasture-def-@harvest_3y_amort",
+        variable == "pasture_def_def3y_gfc_ha" ~ "DeDuCE-spatial",
+        .default = variable
+      )
+    ),
+  aes(year - 2000, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
+) +
+  geom_line() +
+  scale_x_continuous(breaks = breaks_pretty()) +
+  labs(
+    x = "Years (Since 2000)",
+    y = "Deforestation (kha)",
+    title = "Cattle deforestation",
+    color = NULL
+  ) +
+  facet_geo(~abbreviation, grid = "br_states_grid1") +
+
+  theme(legend.position = "bottom")
+```
+
+```{r}
+#| label: state-facet-geo-cattle-no-5ysum
+#| fig-width: 11
+#| fig-height: 8
+ggplot(
+  beef_states |>
+    filter(year >= 2014 & year <= 2024) |>
+    filter(
+      variable %in%
+        c(
+          #"cattle_def_back_ha_5y_summed_ha",
+          "cattle_def_annualized_back_ha_5y_summed_ha",
+          "cattle_def_harvest5y_ha_5y_summed_ha",
+          "cattle_def_harvest3y_ha_5y_summed_ha" #,
+          #"pasture_def_def3y_gfc_ha"
+        )
+    ) |>
+    mutate(
+      variable = case_when(
+        variable == "cattle_def_back_ha_5y_summed_ha" ~ "Trase-5y-sum",
+        variable ==
+          "cattle_def_annualized_back_ha_5y_summed_ha" ~ "Trase-5y-annualized",
+        variable ==
+          "cattle_def_harvest5y_ha_5y_summed_ha" ~ "Pasture-def-@harvest_5y_amort",
+        variable ==
+          "cattle_def_harvest3y_ha_5y_summed_ha" ~ "Pasture-def-@harvest_3y_amort",
+        variable == "pasture_def_def3y_gfc_ha" ~ "DeDuCE-spatial",
+        .default = variable
+      )
+    ),
+  aes(year - 2000, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
+) +
+  geom_line() +
+  scale_x_continuous(breaks = breaks_pretty()) +
+  labs(
+    x = "Years (Since 2000)",
+    y = "Deforestation (kha)",
+    title = "Cattle deforestation",
+    color = NULL
+  ) +
+  facet_geo(~abbreviation, grid = "br_states_grid1") +
+
+  theme(legend.position = "bottom")
+```
