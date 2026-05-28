@@ -28,6 +28,10 @@ Add additional metric following DeDuCE deforestation classification approach and
 - At deforestation event year (note, recent years will undercount deforestation)
 - At harvest year (note, by moving to harvest year, we can report the most recent year)
 
+# open question:
+- should be remove areas that where converted to soy within each attribution period ? 
+- similar do DeDuCE and Erasmusses paper (don't understand fully why Trase does not do this)
+
 
 # Exploring the new deforestation metrics
 This document compares Trase commodity deforestation attribution methods, with DeDuCE forward looking approach, and compares results to original DeDuCE results. 
@@ -358,3 +362,92 @@ relevant context information:
 - Deduce dashboard reports annual deforestation (combination statistical and spatial)
 - Trase factsheets use 5 year amortized DeDuCE deforestation (combination statistical and spatial)
 
+# Percentage differences between methods
+To quantify the divergence between backward-looking and forward-looking metrics, I also look at the relative percentage differences.
+
+- 5-year Annualized: Backward-looking annualized deforestation.
+- 5-year / 3-year pasture / cattle attribution: Forward-looking spatial attribution windows.
+
+```{r}
+#| label: country-percentage-diff-pasture
+#| fig-width: 10
+#| fig-height: 5
+beef_br_amort_wide <- beef_br |>
+  pivot_wider(id_cols = year, names_from = variable, values_from = ha)
+
+pasture_br_amort_perc <- beef_br_amort_wide |>
+  filter(year >= 2013) |>
+  transmute(
+    year = year,
+    diff_perc_5y_Trase_ann_5y_ff_amort = ((pasture_def_annualized_back_ha -
+      pasture_def_harvest5y_ha_5y_amort) /
+      pasture_def_harvest5y_ha_5y_amort) *
+      100,
+    diff_perc_5y_Trase_ann_3y_ff_amort = ((pasture_def_annualized_back_ha -
+      pasture_def_harvest3y_ha_5y_amort) /
+      pasture_def_harvest3y_ha_5y_amort) *
+      100,
+    diff_perc_5y_ff_3y_ff_amort = ((pasture_def_harvest5y_ha_5y_amort -
+      pasture_def_harvest3y_ha_5y_amort) /
+      pasture_def_harvest3y_ha_5y_amort) *
+      100
+  )
+
+pasture_br_amort_perc_l <- pasture_br_amort_perc |>
+  pivot_longer(cols = -year, names_to = "variable", values_to = "percent")
+
+ggplot(pasture_br_amort_perc_l, aes(year, percent)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  facet_wrap(~ fct_reorder(variable, percent)) +
+  labs(
+    title = "Pasture: Relative Percentage Difference Between Attribution Methods",
+    x = "Year",
+    y = "Difference (%)"
+  ) +
+  scale_x_continuous(breaks = breaks_pretty())
+```
+
+```{r}
+#| label: country-percentage-diff-cattle
+#| fig-width: 10
+#| fig-height: 5
+# beef_br_amort_wide <- beef_br |>
+#   pivot_wider(id_cols = year, names_from = variable, values_from = ha)
+
+cattle_br_amort_perc <- beef_br_amort_wide |>
+  filter(year >= 2013) |>
+  transmute(
+    year = year,
+    diff_perc_5y_Trase_ann_5y_ff_amort = ((cattle_def_annualized_back_ha_5y_summed_ha -
+      cattle_def_harvest5y_ha_5y_summed_ha) /
+      cattle_def_harvest5y_ha_5y_summed_ha) *
+      100,
+    diff_perc_5y_Trase_ann_3y_ff_amort = ((cattle_def_annualized_back_ha_5y_summed_ha -
+      cattle_def_harvest3y_ha_5y_summed_ha) /
+      cattle_def_harvest3y_ha_5y_summed_ha) *
+      100,
+    diff_perc_5y_ff_3y_ff_amort = ((cattle_def_harvest5y_ha_5y_summed_ha -
+      cattle_def_harvest3y_ha_5y_summed_ha) /
+      cattle_def_harvest3y_ha_5y_summed_ha) *
+      100
+  )
+
+cattle_br_amort_perc_l <- cattle_br_amort_perc |>
+  pivot_longer(cols = -year, names_to = "variable", values_to = "percent")
+
+ggplot(cattle_br_amort_perc_l, aes(year, percent)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  facet_wrap(~ fct_reorder(variable, percent)) +
+  labs(
+    title = "Pasture: Relative Percentage Difference Between Attribution Methods",
+    x = "Year",
+    y = "Difference (%)"
+  ) +
+  scale_x_continuous(breaks = breaks_pretty())
+```
+
+# key insights
+- we do miss quite a bit of pasture deforestation if we would just annualize compared fforward looking window
+- difference is smaller in recent years, indicating a potentially faster transition from forest to mapped pastuure
+- last years difference is an outlier, realy indicating an issue with the most recent pasture mappin in Mapbiomas
+- difference between 5 and 3 year forward looking attribution ins less the 5% in most recent years

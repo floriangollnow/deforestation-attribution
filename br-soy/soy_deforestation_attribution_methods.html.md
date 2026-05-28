@@ -104,7 +104,7 @@ ggplot(
     x = "Year",
     color = NULL
   ) +
-  theme_minimal() +
+
   theme(legend.position = "bottom")
 ```
 
@@ -179,7 +179,7 @@ ggplot(
     x = "Year",
     color = NULL
   ) +
-  theme_minimal() +
+
   theme(legend.position = "bottom") +
   guides(color = guide_legend(nrow = 2))
 ```
@@ -202,7 +202,7 @@ relevant context information:
 - Deduce dashboard reports annual deforestation
 - Trase factsheets use 5 year amortized DeDuCE deforestation
 
-## Percentage differences Between Methods
+## Percentage differences between methods
 To quantify the divergence between backward-looking and forward-looking metrics, I also look at the relative percentage differences.
 
 ::: {.cell}
@@ -240,8 +240,7 @@ ggplot(soy_br_amort_perc_l, aes(year, percent)) +
     x = "Year",
     y = "Difference (%)"
   ) +
-  scale_x_continuous(breaks = breaks_pretty()) +
-  theme_minimal()
+  scale_x_continuous(breaks = breaks_pretty())
 ```
 
 ::: {.cell-output-display}
@@ -296,7 +295,7 @@ ggplot(
     x = "Year",
     color = NULL
   ) +
-  theme_minimal() +
+
   theme(legend.position = "bottom")
 ```
 
@@ -344,7 +343,7 @@ ggplot(
     x = "Year",
     color = NULL
   ) +
-  theme_minimal() +
+
   theme(legend.position = "bottom")
 ```
 
@@ -419,7 +418,7 @@ ggplot(
   scale_x_continuous(breaks = breaks_pretty()) +
   labs(x = "Years (Since 2000)", y = "Deforestation (kha)", color = NULL) +
   facet_geo(~abbreviation, grid = "br_states_grid1") +
-  theme_minimal() +
+
   theme(legend.position = "bottom")
 ```
 
@@ -460,7 +459,7 @@ ggplot(
   scale_x_continuous(breaks = breaks_pretty()) +
   labs(x = "Years (Since 2000)", y = "Deforestation (kha)", color = NULL) +
   facet_geo(~abbreviation, grid = "br_states_grid1") +
-  theme_minimal() +
+
   theme(legend.position = "bottom")
 ```
 
@@ -502,7 +501,7 @@ ggplot(
   scale_x_continuous(breaks = breaks_pretty()) +
   labs(x = "Years (Since 2000)", y = "Deforestation (kha)", color = NULL) +
   facet_geo(~abbreviation, grid = "br_states_grid1") +
-  theme_minimal() +
+
   theme(legend.position = "bottom")
 ```
 
@@ -542,7 +541,7 @@ ggplot(
   scale_x_continuous(breaks = breaks_pretty()) +
   labs(x = "Years (Since 2000)", y = "Deforestation (kha)", color = NULL) +
   facet_geo(~abbreviation, grid = "br_states_grid1") +
-  theme_minimal() +
+
   theme(legend.position = "bottom")
 ```
 
