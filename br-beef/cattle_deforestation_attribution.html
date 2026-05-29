@@ -90,6 +90,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#suggested-solution-detailed-below" id="toc-suggested-solution-detailed-below" class="nav-link" data-scroll-target="#suggested-solution-detailed-below">Suggested solution detailed below</a></li>
   </ul></li>
+  <li><a href="#open-question" id="toc-open-question" class="nav-link" data-scroll-target="#open-question">open question:</a></li>
   <li><a href="#exploring-the-new-deforestation-metrics" id="toc-exploring-the-new-deforestation-metrics" class="nav-link" data-scroll-target="#exploring-the-new-deforestation-metrics">Exploring the new deforestation metrics</a>
   <ul class="collapse">
   <li><a href="#setup-and-data-ingestion" id="toc-setup-and-data-ingestion" class="nav-link" data-scroll-target="#setup-and-data-ingestion">Setup and data ingestion</a></li>
@@ -105,6 +106,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#amortized-5-year-estimation-previous-mapbiomas-version" id="toc-amortized-5-year-estimation-previous-mapbiomas-version" class="nav-link" data-scroll-target="#amortized-5-year-estimation-previous-mapbiomas-version">Amortized 5-year estimation &amp; previous Mapbiomas version</a>
   <ul class="collapse">
   <li><a href="#key-insights-1" id="toc-key-insights-1" class="nav-link" data-scroll-target="#key-insights-1">Key insights</a></li>
+  </ul></li>
+  <li><a href="#percentage-differences-between-methods" id="toc-percentage-differences-between-methods" class="nav-link" data-scroll-target="#percentage-differences-between-methods">Percentage differences between methods</a></li>
+  <li><a href="#key-insights-2" id="toc-key-insights-2" class="nav-link" data-scroll-target="#key-insights-2">key insights</a></li>
+  <li><a href="#state-level-analysis" id="toc-state-level-analysis" class="nav-link" data-scroll-target="#state-level-analysis">state level analysis</a>
+  <ul class="collapse">
+  <li><a href="#taking-out-the-5-year-sum" id="toc-taking-out-the-5-year-sum" class="nav-link" data-scroll-target="#taking-out-the-5-year-sum">taking out the 5 year sum</a></li>
+  <li><a href="#key-insights-3" id="toc-key-insights-3" class="nav-link" data-scroll-target="#key-insights-3">Key insights</a></li>
+  </ul></li>
+  <li><a href="#supply-chain-companies-exposure" id="toc-supply-chain-companies-exposure" class="nav-link" data-scroll-target="#supply-chain-companies-exposure">Supply chain: companies exposure</a>
+  <ul class="collapse">
+  <li><a href="#cattle-deforestation" id="toc-cattle-deforestation" class="nav-link" data-scroll-target="#cattle-deforestation">Cattle deforestation</a></li>
+  <li><a href="#pasture-deforestation" id="toc-pasture-deforestation" class="nav-link" data-scroll-target="#pasture-deforestation">Pasture deforestation</a></li>
+  <li><a href="#key-insights-4" id="toc-key-insights-4" class="nav-link" data-scroll-target="#key-insights-4">Key insights</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -152,6 +166,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Add additional metric following DeDuCE deforestation classification approach and report commodity deforestation - At deforestation event year (note, recent years will undercount deforestation) - At harvest year (note, by moving to harvest year, we can report the most recent year)</p>
 </section>
 </section>
+<section id="open-question" class="level1">
+<h1>open question:</h1>
+<ul>
+<li>should be remove areas that where converted to soy within each attribution period ?</li>
+<li>similar do DeDuCE and Erasmusses paper (don’t understand fully why Trase does not do this)</li>
+</ul>
+</section>
 <section id="exploring-the-new-deforestation-metrics" class="level1">
 <h1>Exploring the new deforestation metrics</h1>
 <p>This document compares Trase commodity deforestation attribution methods, with DeDuCE forward looking approach, and compares results to original DeDuCE results.</p>
@@ -177,9 +198,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>beef_states <span class="ot">&lt;-</span> <span class="fu">read_parquet</span>(</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"~/documents/data/annual_metrics/beef_annual_br_states.parquet"</span></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># soy_supply_chain_2022_v2 &lt;- read_parquet(</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#   "~/documents/data/annual_metrics/soy_2022_post_embedding_quants_v2.parquet"</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>beef_supply_chain_2023_v1 <span class="ot">&lt;-</span> <span class="fu">read_parquet</span>(</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"~/documents/data/annual_metrics/beef_2023_post_embedding_quants_v1.parquet"</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
@@ -516,6 +537,520 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>messaging will commonly need to exclude most recent year as high uncertainty.</li>
 </ul>
 <p>relevant context information: - Deduce dashboard reports annual deforestation (combination statistical and spatial) - Trase factsheets use 5 year amortized DeDuCE deforestation (combination statistical and spatial)</p>
+</section>
+</section>
+<section id="percentage-differences-between-methods" class="level1">
+<h1>Percentage differences between methods</h1>
+<p>To quantify the divergence between backward-looking and forward-looking metrics, I also look at the relative percentage differences.</p>
+<ul>
+<li>5-year Annualized: Backward-looking annualized deforestation.</li>
+<li>5-year / 3-year pasture / cattle attribution: Forward-looking spatial attribution windows.</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>beef_br_amort_wide <span class="ot">&lt;-</span> beef_br <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> year, <span class="at">names_from =</span> variable, <span class="at">values_from =</span> ha)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>pasture_br_amort_perc <span class="ot">&lt;-</span> beef_br_amort_wide <span class="sc">|&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">2013</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> year,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">diff_perc_5y_Trase_ann_5y_ff_amort =</span> ((pasture_def_annualized_back_ha <span class="sc">-</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>      pasture_def_harvest5y_ha_5y_amort) <span class="sc">/</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      pasture_def_harvest5y_ha_5y_amort) <span class="sc">*</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>      <span class="dv">100</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">diff_perc_5y_Trase_ann_3y_ff_amort =</span> ((pasture_def_annualized_back_ha <span class="sc">-</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      pasture_def_harvest3y_ha_5y_amort) <span class="sc">/</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>      pasture_def_harvest3y_ha_5y_amort) <span class="sc">*</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>      <span class="dv">100</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">diff_perc_5y_ff_3y_ff_amort =</span> ((pasture_def_harvest5y_ha_5y_amort <span class="sc">-</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>      pasture_def_harvest3y_ha_5y_amort) <span class="sc">/</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>      pasture_def_harvest3y_ha_5y_amort) <span class="sc">*</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>      <span class="dv">100</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>pasture_br_amort_perc_l <span class="ot">&lt;-</span> pasture_br_amort_perc <span class="sc">|&gt;</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>year, <span class="at">names_to =</span> <span class="st">"variable"</span>, <span class="at">values_to =</span> <span class="st">"percent"</span>)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pasture_br_amort_perc_l, <span class="fu">aes</span>(year, percent)) <span class="sc">+</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> <span class="fu">fct_reorder</span>(variable, percent)) <span class="sc">+</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Pasture: Relative Percentage Difference Between Attribution Methods"</span>,</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Year"</span>,</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Difference (%)"</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">breaks_pretty</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cattle_deforestation_attribution_files/figure-html/country-percentage-diff-pasture-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># beef_br_amort_wide &lt;- beef_br |&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   pivot_wider(id_cols = year, names_from = variable, values_from = ha)</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>cattle_br_amort_perc <span class="ot">&lt;-</span> beef_br_amort_wide <span class="sc">|&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">2013</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> year,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">diff_perc_5y_Trase_ann_5y_ff_amort =</span> ((cattle_def_annualized_back_ha_5y_summed_ha <span class="sc">-</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>      cattle_def_harvest5y_ha_5y_summed_ha) <span class="sc">/</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>      cattle_def_harvest5y_ha_5y_summed_ha) <span class="sc">*</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>      <span class="dv">100</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">diff_perc_5y_Trase_ann_3y_ff_amort =</span> ((cattle_def_annualized_back_ha_5y_summed_ha <span class="sc">-</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>      cattle_def_harvest3y_ha_5y_summed_ha) <span class="sc">/</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>      cattle_def_harvest3y_ha_5y_summed_ha) <span class="sc">*</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>      <span class="dv">100</span>,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">diff_perc_5y_ff_3y_ff_amort =</span> ((cattle_def_harvest5y_ha_5y_summed_ha <span class="sc">-</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>      cattle_def_harvest3y_ha_5y_summed_ha) <span class="sc">/</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>      cattle_def_harvest3y_ha_5y_summed_ha) <span class="sc">*</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>      <span class="dv">100</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>cattle_br_amort_perc_l <span class="ot">&lt;-</span> cattle_br_amort_perc <span class="sc">|&gt;</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>year, <span class="at">names_to =</span> <span class="st">"variable"</span>, <span class="at">values_to =</span> <span class="st">"percent"</span>)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cattle_br_amort_perc_l, <span class="fu">aes</span>(year, percent)) <span class="sc">+</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> <span class="fu">fct_reorder</span>(variable, percent)) <span class="sc">+</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Pasture: Relative Percentage Difference Between Attribution Methods"</span>,</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Year"</span>,</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Difference (%)"</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">breaks_pretty</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cattle_deforestation_attribution_files/figure-html/country-percentage-diff-cattle-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="key-insights-2" class="level1">
+<h1>key insights</h1>
+<ul>
+<li>we do miss quite a bit of pasture deforestation if we would just annualize compared fforward looking window</li>
+<li>difference is smaller in recent years, indicating a potentially faster transition from forest to mapped pastuure</li>
+<li>last years difference is an outlier, realy indicating an issue with the most recent pasture mappin in Mapbiomas</li>
+<li>difference between 5 and 3 year forward looking attribution ins less the 5% in most recent years</li>
+</ul>
+</section>
+<section id="state-level-analysis" class="level1">
+<h1>state level analysis</h1>
+<p>I now scale the calculations down to individual Brazilian states to determine if sub-national trends and patterns align with national averages.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  beef_states <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">2014</span> <span class="sc">&amp;</span> year <span class="sc">&lt;=</span> <span class="dv">2024</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>      variable <span class="sc">%in%</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">c</span>(</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>          <span class="co">#"pasture_def_back_ha",</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>          <span class="st">"pasture_def_annualized_back_ha"</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>          <span class="co">#"pasture_def_harvest5y_ha_5y_amort",</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>          <span class="st">"pasture_def_harvest3y_ha_5y_amort"</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>          <span class="st">"pasture_def_def3y_gfc_ha"</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">variable =</span> <span class="fu">case_when</span>(</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span> <span class="st">"pasture_def_back"</span> <span class="sc">~</span> <span class="st">"Trase-5y-sum"</span>,</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span> <span class="st">"pasture_def_annualized_back_ha"</span> <span class="sc">~</span> <span class="st">"Trase-5y-annualized"</span>,</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>          <span class="st">"pasture_def_harvest5y_amort"</span> <span class="sc">~</span> <span class="st">"Pasture-def-@harvest_5y_amort"</span>,</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>          <span class="st">"pasture_def_harvest3y_ha_5y_amort"</span> <span class="sc">~</span> <span class="st">"Pasture-def-@harvest_3y_amort"</span>,</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span> <span class="st">"pasture_def_def3y_gfc_ha"</span> <span class="sc">~</span> <span class="st">"DeDuCE-spatial"</span>,</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">.default =</span> variable</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(year <span class="sc">-</span> <span class="dv">2000</span>, ha <span class="sc">/</span> <span class="dv">1000</span>, <span class="at">color =</span> <span class="fu">fct_reorder</span>(variable, ha, <span class="at">.desc =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">breaks_pretty</span>()) <span class="sc">+</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Years (Since 2000)"</span>,</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Deforestation (kha)"</span>,</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Pasture deforestation"</span>,</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="cn">NULL</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_geo</span>(<span class="sc">~</span>abbreviation, <span class="at">grid =</span> <span class="st">"br_states_grid1"</span>) <span class="sc">+</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cattle_deforestation_attribution_files/figure-html/state-facet-geo-pasture-1.png" class="img-fluid figure-img" width="1056"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="taking-out-the-5-year-sum" class="level2">
+<h2 class="anchored" data-anchor-id="taking-out-the-5-year-sum">taking out the 5 year sum</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  beef_states <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">2014</span> <span class="sc">&amp;</span> year <span class="sc">&lt;=</span> <span class="dv">2024</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>      variable <span class="sc">%in%</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">c</span>(</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>          <span class="st">"cattle_def_back_ha_5y_summed_ha"</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>          <span class="st">"cattle_def_annualized_back_ha_5y_summed_ha"</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>          <span class="st">"cattle_def_harvest5y_ha_5y_summed_ha"</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>          <span class="st">"cattle_def_harvest3y_ha_5y_summed_ha"</span> <span class="co">#,</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>          <span class="co">#"pasture_def_def3y_gfc_ha"</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">variable =</span> <span class="fu">case_when</span>(</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span> <span class="st">"cattle_def_back_ha_5y_summed_ha"</span> <span class="sc">~</span> <span class="st">"Trase-5y-sum"</span>,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>          <span class="st">"cattle_def_annualized_back_ha_5y_summed_ha"</span> <span class="sc">~</span> <span class="st">"Trase-5y-annualized"</span>,</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>          <span class="st">"cattle_def_harvest5y_ha_5y_summed_ha"</span> <span class="sc">~</span> <span class="st">"Pasture-def-@harvest_5y_amort"</span>,</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>          <span class="st">"cattle_def_harvest3y_ha_5y_summed_ha"</span> <span class="sc">~</span> <span class="st">"Pasture-def-@harvest_3y_amort"</span>,</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span> <span class="st">"pasture_def_def3y_gfc_ha"</span> <span class="sc">~</span> <span class="st">"DeDuCE-spatial"</span>,</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">.default =</span> variable</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(year <span class="sc">-</span> <span class="dv">2000</span>, ha <span class="sc">/</span> <span class="dv">1000</span>, <span class="at">color =</span> <span class="fu">fct_reorder</span>(variable, ha, <span class="at">.desc =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">breaks_pretty</span>()) <span class="sc">+</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Years (Since 2000)"</span>,</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Deforestation (kha)"</span>,</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Cattle deforestation"</span>,</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="cn">NULL</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_geo</span>(<span class="sc">~</span>abbreviation, <span class="at">grid =</span> <span class="st">"br_states_grid1"</span>) <span class="sc">+</span></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cattle_deforestation_attribution_files/figure-html/state-facet-geo-cattle-1.png" class="img-fluid figure-img" width="1056"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  beef_states <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">2014</span> <span class="sc">&amp;</span> year <span class="sc">&lt;=</span> <span class="dv">2024</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>      variable <span class="sc">%in%</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">c</span>(</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>          <span class="co">#"cattle_def_back_ha_5y_summed_ha",</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>          <span class="st">"cattle_def_annualized_back_ha_5y_summed_ha"</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>          <span class="st">"cattle_def_harvest5y_ha_5y_summed_ha"</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>          <span class="st">"cattle_def_harvest3y_ha_5y_summed_ha"</span> <span class="co">#,</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>          <span class="co">#"pasture_def_def3y_gfc_ha"</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">variable =</span> <span class="fu">case_when</span>(</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span> <span class="st">"cattle_def_back_ha_5y_summed_ha"</span> <span class="sc">~</span> <span class="st">"Trase-5y-sum"</span>,</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>          <span class="st">"cattle_def_annualized_back_ha_5y_summed_ha"</span> <span class="sc">~</span> <span class="st">"Trase-5y-annualized"</span>,</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>          <span class="st">"cattle_def_harvest5y_ha_5y_summed_ha"</span> <span class="sc">~</span> <span class="st">"Pasture-def-@harvest_5y_amort"</span>,</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>          <span class="st">"cattle_def_harvest3y_ha_5y_summed_ha"</span> <span class="sc">~</span> <span class="st">"Pasture-def-@harvest_3y_amort"</span>,</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span> <span class="st">"pasture_def_def3y_gfc_ha"</span> <span class="sc">~</span> <span class="st">"DeDuCE-spatial"</span>,</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">.default =</span> variable</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(year <span class="sc">-</span> <span class="dv">2000</span>, ha <span class="sc">/</span> <span class="dv">1000</span>, <span class="at">color =</span> <span class="fu">fct_reorder</span>(variable, ha, <span class="at">.desc =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">breaks_pretty</span>()) <span class="sc">+</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Years (Since 2000)"</span>,</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Deforestation (kha)"</span>,</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Cattle deforestation"</span>,</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="cn">NULL</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_geo</span>(<span class="sc">~</span>abbreviation, <span class="at">grid =</span> <span class="st">"br_states_grid1"</span>) <span class="sc">+</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cattle_deforestation_attribution_files/figure-html/state-facet-geo-cattle-no-5ysum-1.png" class="img-fluid figure-img" width="1056"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="key-insights-3" class="level2">
+<h2 class="anchored" data-anchor-id="key-insights-3">Key insights</h2>
+<ul>
+<li>looks good - no concerns.</li>
+</ul>
+</section>
+</section>
+<section id="supply-chain-companies-exposure" class="level1">
+<h1>Supply chain: companies exposure</h1>
+<section id="cattle-deforestation" class="level2">
+<h2 class="anchored" data-anchor-id="cattle-deforestation">Cattle deforestation</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>beef_supply_chain_2023_v1_exp <span class="ot">&lt;-</span> beef_supply_chain_2023_v1 <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(EXPORTER) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">across</span>(</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">starts_with</span>(<span class="st">"pasture"</span>) <span class="sc">|</span> <span class="fu">starts_with</span>(<span class="st">"cattle"</span>),</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span> <span class="fu">sum</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Trase 5 year sum Cattle deforestation </span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Trase 5 year sum Cattle deforestation </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>beef_supply_chain_2023_v1_exp <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(cattle_def_back_ha_5y_summed_ha)) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(EXPORTER, cattle_def_back_ha_5y_summed_ha) <span class="sc">|&gt;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>EXPORTER <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"DOMESTIC PROCESSING AND CONSUMPTION"</span>, <span class="st">"UNKNOWN COMPANY"</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  EXPORTER                cattle_def_back_ha_5y_summed_ha
+  &lt;chr&gt;                                             &lt;dbl&gt;
+1 JBS SA                                          312940.
+2 MINERVA SA                                      140724.
+3 MARFRIG GLOBAL FOODS SA                         129893.
+4 PLENA ALIMENTOS SA                               61680.
+5 MERCURIO ALIMENTOS SA                            41969.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"3 year ff looking pasture deforestation </span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>3 year ff looking pasture deforestation </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>beef_supply_chain_2023_v1_exp <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(cattle_def_harvest3y_ha_5y_summed_ha)) <span class="sc">|&gt;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(EXPORTER, cattle_def_harvest3y_ha_5y_summed_ha) <span class="sc">|&gt;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>EXPORTER <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"DOMESTIC PROCESSING AND CONSUMPTION"</span>, <span class="st">"UNKNOWN COMPANY"</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  EXPORTER                cattle_def_harvest3y_ha_5y_summed_ha
+  &lt;chr&gt;                                                  &lt;dbl&gt;
+1 JBS SA                                                73517.
+2 MINERVA SA                                            33097.
+3 MARFRIG GLOBAL FOODS SA                               31300.
+4 PLENA ALIMENTOS SA                                    13120.
+5 MERCURIO ALIMENTOS SA                                 10752.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"5 year ff looking pasture deforestation </span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>5 year ff looking pasture deforestation </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>beef_supply_chain_2023_v1_exp <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(cattle_def_harvest5y_ha_5y_summed_ha)) <span class="sc">|&gt;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(EXPORTER, cattle_def_harvest5y_ha_5y_summed_ha) <span class="sc">|&gt;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>EXPORTER <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"DOMESTIC PROCESSING AND CONSUMPTION"</span>, <span class="st">"UNKNOWN COMPANY"</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  EXPORTER                cattle_def_harvest5y_ha_5y_summed_ha
+  &lt;chr&gt;                                                  &lt;dbl&gt;
+1 JBS SA                                                75894.
+2 MINERVA SA                                            34173.
+3 MARFRIG GLOBAL FOODS SA                               32406.
+4 PLENA ALIMENTOS SA                                    13630.
+5 MERCURIO ALIMENTOS SA                                 10997.</code></pre>
+</div>
+</div>
+</section>
+<section id="pasture-deforestation" class="level2">
+<h2 class="anchored" data-anchor-id="pasture-deforestation">Pasture deforestation</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Trase 5 year sum pasture deforestation </span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Trase 5 year sum pasture deforestation </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>beef_supply_chain_2023_v1_exp <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(pasture_def_back_ha)) <span class="sc">|&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(EXPORTER, pasture_def_back_ha) <span class="sc">|&gt;</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>EXPORTER <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"DOMESTIC PROCESSING AND CONSUMPTION"</span>, <span class="st">"UNKNOWN COMPANY"</span>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  EXPORTER                pasture_def_back_ha
+  &lt;chr&gt;                                 &lt;dbl&gt;
+1 JBS SA                              288394.
+2 MINERVA SA                          128457.
+3 MARFRIG GLOBAL FOODS SA             121031.
+4 PLENA ALIMENTOS SA                   51800.
+5 FRIGOL SA                            42443.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"3 year ff looking amortized  pasture deforestation </span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>3 year ff looking amortized  pasture deforestation </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>beef_supply_chain_2023_v1_exp <span class="sc">|&gt;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(pasture_def_harvest3y_ha_5y_amort)) <span class="sc">|&gt;</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(EXPORTER, pasture_def_harvest3y_ha_5y_amort) <span class="sc">|&gt;</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>EXPORTER <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"DOMESTIC PROCESSING AND CONSUMPTION"</span>, <span class="st">"UNKNOWN COMPANY"</span>)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  EXPORTER                pasture_def_harvest3y_ha_5y_amort
+  &lt;chr&gt;                                               &lt;dbl&gt;
+1 JBS SA                                             63881.
+2 MINERVA SA                                         28494.
+3 MARFRIG GLOBAL FOODS SA                            27017.
+4 PLENA ALIMENTOS SA                                 11711.
+5 FRIGOL SA                                           9077.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"5 year ff looking amortized  pasture deforestation </span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>5 year ff looking amortized  pasture deforestation </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>beef_supply_chain_2023_v1_exp <span class="sc">|&gt;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(pasture_def_harvest5y_ha_5y_amort)) <span class="sc">|&gt;</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(EXPORTER, pasture_def_harvest5y_ha_5y_amort) <span class="sc">|&gt;</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>EXPORTER <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"DOMESTIC PROCESSING AND CONSUMPTION"</span>, <span class="st">"UNKNOWN COMPANY"</span>)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  EXPORTER                pasture_def_harvest5y_ha_5y_amort
+  &lt;chr&gt;                                               &lt;dbl&gt;
+1 JBS SA                                             65958.
+2 MINERVA SA                                         29435.
+3 MARFRIG GLOBAL FOODS SA                            27984.
+4 PLENA ALIMENTOS SA                                 12172.
+5 FRIGOL SA                                           9277.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"3 year ff looking pasture deforestation </span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>3 year ff looking pasture deforestation </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>beef_supply_chain_2023_v1_exp <span class="sc">|&gt;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(pasture_def_harvest3y_ha)) <span class="sc">|&gt;</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(EXPORTER, pasture_def_harvest3y_ha) <span class="sc">|&gt;</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>EXPORTER <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"DOMESTIC PROCESSING AND CONSUMPTION"</span>, <span class="st">"UNKNOWN COMPANY"</span>)</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  EXPORTER                pasture_def_harvest3y_ha
+  &lt;chr&gt;                                      &lt;dbl&gt;
+1 JBS SA                                    57339.
+2 MINERVA SA                                24630.
+3 MARFRIG GLOBAL FOODS SA                   24401.
+4 PLENA ALIMENTOS SA                        10428.
+5 MERCURIO ALIMENTOS SA                      8332.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"5 year ff looking  pasture deforestation </span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>5 year ff looking  pasture deforestation </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>beef_supply_chain_2023_v1_exp <span class="sc">|&gt;</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(pasture_def_harvest5y_ha)) <span class="sc">|&gt;</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(EXPORTER, pasture_def_harvest5y_ha) <span class="sc">|&gt;</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>EXPORTER <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"DOMESTIC PROCESSING AND CONSUMPTION"</span>, <span class="st">"UNKNOWN COMPANY"</span>)</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  EXPORTER                pasture_def_harvest5y_ha
+  &lt;chr&gt;                                      &lt;dbl&gt;
+1 JBS SA                                    59491.
+2 MINERVA SA                                25552.
+3 MARFRIG GLOBAL FOODS SA                   25263.
+4 PLENA ALIMENTOS SA                        10840.
+5 MERCURIO ALIMENTOS SA                      8593.</code></pre>
+</div>
+</div>
+</section>
+<section id="key-insights-4" class="level2">
+<h2 class="anchored" data-anchor-id="key-insights-4">Key insights</h2>
+<ul>
+<li>ranking is very consitent, with position changes in 4 and 5 rank</li>
+</ul>
 </section>
 </section>
 

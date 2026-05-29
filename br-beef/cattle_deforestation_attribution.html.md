@@ -28,6 +28,10 @@ Add additional metric following DeDuCE deforestation classification approach and
 - At deforestation event year (note, recent years will undercount deforestation)
 - At harvest year (note, by moving to harvest year, we can report the most recent year)
 
+# open question:
+- should be remove areas that where converted to soy within each attribution period ? 
+- similar do DeDuCE and Erasmusses paper (don't understand fully why Trase does not do this)
+
 
 # Exploring the new deforestation metrics
 This document compares Trase commodity deforestation attribution methods, with DeDuCE forward looking approach, and compares results to original DeDuCE results. 
@@ -57,9 +61,9 @@ beef_br <- read_parquet(
 beef_states <- read_parquet(
   "~/documents/data/annual_metrics/beef_annual_br_states.parquet"
 )
-# soy_supply_chain_2022_v2 <- read_parquet(
-#   "~/documents/data/annual_metrics/soy_2022_post_embedding_quants_v2.parquet"
-# )
+beef_supply_chain_2023_v1 <- read_parquet(
+  "~/documents/data/annual_metrics/beef_2023_post_embedding_quants_v1.parquet"
+)
 ```
 :::
 
@@ -398,3 +402,598 @@ relevant context information:
 - Deduce dashboard reports annual deforestation (combination statistical and spatial)
 - Trase factsheets use 5 year amortized DeDuCE deforestation (combination statistical and spatial)
 
+# Percentage differences between methods
+To quantify the divergence between backward-looking and forward-looking metrics, I also look at the relative percentage differences.
+
+- 5-year Annualized: Backward-looking annualized deforestation.
+- 5-year / 3-year pasture / cattle attribution: Forward-looking spatial attribution windows.
+
+
+::: {.cell}
+
+```{.r .cell-code}
+beef_br_amort_wide <- beef_br |>
+  pivot_wider(id_cols = year, names_from = variable, values_from = ha)
+
+pasture_br_amort_perc <- beef_br_amort_wide |>
+  filter(year >= 2013) |>
+  transmute(
+    year = year,
+    diff_perc_5y_Trase_ann_5y_ff_amort = ((pasture_def_annualized_back_ha -
+      pasture_def_harvest5y_ha_5y_amort) /
+      pasture_def_harvest5y_ha_5y_amort) *
+      100,
+    diff_perc_5y_Trase_ann_3y_ff_amort = ((pasture_def_annualized_back_ha -
+      pasture_def_harvest3y_ha_5y_amort) /
+      pasture_def_harvest3y_ha_5y_amort) *
+      100,
+    diff_perc_5y_ff_3y_ff_amort = ((pasture_def_harvest5y_ha_5y_amort -
+      pasture_def_harvest3y_ha_5y_amort) /
+      pasture_def_harvest3y_ha_5y_amort) *
+      100
+  )
+
+pasture_br_amort_perc_l <- pasture_br_amort_perc |>
+  pivot_longer(cols = -year, names_to = "variable", values_to = "percent")
+
+ggplot(pasture_br_amort_perc_l, aes(year, percent)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  facet_wrap(~ fct_reorder(variable, percent)) +
+  labs(
+    title = "Pasture: Relative Percentage Difference Between Attribution Methods",
+    x = "Year",
+    y = "Difference (%)"
+  ) +
+  scale_x_continuous(breaks = breaks_pretty())
+```
+
+::: {.cell-output-display}
+![](cattle_deforestation_attribution_files/figure-html/country-percentage-diff-pasture-1.png){width=960}
+:::
+:::
+
+
+
+::: {.cell}
+
+```{.r .cell-code}
+# beef_br_amort_wide <- beef_br |>
+#   pivot_wider(id_cols = year, names_from = variable, values_from = ha)
+
+cattle_br_amort_perc <- beef_br_amort_wide |>
+  filter(year >= 2013) |>
+  transmute(
+    year = year,
+    diff_perc_5y_Trase_ann_5y_ff_amort = ((cattle_def_annualized_back_ha_5y_summed_ha -
+      cattle_def_harvest5y_ha_5y_summed_ha) /
+      cattle_def_harvest5y_ha_5y_summed_ha) *
+      100,
+    diff_perc_5y_Trase_ann_3y_ff_amort = ((cattle_def_annualized_back_ha_5y_summed_ha -
+      cattle_def_harvest3y_ha_5y_summed_ha) /
+      cattle_def_harvest3y_ha_5y_summed_ha) *
+      100,
+    diff_perc_5y_ff_3y_ff_amort = ((cattle_def_harvest5y_ha_5y_summed_ha -
+      cattle_def_harvest3y_ha_5y_summed_ha) /
+      cattle_def_harvest3y_ha_5y_summed_ha) *
+      100
+  )
+
+cattle_br_amort_perc_l <- cattle_br_amort_perc |>
+  pivot_longer(cols = -year, names_to = "variable", values_to = "percent")
+
+ggplot(cattle_br_amort_perc_l, aes(year, percent)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  facet_wrap(~ fct_reorder(variable, percent)) +
+  labs(
+    title = "Pasture: Relative Percentage Difference Between Attribution Methods",
+    x = "Year",
+    y = "Difference (%)"
+  ) +
+  scale_x_continuous(breaks = breaks_pretty())
+```
+
+::: {.cell-output-display}
+![](cattle_deforestation_attribution_files/figure-html/country-percentage-diff-cattle-1.png){width=960}
+:::
+:::
+
+
+# key insights
+- we do miss quite a bit of pasture deforestation if we would just annualize compared fforward looking window
+- difference is smaller in recent years, indicating a potentially faster transition from forest to mapped pastuure
+- last years difference is an outlier, realy indicating an issue with the most recent pasture mappin in Mapbiomas
+- difference between 5 and 3 year forward looking attribution ins less the 5% in most recent years
+
+
+# state level analysis
+I now scale the calculations down to individual Brazilian states to determine if sub-national trends and patterns align with national averages.
+
+
+::: {.cell}
+
+```{.r .cell-code}
+ggplot(
+  beef_states |>
+    filter(year >= 2014 & year <= 2024) |>
+    filter(
+      variable %in%
+        c(
+          #"pasture_def_back_ha",
+          "pasture_def_annualized_back_ha",
+          #"pasture_def_harvest5y_ha_5y_amort",
+          "pasture_def_harvest3y_ha_5y_amort",
+          "pasture_def_def3y_gfc_ha"
+        )
+    ) |>
+    mutate(
+      variable = case_when(
+        variable == "pasture_def_back" ~ "Trase-5y-sum",
+        variable == "pasture_def_annualized_back_ha" ~ "Trase-5y-annualized",
+        variable ==
+          "pasture_def_harvest5y_amort" ~ "Pasture-def-@harvest_5y_amort",
+        variable ==
+          "pasture_def_harvest3y_ha_5y_amort" ~ "Pasture-def-@harvest_3y_amort",
+        variable == "pasture_def_def3y_gfc_ha" ~ "DeDuCE-spatial",
+        .default = variable
+      )
+    ),
+  aes(year - 2000, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
+) +
+  geom_line() +
+  scale_x_continuous(breaks = breaks_pretty()) +
+  labs(
+    x = "Years (Since 2000)",
+    y = "Deforestation (kha)",
+    title = "Pasture deforestation",
+    color = NULL
+  ) +
+  facet_geo(~abbreviation, grid = "br_states_grid1") +
+
+  theme(legend.position = "bottom")
+```
+
+::: {.cell-output-display}
+![](cattle_deforestation_attribution_files/figure-html/state-facet-geo-pasture-1.png){width=1056}
+:::
+:::
+
+## taking out the 5 year sum
+
+
+::: {.cell}
+
+```{.r .cell-code}
+ggplot(
+  beef_states |>
+    filter(year >= 2014 & year <= 2024) |>
+    filter(
+      variable %in%
+        c(
+          "cattle_def_back_ha_5y_summed_ha",
+          "cattle_def_annualized_back_ha_5y_summed_ha",
+          "cattle_def_harvest5y_ha_5y_summed_ha",
+          "cattle_def_harvest3y_ha_5y_summed_ha" #,
+          #"pasture_def_def3y_gfc_ha"
+        )
+    ) |>
+    mutate(
+      variable = case_when(
+        variable == "cattle_def_back_ha_5y_summed_ha" ~ "Trase-5y-sum",
+        variable ==
+          "cattle_def_annualized_back_ha_5y_summed_ha" ~ "Trase-5y-annualized",
+        variable ==
+          "cattle_def_harvest5y_ha_5y_summed_ha" ~ "Pasture-def-@harvest_5y_amort",
+        variable ==
+          "cattle_def_harvest3y_ha_5y_summed_ha" ~ "Pasture-def-@harvest_3y_amort",
+        variable == "pasture_def_def3y_gfc_ha" ~ "DeDuCE-spatial",
+        .default = variable
+      )
+    ),
+  aes(year - 2000, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
+) +
+  geom_line() +
+  scale_x_continuous(breaks = breaks_pretty()) +
+  labs(
+    x = "Years (Since 2000)",
+    y = "Deforestation (kha)",
+    title = "Cattle deforestation",
+    color = NULL
+  ) +
+  facet_geo(~abbreviation, grid = "br_states_grid1") +
+
+  theme(legend.position = "bottom")
+```
+
+::: {.cell-output-display}
+![](cattle_deforestation_attribution_files/figure-html/state-facet-geo-cattle-1.png){width=1056}
+:::
+:::
+
+
+
+::: {.cell}
+
+```{.r .cell-code}
+ggplot(
+  beef_states |>
+    filter(year >= 2014 & year <= 2024) |>
+    filter(
+      variable %in%
+        c(
+          #"cattle_def_back_ha_5y_summed_ha",
+          "cattle_def_annualized_back_ha_5y_summed_ha",
+          "cattle_def_harvest5y_ha_5y_summed_ha",
+          "cattle_def_harvest3y_ha_5y_summed_ha" #,
+          #"pasture_def_def3y_gfc_ha"
+        )
+    ) |>
+    mutate(
+      variable = case_when(
+        variable == "cattle_def_back_ha_5y_summed_ha" ~ "Trase-5y-sum",
+        variable ==
+          "cattle_def_annualized_back_ha_5y_summed_ha" ~ "Trase-5y-annualized",
+        variable ==
+          "cattle_def_harvest5y_ha_5y_summed_ha" ~ "Pasture-def-@harvest_5y_amort",
+        variable ==
+          "cattle_def_harvest3y_ha_5y_summed_ha" ~ "Pasture-def-@harvest_3y_amort",
+        variable == "pasture_def_def3y_gfc_ha" ~ "DeDuCE-spatial",
+        .default = variable
+      )
+    ),
+  aes(year - 2000, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
+) +
+  geom_line() +
+  scale_x_continuous(breaks = breaks_pretty()) +
+  labs(
+    x = "Years (Since 2000)",
+    y = "Deforestation (kha)",
+    title = "Cattle deforestation",
+    color = NULL
+  ) +
+  facet_geo(~abbreviation, grid = "br_states_grid1") +
+
+  theme(legend.position = "bottom")
+```
+
+::: {.cell-output-display}
+![](cattle_deforestation_attribution_files/figure-html/state-facet-geo-cattle-no-5ysum-1.png){width=1056}
+:::
+:::
+
+
+## Key insights 
+- looks good - no concerns. 
+
+# Supply chain: companies exposure
+## Cattle deforestation
+
+::: {.cell}
+
+```{.r .cell-code}
+beef_supply_chain_2023_v1_exp <- beef_supply_chain_2023_v1 |>
+  group_by(EXPORTER) |>
+  summarize(across(
+    starts_with("pasture") | starts_with("cattle"),
+    ~ sum(.x, na.rm = TRUE)
+  ))
+
+cat("Trase 5 year sum Cattle deforestation \n")
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+Trase 5 year sum Cattle deforestation 
+```
+
+
+:::
+
+```{.r .cell-code}
+beef_supply_chain_2023_v1_exp |>
+  arrange(desc(cattle_def_back_ha_5y_summed_ha)) |>
+  select(EXPORTER, cattle_def_back_ha_5y_summed_ha) |>
+  filter(
+    !EXPORTER %in% c("DOMESTIC PROCESSING AND CONSUMPTION", "UNKNOWN COMPANY")
+  ) |>
+  top_n(5)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 5 × 2
+  EXPORTER                cattle_def_back_ha_5y_summed_ha
+  <chr>                                             <dbl>
+1 JBS SA                                          312940.
+2 MINERVA SA                                      140724.
+3 MARFRIG GLOBAL FOODS SA                         129893.
+4 PLENA ALIMENTOS SA                               61680.
+5 MERCURIO ALIMENTOS SA                            41969.
+```
+
+
+:::
+
+```{.r .cell-code}
+cat("3 year ff looking pasture deforestation \n")
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+3 year ff looking pasture deforestation 
+```
+
+
+:::
+
+```{.r .cell-code}
+beef_supply_chain_2023_v1_exp |>
+  arrange(desc(cattle_def_harvest3y_ha_5y_summed_ha)) |>
+  select(EXPORTER, cattle_def_harvest3y_ha_5y_summed_ha) |>
+  filter(
+    !EXPORTER %in% c("DOMESTIC PROCESSING AND CONSUMPTION", "UNKNOWN COMPANY")
+  ) |>
+  top_n(5)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 5 × 2
+  EXPORTER                cattle_def_harvest3y_ha_5y_summed_ha
+  <chr>                                                  <dbl>
+1 JBS SA                                                73517.
+2 MINERVA SA                                            33097.
+3 MARFRIG GLOBAL FOODS SA                               31300.
+4 PLENA ALIMENTOS SA                                    13120.
+5 MERCURIO ALIMENTOS SA                                 10752.
+```
+
+
+:::
+
+```{.r .cell-code}
+cat("5 year ff looking pasture deforestation \n")
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+5 year ff looking pasture deforestation 
+```
+
+
+:::
+
+```{.r .cell-code}
+beef_supply_chain_2023_v1_exp |>
+  arrange(desc(cattle_def_harvest5y_ha_5y_summed_ha)) |>
+  select(EXPORTER, cattle_def_harvest5y_ha_5y_summed_ha) |>
+  filter(
+    !EXPORTER %in% c("DOMESTIC PROCESSING AND CONSUMPTION", "UNKNOWN COMPANY")
+  ) |>
+  top_n(5)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 5 × 2
+  EXPORTER                cattle_def_harvest5y_ha_5y_summed_ha
+  <chr>                                                  <dbl>
+1 JBS SA                                                75894.
+2 MINERVA SA                                            34173.
+3 MARFRIG GLOBAL FOODS SA                               32406.
+4 PLENA ALIMENTOS SA                                    13630.
+5 MERCURIO ALIMENTOS SA                                 10997.
+```
+
+
+:::
+:::
+
+## Pasture deforestation
+
+::: {.cell}
+
+```{.r .cell-code}
+cat("Trase 5 year sum pasture deforestation \n")
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+Trase 5 year sum pasture deforestation 
+```
+
+
+:::
+
+```{.r .cell-code}
+beef_supply_chain_2023_v1_exp |>
+  arrange(desc(pasture_def_back_ha)) |>
+  select(EXPORTER, pasture_def_back_ha) |>
+  filter(
+    !EXPORTER %in% c("DOMESTIC PROCESSING AND CONSUMPTION", "UNKNOWN COMPANY")
+  ) |>
+  top_n(5)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 5 × 2
+  EXPORTER                pasture_def_back_ha
+  <chr>                                 <dbl>
+1 JBS SA                              288394.
+2 MINERVA SA                          128457.
+3 MARFRIG GLOBAL FOODS SA             121031.
+4 PLENA ALIMENTOS SA                   51800.
+5 FRIGOL SA                            42443.
+```
+
+
+:::
+
+```{.r .cell-code}
+cat("3 year ff looking amortized  pasture deforestation \n")
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+3 year ff looking amortized  pasture deforestation 
+```
+
+
+:::
+
+```{.r .cell-code}
+beef_supply_chain_2023_v1_exp |>
+  arrange(desc(pasture_def_harvest3y_ha_5y_amort)) |>
+  select(EXPORTER, pasture_def_harvest3y_ha_5y_amort) |>
+  filter(
+    !EXPORTER %in% c("DOMESTIC PROCESSING AND CONSUMPTION", "UNKNOWN COMPANY")
+  ) |>
+  top_n(5)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 5 × 2
+  EXPORTER                pasture_def_harvest3y_ha_5y_amort
+  <chr>                                               <dbl>
+1 JBS SA                                             63881.
+2 MINERVA SA                                         28494.
+3 MARFRIG GLOBAL FOODS SA                            27017.
+4 PLENA ALIMENTOS SA                                 11711.
+5 FRIGOL SA                                           9077.
+```
+
+
+:::
+
+```{.r .cell-code}
+cat("5 year ff looking amortized  pasture deforestation \n")
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+5 year ff looking amortized  pasture deforestation 
+```
+
+
+:::
+
+```{.r .cell-code}
+beef_supply_chain_2023_v1_exp |>
+  arrange(desc(pasture_def_harvest5y_ha_5y_amort)) |>
+  select(EXPORTER, pasture_def_harvest5y_ha_5y_amort) |>
+  filter(
+    !EXPORTER %in% c("DOMESTIC PROCESSING AND CONSUMPTION", "UNKNOWN COMPANY")
+  ) |>
+  top_n(5)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 5 × 2
+  EXPORTER                pasture_def_harvest5y_ha_5y_amort
+  <chr>                                               <dbl>
+1 JBS SA                                             65958.
+2 MINERVA SA                                         29435.
+3 MARFRIG GLOBAL FOODS SA                            27984.
+4 PLENA ALIMENTOS SA                                 12172.
+5 FRIGOL SA                                           9277.
+```
+
+
+:::
+
+```{.r .cell-code}
+cat("3 year ff looking pasture deforestation \n")
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+3 year ff looking pasture deforestation 
+```
+
+
+:::
+
+```{.r .cell-code}
+beef_supply_chain_2023_v1_exp |>
+  arrange(desc(pasture_def_harvest3y_ha)) |>
+  select(EXPORTER, pasture_def_harvest3y_ha) |>
+  filter(
+    !EXPORTER %in% c("DOMESTIC PROCESSING AND CONSUMPTION", "UNKNOWN COMPANY")
+  ) |>
+  top_n(5)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 5 × 2
+  EXPORTER                pasture_def_harvest3y_ha
+  <chr>                                      <dbl>
+1 JBS SA                                    57339.
+2 MINERVA SA                                24630.
+3 MARFRIG GLOBAL FOODS SA                   24401.
+4 PLENA ALIMENTOS SA                        10428.
+5 MERCURIO ALIMENTOS SA                      8332.
+```
+
+
+:::
+
+```{.r .cell-code}
+cat("5 year ff looking  pasture deforestation \n")
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+5 year ff looking  pasture deforestation 
+```
+
+
+:::
+
+```{.r .cell-code}
+beef_supply_chain_2023_v1_exp |>
+  arrange(desc(pasture_def_harvest5y_ha)) |>
+  select(EXPORTER, pasture_def_harvest5y_ha) |>
+  filter(
+    !EXPORTER %in% c("DOMESTIC PROCESSING AND CONSUMPTION", "UNKNOWN COMPANY")
+  ) |>
+  top_n(5)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 5 × 2
+  EXPORTER                pasture_def_harvest5y_ha
+  <chr>                                      <dbl>
+1 JBS SA                                    59491.
+2 MINERVA SA                                25552.
+3 MARFRIG GLOBAL FOODS SA                   25263.
+4 PLENA ALIMENTOS SA                        10840.
+5 MERCURIO ALIMENTOS SA                      8593.
+```
+
+
+:::
+:::
+
+
+## Key insights
+- ranking is very consitent, with position changes in 4 and 5 rank 

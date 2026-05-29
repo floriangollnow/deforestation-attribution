@@ -578,7 +578,7 @@ soy_supply_chain_2022_v2_imp <- soy_supply_chain_2022_v2 |>
 ```
 :::
 
-## Top 10 Trader Exposure Lists
+## Top 5 Trader Exposure Lists
 Below we compare how different metrics rearrange or weigh the risk profiles of top exporters.
 
 ::: {.cell}
@@ -601,25 +601,20 @@ soy_supply_chain_2022_v2_exp |>
   arrange(desc(soy_def_5y_back_exp)) |>
   select(EXPORTER_GROUP, soy_def_5y_back_exp) |>
   filter(!EXPORTER_GROUP %in% c("PROCESSED DOMESTICALLY", "UNKNOWN")) |>
-  top_n(10)
+  top_n(5)
 ```
 
 ::: {.cell-output .cell-output-stdout}
 
 ```
-# A tibble: 10 × 2
-   EXPORTER_GROUP                                            soy_def_5y_back_exp
-   <chr>                                                                   <dbl>
- 1 BUNGE                                                                  91613.
- 2 COFCO                                                                  67956.
- 3 CARGILL                                                                66258.
- 4 NOVAAGRI INFRA-ESTRUTURA DE ARMAZENAGEM E ESCOAMENTO AGR…              45916.
- 5 ADM                                                                    44987.
- 6 LOUIS DREYFUS                                                          38958.
- 7 GAVILON                                                                38260.
- 8 AMAGGI & LD COMMODITIES                                                28827.
- 9 OLAM                                                                   24049.
-10 AMAGGI                                                                 22243.
+# A tibble: 5 × 2
+  EXPORTER_GROUP                                             soy_def_5y_back_exp
+  <chr>                                                                    <dbl>
+1 BUNGE                                                                   91613.
+2 COFCO                                                                   67956.
+3 CARGILL                                                                 66258.
+4 NOVAAGRI INFRA-ESTRUTURA DE ARMAZENAGEM E ESCOAMENTO AGRI…              45916.
+5 ADM                                                                     44987.
 ```
 
 
@@ -643,25 +638,20 @@ soy_supply_chain_2022_v2_exp |>
   arrange(desc(soy_def_harvest5y_5y_amort_exp)) |>
   select(EXPORTER_GROUP, soy_def_harvest5y_5y_amort_exp) |>
   filter(!EXPORTER_GROUP %in% c("PROCESSED DOMESTICALLY", "UNKNOWN")) |>
-  top_n(10)
+  top_n(5)
 ```
 
 ::: {.cell-output .cell-output-stdout}
 
 ```
-# A tibble: 10 × 2
-   EXPORTER_GROUP                                         soy_def_harvest5y_5y…¹
-   <chr>                                                                   <dbl>
- 1 BUNGE                                                                  29772.
- 2 CARGILL                                                                22919.
- 3 COFCO                                                                  20331.
- 4 ADM                                                                    15661.
- 5 NOVAAGRI INFRA-ESTRUTURA DE ARMAZENAGEM E ESCOAMENTO …                 14631.
- 6 LOUIS DREYFUS                                                          13106.
- 7 GAVILON                                                                11847.
- 8 AMAGGI & LD COMMODITIES                                                10337.
- 9 AMAGGI                                                                  8165.
-10 OLAM                                                                    7073.
+# A tibble: 5 × 2
+  EXPORTER_GROUP                                          soy_def_harvest5y_5y…¹
+  <chr>                                                                    <dbl>
+1 BUNGE                                                                   29772.
+2 CARGILL                                                                 22919.
+3 COFCO                                                                   20331.
+4 ADM                                                                     15661.
+5 NOVAAGRI INFRA-ESTRUTURA DE ARMAZENAGEM E ESCOAMENTO A…                 14631.
 # ℹ abbreviated name: ¹​soy_def_harvest5y_5y_amort_exp
 ```
 
@@ -686,25 +676,20 @@ soy_supply_chain_2022_v2_exp |>
   arrange(desc(soy_def_harvest3y_5y_amort_exp)) |>
   select(EXPORTER_GROUP, soy_def_harvest3y_5y_amort_exp) |>
   filter(!EXPORTER_GROUP %in% c("PROCESSED DOMESTICALLY", "UNKNOWN")) |>
-  top_n(10)
+  top_n(5)
 ```
 
 ::: {.cell-output .cell-output-stdout}
 
 ```
-# A tibble: 10 × 2
-   EXPORTER_GROUP                                         soy_def_harvest3y_5y…¹
-   <chr>                                                                   <dbl>
- 1 BUNGE                                                                  22983.
- 2 COFCO                                                                  17385.
- 3 CARGILL                                                                16689.
- 4 ADM                                                                    11122.
- 5 NOVAAGRI INFRA-ESTRUTURA DE ARMAZENAGEM E ESCOAMENTO …                 11066.
- 6 LOUIS DREYFUS                                                           9900.
- 7 GAVILON                                                                 9344.
- 8 AMAGGI & LD COMMODITIES                                                 7173.
- 9 OLAM                                                                    5917.
-10 AMAGGI                                                                  5814.
+# A tibble: 5 × 2
+  EXPORTER_GROUP                                          soy_def_harvest3y_5y…¹
+  <chr>                                                                    <dbl>
+1 BUNGE                                                                   22983.
+2 COFCO                                                                   17385.
+3 CARGILL                                                                 16689.
+4 ADM                                                                     11122.
+5 NOVAAGRI INFRA-ESTRUTURA DE ARMAZENAGEM E ESCOAMENTO A…                 11066.
 # ℹ abbreviated name: ¹​soy_def_harvest3y_5y_amort_exp
 ```
 
@@ -729,25 +714,20 @@ soy_supply_chain_2022_v2_exp |>
   arrange(desc(soy_def_harvest3y_exp)) |>
   select(EXPORTER_GROUP, soy_def_harvest3y_exp) |>
   filter(!EXPORTER_GROUP %in% c("PROCESSED DOMESTICALLY", "UNKNOWN")) |>
-  top_n(10)
+  top_n(5)
 ```
 
 ::: {.cell-output .cell-output-stdout}
 
 ```
-# A tibble: 10 × 2
-   EXPORTER_GROUP                                          soy_def_harvest3y_exp
-   <chr>                                                                   <dbl>
- 1 BUNGE                                                                  30796.
- 2 CARGILL                                                                23843.
- 3 COFCO                                                                  17768.
- 4 NOVAAGRI INFRA-ESTRUTURA DE ARMAZENAGEM E ESCOAMENTO A…                16837.
- 5 ADM                                                                    15955.
- 6 GAVILON                                                                13320.
- 7 LOUIS DREYFUS                                                          13069.
- 8 AMAGGI & LD COMMODITIES                                                10547.
- 9 OLAM                                                                    8233.
-10 AMAGGI                                                                  8024.
+# A tibble: 5 × 2
+  EXPORTER_GROUP                                           soy_def_harvest3y_exp
+  <chr>                                                                    <dbl>
+1 BUNGE                                                                   30796.
+2 CARGILL                                                                 23843.
+3 COFCO                                                                   17768.
+4 NOVAAGRI INFRA-ESTRUTURA DE ARMAZENAGEM E ESCOAMENTO AG…                16837.
+5 ADM                                                                     15955.
 ```
 
 
@@ -757,7 +737,7 @@ soy_supply_chain_2022_v2_exp |>
 
 ### key insights:
 - same 5 Traders with highest number of deforestation
-- order chchanges for 2 companies only
+- we do see some small changes in company rankings for 2 companies
 
 Top 10 Regional Exposure Lists (Production Level 6)
 
@@ -781,25 +761,20 @@ soy_supply_chain_2022_v2_reg |>
   arrange(desc(soy_def_5y_back_exp)) |>
   select(LVL6_NAME_PROD, soy_def_5y_back_exp) |>
   filter(LVL6_NAME_PROD != "UNKNOWN") |>
-  top_n(10)
+  top_n(5)
 ```
 
 ::: {.cell-output .cell-output-stdout}
 
 ```
-# A tibble: 10 × 2
-   LVL6_NAME_PROD         soy_def_5y_back_exp
-   <chr>                                <dbl>
- 1 SAO GABRIEL                         16972.
- 2 SANTANA DO LIVRAMENTO               15888.
- 3 DOM PEDRITO                         15799.
- 4 BALSAS                              15300.
- 5 ALEGRETE                            13543.
- 6 FELIZ NATAL                         11667.
- 7 LUIS EDUARDO MAGALHAES              10919.
- 8 SAO DESIDERIO                       10009.
- 9 FORMOSA DO RIO PRETO                 8876.
-10 URUCUI                               8816.
+# A tibble: 5 × 2
+  LVL6_NAME_PROD        soy_def_5y_back_exp
+  <chr>                               <dbl>
+1 SAO GABRIEL                        16972.
+2 SANTANA DO LIVRAMENTO              15888.
+3 DOM PEDRITO                        15799.
+4 BALSAS                             15300.
+5 ALEGRETE                           13543.
 ```
 
 
@@ -823,25 +798,20 @@ soy_supply_chain_2022_v2_reg |>
   arrange(desc(soy_def_harvest5y_5y_amort_exp)) |>
   select(LVL6_NAME_PROD, soy_def_harvest5y_5y_amort_exp) |>
   filter(LVL6_NAME_PROD != "UNKNOWN") |>
-  top_n(10)
+  top_n(5)
 ```
 
 ::: {.cell-output .cell-output-stdout}
 
 ```
-# A tibble: 10 × 2
-   LVL6_NAME_PROD         soy_def_harvest5y_5y_amort_exp
-   <chr>                                           <dbl>
- 1 BALSAS                                          5640.
- 2 SAO GABRIEL                                     4816.
- 3 FELIZ NATAL                                     4162.
- 4 SAO DESIDERIO                                   3992.
- 5 DOM PEDRITO                                     3923.
- 6 SANTANA DO LIVRAMENTO                           3789.
- 7 ALEGRETE                                        3516.
- 8 URUCUI                                          3163.
- 9 BARREIRAS                                       3048.
-10 LUIS EDUARDO MAGALHAES                          3013.
+# A tibble: 5 × 2
+  LVL6_NAME_PROD soy_def_harvest5y_5y_amort_exp
+  <chr>                                   <dbl>
+1 BALSAS                                  5640.
+2 SAO GABRIEL                             4816.
+3 FELIZ NATAL                             4162.
+4 SAO DESIDERIO                           3992.
+5 DOM PEDRITO                             3923.
 ```
 
 
@@ -865,25 +835,20 @@ soy_supply_chain_2022_v2_reg |>
   arrange(desc(soy_def_harvest3y_5y_amort_exp)) |>
   select(LVL6_NAME_PROD, soy_def_harvest3y_5y_amort_exp) |>
   filter(LVL6_NAME_PROD != "UNKNOWN") |>
-  top_n(10)
+  top_n(5)
 ```
 
 ::: {.cell-output .cell-output-stdout}
 
 ```
-# A tibble: 10 × 2
-   LVL6_NAME_PROD         soy_def_harvest3y_5y_amort_exp
-   <chr>                                           <dbl>
- 1 SAO GABRIEL                                     4609.
- 2 BALSAS                                          3881.
- 3 DOM PEDRITO                                     3743.
- 4 SANTANA DO LIVRAMENTO                           3642.
- 5 ALEGRETE                                        3214.
- 6 FELIZ NATAL                                     2981.
- 7 BARREIRAS                                       2198.
- 8 LUIS EDUARDO MAGALHAES                          2124.
- 9 ROSARIO DO SUL                                  2046.
-10 CACEQUI                                         1940.
+# A tibble: 5 × 2
+  LVL6_NAME_PROD        soy_def_harvest3y_5y_amort_exp
+  <chr>                                          <dbl>
+1 SAO GABRIEL                                    4609.
+2 BALSAS                                         3881.
+3 DOM PEDRITO                                    3743.
+4 SANTANA DO LIVRAMENTO                          3642.
+5 ALEGRETE                                       3214.
 ```
 
 
@@ -907,25 +872,20 @@ soy_supply_chain_2022_v2_reg |>
   arrange(desc(soy_def_harvest3y_exp)) |>
   select(LVL6_NAME_PROD, soy_def_harvest3y_exp) |>
   filter(LVL6_NAME_PROD != "UNKNOWN") |>
-  top_n(10)
+  top_n(5)
 ```
 
 ::: {.cell-output .cell-output-stdout}
 
 ```
-# A tibble: 10 × 2
-   LVL6_NAME_PROD         soy_def_harvest3y_exp
-   <chr>                                  <dbl>
- 1 SANTANA DO LIVRAMENTO                  5896.
- 2 BALSAS                                 5160.
- 3 FELIZ NATAL                            4293.
- 4 TASSO FRAGOSO                          4230.
- 5 ALEGRETE                               4188.
- 6 LUIS EDUARDO MAGALHAES                 3915.
- 7 FORMOSA DO RIO PRETO                   3818.
- 8 SAO DESIDERIO                          3443.
- 9 DOM PEDRITO                            3435.
-10 SAO GABRIEL                            3102.
+# A tibble: 5 × 2
+  LVL6_NAME_PROD        soy_def_harvest3y_exp
+  <chr>                                 <dbl>
+1 SANTANA DO LIVRAMENTO                 5896.
+2 BALSAS                                5160.
+3 FELIZ NATAL                           4293.
+4 TASSO FRAGOSO                         4230.
+5 ALEGRETE                              4188.
 ```
 
 
@@ -934,11 +894,9 @@ soy_supply_chain_2022_v2_reg |>
 
 
 ### key insights:
-- same 5 Traders with highest number of deforestation
-- order chchanges for 2 companies only
 
 
-## Top 10 Importer Exposure Lists (Country Groups)
+## Top 5 Importer Exposure Lists (Country Groups)
 
 
 ::: {.cell}
@@ -961,25 +919,20 @@ soy_supply_chain_2022_v2_imp |>
   arrange(desc(soy_def_5y_back_exp)) |>
   select(COUNTRY_GROUP, soy_def_5y_back_exp) |>
   filter(!COUNTRY_GROUP %in% c("BRAZIL", "UNKNOWN COUNTRY EUROPEAN UNION")) |>
-  top_n(10)
+  top_n(5)
 ```
 
 ::: {.cell-output .cell-output-stdout}
 
 ```
-# A tibble: 10 × 2
-   COUNTRY_GROUP    soy_def_5y_back_exp
-   <chr>                          <dbl>
- 1 CHINA (MAINLAND)             252211.
- 2 SINGAPORE                     78994.
- 3 SPAIN                         29256.
- 4 THAILAND                      25690.
- 5 INDONESIA                     23670.
- 6 SOUTH AFRICA                  21786.
- 7 IRAN                          19525.
- 8 INDIA                         19352.
- 9 VIETNAM                       17850.
-10 FRANCE                        15706.
+# A tibble: 5 × 2
+  COUNTRY_GROUP    soy_def_5y_back_exp
+  <chr>                          <dbl>
+1 CHINA (MAINLAND)             252211.
+2 SINGAPORE                     78994.
+3 SPAIN                         29256.
+4 THAILAND                      25690.
+5 INDONESIA                     23670.
 ```
 
 
@@ -1003,25 +956,20 @@ soy_supply_chain_2022_v2_imp |>
   arrange(desc(soy_def_harvest5y_5y_amort_exp)) |>
   select(COUNTRY_GROUP, soy_def_harvest5y_5y_amort_exp) |>
   filter(!COUNTRY_GROUP %in% c("BRAZIL", "UNKNOWN COUNTRY EUROPEAN UNION")) |>
-  top_n(10)
+  top_n(5)
 ```
 
 ::: {.cell-output .cell-output-stdout}
 
 ```
-# A tibble: 10 × 2
-   COUNTRY_GROUP    soy_def_harvest5y_5y_amort_exp
-   <chr>                                     <dbl>
- 1 CHINA (MAINLAND)                         82951.
- 2 SINGAPORE                                26916.
- 3 THAILAND                                  9246.
- 4 SPAIN                                     9235.
- 5 SOUTH AFRICA                              7423.
- 6 INDONESIA                                 7420.
- 7 IRAN                                      6116.
- 8 INDIA                                     5886.
- 9 VIETNAM                                   5594.
-10 TURKEY                                    5370.
+# A tibble: 5 × 2
+  COUNTRY_GROUP    soy_def_harvest5y_5y_amort_exp
+  <chr>                                     <dbl>
+1 CHINA (MAINLAND)                         82951.
+2 SINGAPORE                                26916.
+3 THAILAND                                  9246.
+4 SPAIN                                     9235.
+5 SOUTH AFRICA                              7423.
 ```
 
 
@@ -1045,25 +993,20 @@ soy_supply_chain_2022_v2_imp |>
   arrange(desc(soy_def_harvest3y_5y_amort_exp)) |>
   select(COUNTRY_GROUP, soy_def_harvest3y_5y_amort_exp) |>
   filter(!COUNTRY_GROUP %in% c("BRAZIL", "UNKNOWN COUNTRY EUROPEAN UNION")) |>
-  top_n(10)
+  top_n(5)
 ```
 
 ::: {.cell-output .cell-output-stdout}
 
 ```
-# A tibble: 10 × 2
-   COUNTRY_GROUP    soy_def_harvest3y_5y_amort_exp
-   <chr>                                     <dbl>
- 1 CHINA (MAINLAND)                         63788.
- 2 SINGAPORE                                19324.
- 3 SPAIN                                     7390.
- 4 THAILAND                                  6595.
- 5 INDONESIA                                 6083.
- 6 SOUTH AFRICA                              5330.
- 7 IRAN                                      5118.
- 8 INDIA                                     5029.
- 9 VIETNAM                                   4649.
-10 FRANCE                                    3859.
+# A tibble: 5 × 2
+  COUNTRY_GROUP    soy_def_harvest3y_5y_amort_exp
+  <chr>                                     <dbl>
+1 CHINA (MAINLAND)                         63788.
+2 SINGAPORE                                19324.
+3 SPAIN                                     7390.
+4 THAILAND                                  6595.
+5 INDONESIA                                 6083.
 ```
 
 
@@ -1087,25 +1030,20 @@ soy_supply_chain_2022_v2_imp |>
   arrange(desc(soy_def_harvest3y_exp)) |>
   select(COUNTRY_GROUP, soy_def_harvest3y_exp) |>
   filter(!COUNTRY_GROUP %in% c("BRAZIL", "UNKNOWN COUNTRY EUROPEAN UNION")) |>
-  top_n(10)
+  top_n(5)
 ```
 
 ::: {.cell-output .cell-output-stdout}
 
 ```
-# A tibble: 10 × 2
-   COUNTRY_GROUP    soy_def_harvest3y_exp
-   <chr>                            <dbl>
- 1 CHINA (MAINLAND)                82090.
- 2 SINGAPORE                       29202.
- 3 THAILAND                         8923.
- 4 SPAIN                            8887.
- 5 SOUTH AFRICA                     8053.
- 6 INDONESIA                        7385.
- 7 IRAN                             5730.
- 8 INDIA                            5221.
- 9 VIETNAM                          5159.
-10 TURKEY                           5147.
+# A tibble: 5 × 2
+  COUNTRY_GROUP    soy_def_harvest3y_exp
+  <chr>                            <dbl>
+1 CHINA (MAINLAND)                82090.
+2 SINGAPORE                       29202.
+3 THAILAND                         8923.
+4 SPAIN                            8887.
+5 SOUTH AFRICA                     8053.
 ```
 
 

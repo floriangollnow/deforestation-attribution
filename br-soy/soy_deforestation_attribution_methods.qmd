@@ -502,7 +502,7 @@ soy_supply_chain_2022_v2_imp <- soy_supply_chain_2022_v2 |>
   group_by(COUNTRY_GROUP) |>
   summarize(across(ends_with("_exp"), ~ sum(.x, na.rm = TRUE)))
 ```
-## Top 10 Trader Exposure Lists
+## Top 5 Trader Exposure Lists
 Below we compare how different metrics rearrange or weigh the risk profiles of top exporters.
 ```{r}
 cat("Trase 5-Year Sum Deforestation\n")
@@ -510,33 +510,33 @@ soy_supply_chain_2022_v2_exp |>
   arrange(desc(soy_def_5y_back_exp)) |>
   select(EXPORTER_GROUP, soy_def_5y_back_exp) |>
   filter(!EXPORTER_GROUP %in% c("PROCESSED DOMESTICALLY", "UNKNOWN")) |>
-  top_n(10)
+  top_n(5)
 
 cat("Trase Forward-Looking 5-Year Amortized\n")
 soy_supply_chain_2022_v2_exp |>
   arrange(desc(soy_def_harvest5y_5y_amort_exp)) |>
   select(EXPORTER_GROUP, soy_def_harvest5y_5y_amort_exp) |>
   filter(!EXPORTER_GROUP %in% c("PROCESSED DOMESTICALLY", "UNKNOWN")) |>
-  top_n(10)
+  top_n(5)
 
 cat("Trase Forward-Looking 3-Year Amortized\n")
 soy_supply_chain_2022_v2_exp |>
   arrange(desc(soy_def_harvest3y_5y_amort_exp)) |>
   select(EXPORTER_GROUP, soy_def_harvest3y_5y_amort_exp) |>
   filter(!EXPORTER_GROUP %in% c("PROCESSED DOMESTICALLY", "UNKNOWN")) |>
-  top_n(10)
+  top_n(5)
 
 cat("Trase Forward-Looking 3-Year\n")
 soy_supply_chain_2022_v2_exp |>
   arrange(desc(soy_def_harvest3y_exp)) |>
   select(EXPORTER_GROUP, soy_def_harvest3y_exp) |>
   filter(!EXPORTER_GROUP %in% c("PROCESSED DOMESTICALLY", "UNKNOWN")) |>
-  top_n(10)
+  top_n(5)
 ```
 
 ### key insights:
 - same 5 Traders with highest number of deforestation
-- order chchanges for 2 companies only
+- we do see some small changes in company rankings for 2 companies
 
 Top 10 Regional Exposure Lists (Production Level 6)
 ```{r}
@@ -545,21 +545,21 @@ soy_supply_chain_2022_v2_reg |>
   arrange(desc(soy_def_5y_back_exp)) |>
   select(LVL6_NAME_PROD, soy_def_5y_back_exp) |>
   filter(LVL6_NAME_PROD != "UNKNOWN") |>
-  top_n(10)
+  top_n(5)
 
 cat("Trase Forward-Looking 5-Year Amortized\n")
 soy_supply_chain_2022_v2_reg |>
   arrange(desc(soy_def_harvest5y_5y_amort_exp)) |>
   select(LVL6_NAME_PROD, soy_def_harvest5y_5y_amort_exp) |>
   filter(LVL6_NAME_PROD != "UNKNOWN") |>
-  top_n(10)
+  top_n(5)
 
 cat("Trase Forward-Looking 3-Year Amortized\n")
 soy_supply_chain_2022_v2_reg |>
   arrange(desc(soy_def_harvest3y_5y_amort_exp)) |>
   select(LVL6_NAME_PROD, soy_def_harvest3y_5y_amort_exp) |>
   filter(LVL6_NAME_PROD != "UNKNOWN") |>
-  top_n(10)
+  top_n(5)
 
 
 cat("Trase Forward-Looking 3-Year\n")
@@ -567,15 +567,13 @@ soy_supply_chain_2022_v2_reg |>
   arrange(desc(soy_def_harvest3y_exp)) |>
   select(LVL6_NAME_PROD, soy_def_harvest3y_exp) |>
   filter(LVL6_NAME_PROD != "UNKNOWN") |>
-  top_n(10)
+  top_n(5)
 ```
 
 ### key insights:
-- same 5 Traders with highest number of deforestation
-- order chchanges for 2 companies only
 
 
-## Top 10 Importer Exposure Lists (Country Groups)
+## Top 5 Importer Exposure Lists (Country Groups)
 
 ```{r}
 cat("Trase 5-Year Sum Deforestation\n")
@@ -583,28 +581,28 @@ soy_supply_chain_2022_v2_imp |>
   arrange(desc(soy_def_5y_back_exp)) |>
   select(COUNTRY_GROUP, soy_def_5y_back_exp) |>
   filter(!COUNTRY_GROUP %in% c("BRAZIL", "UNKNOWN COUNTRY EUROPEAN UNION")) |>
-  top_n(10)
+  top_n(5)
 
 cat("Trase Forward-Looking 5-Year Amortized\n")
 soy_supply_chain_2022_v2_imp |>
   arrange(desc(soy_def_harvest5y_5y_amort_exp)) |>
   select(COUNTRY_GROUP, soy_def_harvest5y_5y_amort_exp) |>
   filter(!COUNTRY_GROUP %in% c("BRAZIL", "UNKNOWN COUNTRY EUROPEAN UNION")) |>
-  top_n(10)
+  top_n(5)
 
 cat("Trase Forward-Looking 3-Year Amortized\n")
 soy_supply_chain_2022_v2_imp |>
   arrange(desc(soy_def_harvest3y_5y_amort_exp)) |>
   select(COUNTRY_GROUP, soy_def_harvest3y_5y_amort_exp) |>
   filter(!COUNTRY_GROUP %in% c("BRAZIL", "UNKNOWN COUNTRY EUROPEAN UNION")) |>
-  top_n(10)
+  top_n(5)
 
 cat("Trase Forward-Looking 3-Year\n")
 soy_supply_chain_2022_v2_imp |>
   arrange(desc(soy_def_harvest3y_exp)) |>
   select(COUNTRY_GROUP, soy_def_harvest3y_exp) |>
   filter(!COUNTRY_GROUP %in% c("BRAZIL", "UNKNOWN COUNTRY EUROPEAN UNION")) |>
-  top_n(10)
+  top_n(5)
 ```
 
 ## Key insights:

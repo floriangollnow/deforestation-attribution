@@ -117,12 +117,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#supply-chain-trader-exposure-2022" id="toc-supply-chain-trader-exposure-2022" class="nav-link" data-scroll-target="#supply-chain-trader-exposure-2022">Supply Chain &amp; Trader Exposure (2022)</a>
   <ul class="collapse">
-  <li><a href="#top-10-trader-exposure-lists" id="toc-top-10-trader-exposure-lists" class="nav-link" data-scroll-target="#top-10-trader-exposure-lists">Top 10 Trader Exposure Lists</a>
+  <li><a href="#top-5-trader-exposure-lists" id="toc-top-5-trader-exposure-lists" class="nav-link" data-scroll-target="#top-5-trader-exposure-lists">Top 5 Trader Exposure Lists</a>
   <ul class="collapse">
   <li><a href="#key-insights-3" id="toc-key-insights-3" class="nav-link" data-scroll-target="#key-insights-3">key insights:</a></li>
   <li><a href="#key-insights-4" id="toc-key-insights-4" class="nav-link" data-scroll-target="#key-insights-4">key insights:</a></li>
   </ul></li>
-  <li><a href="#top-10-importer-exposure-lists-country-groups" id="toc-top-10-importer-exposure-lists-country-groups" class="nav-link" data-scroll-target="#top-10-importer-exposure-lists-country-groups">Top 10 Importer Exposure Lists (Country Groups)</a></li>
+  <li><a href="#top-5-importer-exposure-lists-country-groups" id="toc-top-5-importer-exposure-lists-country-groups" class="nav-link" data-scroll-target="#top-5-importer-exposure-lists-country-groups">Top 5 Importer Exposure Lists (Country Groups)</a></li>
   <li><a href="#key-insights-5" id="toc-key-insights-5" class="nav-link" data-scroll-target="#key-insights-5">Key insights:</a></li>
   </ul></li>
   </ul>
@@ -738,8 +738,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">across</span>(<span class="fu">ends_with</span>(<span class="st">"_exp"</span>), <span class="sc">~</span> <span class="fu">sum</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<section id="top-10-trader-exposure-lists" class="level2">
-<h2 class="anchored" data-anchor-id="top-10-trader-exposure-lists">Top 10 Trader Exposure Lists</h2>
+<section id="top-5-trader-exposure-lists" class="level2">
+<h2 class="anchored" data-anchor-id="top-5-trader-exposure-lists">Top 5 Trader Exposure Lists</h2>
 <p>Below we compare how different metrics rearrange or weigh the risk profiles of top exporters.</p>
 <div class="cell">
 <details class="code-fold">
@@ -755,22 +755,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(soy_def_5y_back_exp)) <span class="sc">|&gt;</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(EXPORTER_GROUP, soy_def_5y_back_exp) <span class="sc">|&gt;</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>EXPORTER_GROUP <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"PROCESSED DOMESTICALLY"</span>, <span class="st">"UNKNOWN"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 2
-   EXPORTER_GROUP                                            soy_def_5y_back_exp
-   &lt;chr&gt;                                                                   &lt;dbl&gt;
- 1 BUNGE                                                                  91613.
- 2 COFCO                                                                  67956.
- 3 CARGILL                                                                66258.
- 4 NOVAAGRI INFRA-ESTRUTURA DE ARMAZENAGEM E ESCOAMENTO AGR…              45916.
- 5 ADM                                                                    44987.
- 6 LOUIS DREYFUS                                                          38958.
- 7 GAVILON                                                                38260.
- 8 AMAGGI &amp; LD COMMODITIES                                                28827.
- 9 OLAM                                                                   24049.
-10 AMAGGI                                                                 22243.</code></pre>
+<pre><code># A tibble: 5 × 2
+  EXPORTER_GROUP                                             soy_def_5y_back_exp
+  &lt;chr&gt;                                                                    &lt;dbl&gt;
+1 BUNGE                                                                   91613.
+2 COFCO                                                                   67956.
+3 CARGILL                                                                 66258.
+4 NOVAAGRI INFRA-ESTRUTURA DE ARMAZENAGEM E ESCOAMENTO AGRI…              45916.
+5 ADM                                                                     44987.</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -785,22 +780,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(soy_def_harvest5y_5y_amort_exp)) <span class="sc">|&gt;</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(EXPORTER_GROUP, soy_def_harvest5y_5y_amort_exp) <span class="sc">|&gt;</span></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>EXPORTER_GROUP <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"PROCESSED DOMESTICALLY"</span>, <span class="st">"UNKNOWN"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 2
-   EXPORTER_GROUP                                         soy_def_harvest5y_5y…¹
-   &lt;chr&gt;                                                                   &lt;dbl&gt;
- 1 BUNGE                                                                  29772.
- 2 CARGILL                                                                22919.
- 3 COFCO                                                                  20331.
- 4 ADM                                                                    15661.
- 5 NOVAAGRI INFRA-ESTRUTURA DE ARMAZENAGEM E ESCOAMENTO …                 14631.
- 6 LOUIS DREYFUS                                                          13106.
- 7 GAVILON                                                                11847.
- 8 AMAGGI &amp; LD COMMODITIES                                                10337.
- 9 AMAGGI                                                                  8165.
-10 OLAM                                                                    7073.
+<pre><code># A tibble: 5 × 2
+  EXPORTER_GROUP                                          soy_def_harvest5y_5y…¹
+  &lt;chr&gt;                                                                    &lt;dbl&gt;
+1 BUNGE                                                                   29772.
+2 CARGILL                                                                 22919.
+3 COFCO                                                                   20331.
+4 ADM                                                                     15661.
+5 NOVAAGRI INFRA-ESTRUTURA DE ARMAZENAGEM E ESCOAMENTO A…                 14631.
 # ℹ abbreviated name: ¹​soy_def_harvest5y_5y_amort_exp</code></pre>
 </div>
 <details class="code-fold">
@@ -816,22 +806,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(soy_def_harvest3y_5y_amort_exp)) <span class="sc">|&gt;</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(EXPORTER_GROUP, soy_def_harvest3y_5y_amort_exp) <span class="sc">|&gt;</span></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>EXPORTER_GROUP <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"PROCESSED DOMESTICALLY"</span>, <span class="st">"UNKNOWN"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 2
-   EXPORTER_GROUP                                         soy_def_harvest3y_5y…¹
-   &lt;chr&gt;                                                                   &lt;dbl&gt;
- 1 BUNGE                                                                  22983.
- 2 COFCO                                                                  17385.
- 3 CARGILL                                                                16689.
- 4 ADM                                                                    11122.
- 5 NOVAAGRI INFRA-ESTRUTURA DE ARMAZENAGEM E ESCOAMENTO …                 11066.
- 6 LOUIS DREYFUS                                                           9900.
- 7 GAVILON                                                                 9344.
- 8 AMAGGI &amp; LD COMMODITIES                                                 7173.
- 9 OLAM                                                                    5917.
-10 AMAGGI                                                                  5814.
+<pre><code># A tibble: 5 × 2
+  EXPORTER_GROUP                                          soy_def_harvest3y_5y…¹
+  &lt;chr&gt;                                                                    &lt;dbl&gt;
+1 BUNGE                                                                   22983.
+2 COFCO                                                                   17385.
+3 CARGILL                                                                 16689.
+4 ADM                                                                     11122.
+5 NOVAAGRI INFRA-ESTRUTURA DE ARMAZENAGEM E ESCOAMENTO A…                 11066.
 # ℹ abbreviated name: ¹​soy_def_harvest3y_5y_amort_exp</code></pre>
 </div>
 <details class="code-fold">
@@ -847,29 +832,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(soy_def_harvest3y_exp)) <span class="sc">|&gt;</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(EXPORTER_GROUP, soy_def_harvest3y_exp) <span class="sc">|&gt;</span></span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>EXPORTER_GROUP <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"PROCESSED DOMESTICALLY"</span>, <span class="st">"UNKNOWN"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 2
-   EXPORTER_GROUP                                          soy_def_harvest3y_exp
-   &lt;chr&gt;                                                                   &lt;dbl&gt;
- 1 BUNGE                                                                  30796.
- 2 CARGILL                                                                23843.
- 3 COFCO                                                                  17768.
- 4 NOVAAGRI INFRA-ESTRUTURA DE ARMAZENAGEM E ESCOAMENTO A…                16837.
- 5 ADM                                                                    15955.
- 6 GAVILON                                                                13320.
- 7 LOUIS DREYFUS                                                          13069.
- 8 AMAGGI &amp; LD COMMODITIES                                                10547.
- 9 OLAM                                                                    8233.
-10 AMAGGI                                                                  8024.</code></pre>
+<pre><code># A tibble: 5 × 2
+  EXPORTER_GROUP                                           soy_def_harvest3y_exp
+  &lt;chr&gt;                                                                    &lt;dbl&gt;
+1 BUNGE                                                                   30796.
+2 CARGILL                                                                 23843.
+3 COFCO                                                                   17768.
+4 NOVAAGRI INFRA-ESTRUTURA DE ARMAZENAGEM E ESCOAMENTO AG…                16837.
+5 ADM                                                                     15955.</code></pre>
 </div>
 </div>
 <section id="key-insights-3" class="level3">
 <h3 class="anchored" data-anchor-id="key-insights-3">key insights:</h3>
 <ul>
 <li>same 5 Traders with highest number of deforestation</li>
-<li>order chchanges for 2 companies only</li>
+<li>we do see some small changes in company rankings for 2 companies</li>
 </ul>
 <p>Top 10 Regional Exposure Lists (Production Level 6)</p>
 <div class="cell">
@@ -886,22 +866,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(soy_def_5y_back_exp)) <span class="sc">|&gt;</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(LVL6_NAME_PROD, soy_def_5y_back_exp) <span class="sc">|&gt;</span></span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(LVL6_NAME_PROD <span class="sc">!=</span> <span class="st">"UNKNOWN"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 2
-   LVL6_NAME_PROD         soy_def_5y_back_exp
-   &lt;chr&gt;                                &lt;dbl&gt;
- 1 SAO GABRIEL                         16972.
- 2 SANTANA DO LIVRAMENTO               15888.
- 3 DOM PEDRITO                         15799.
- 4 BALSAS                              15300.
- 5 ALEGRETE                            13543.
- 6 FELIZ NATAL                         11667.
- 7 LUIS EDUARDO MAGALHAES              10919.
- 8 SAO DESIDERIO                       10009.
- 9 FORMOSA DO RIO PRETO                 8876.
-10 URUCUI                               8816.</code></pre>
+<pre><code># A tibble: 5 × 2
+  LVL6_NAME_PROD        soy_def_5y_back_exp
+  &lt;chr&gt;                               &lt;dbl&gt;
+1 SAO GABRIEL                        16972.
+2 SANTANA DO LIVRAMENTO              15888.
+3 DOM PEDRITO                        15799.
+4 BALSAS                             15300.
+5 ALEGRETE                           13543.</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -916,22 +891,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(soy_def_harvest5y_5y_amort_exp)) <span class="sc">|&gt;</span></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(LVL6_NAME_PROD, soy_def_harvest5y_5y_amort_exp) <span class="sc">|&gt;</span></span>
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(LVL6_NAME_PROD <span class="sc">!=</span> <span class="st">"UNKNOWN"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 2
-   LVL6_NAME_PROD         soy_def_harvest5y_5y_amort_exp
-   &lt;chr&gt;                                           &lt;dbl&gt;
- 1 BALSAS                                          5640.
- 2 SAO GABRIEL                                     4816.
- 3 FELIZ NATAL                                     4162.
- 4 SAO DESIDERIO                                   3992.
- 5 DOM PEDRITO                                     3923.
- 6 SANTANA DO LIVRAMENTO                           3789.
- 7 ALEGRETE                                        3516.
- 8 URUCUI                                          3163.
- 9 BARREIRAS                                       3048.
-10 LUIS EDUARDO MAGALHAES                          3013.</code></pre>
+<pre><code># A tibble: 5 × 2
+  LVL6_NAME_PROD soy_def_harvest5y_5y_amort_exp
+  &lt;chr&gt;                                   &lt;dbl&gt;
+1 BALSAS                                  5640.
+2 SAO GABRIEL                             4816.
+3 FELIZ NATAL                             4162.
+4 SAO DESIDERIO                           3992.
+5 DOM PEDRITO                             3923.</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -946,22 +916,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(soy_def_harvest3y_5y_amort_exp)) <span class="sc">|&gt;</span></span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(LVL6_NAME_PROD, soy_def_harvest3y_5y_amort_exp) <span class="sc">|&gt;</span></span>
 <span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(LVL6_NAME_PROD <span class="sc">!=</span> <span class="st">"UNKNOWN"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 2
-   LVL6_NAME_PROD         soy_def_harvest3y_5y_amort_exp
-   &lt;chr&gt;                                           &lt;dbl&gt;
- 1 SAO GABRIEL                                     4609.
- 2 BALSAS                                          3881.
- 3 DOM PEDRITO                                     3743.
- 4 SANTANA DO LIVRAMENTO                           3642.
- 5 ALEGRETE                                        3214.
- 6 FELIZ NATAL                                     2981.
- 7 BARREIRAS                                       2198.
- 8 LUIS EDUARDO MAGALHAES                          2124.
- 9 ROSARIO DO SUL                                  2046.
-10 CACEQUI                                         1940.</code></pre>
+<pre><code># A tibble: 5 × 2
+  LVL6_NAME_PROD        soy_def_harvest3y_5y_amort_exp
+  &lt;chr&gt;                                          &lt;dbl&gt;
+1 SAO GABRIEL                                    4609.
+2 BALSAS                                         3881.
+3 DOM PEDRITO                                    3743.
+4 SANTANA DO LIVRAMENTO                          3642.
+5 ALEGRETE                                       3214.</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -976,35 +941,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(soy_def_harvest3y_exp)) <span class="sc">|&gt;</span></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(LVL6_NAME_PROD, soy_def_harvest3y_exp) <span class="sc">|&gt;</span></span>
 <span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(LVL6_NAME_PROD <span class="sc">!=</span> <span class="st">"UNKNOWN"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 2
-   LVL6_NAME_PROD         soy_def_harvest3y_exp
-   &lt;chr&gt;                                  &lt;dbl&gt;
- 1 SANTANA DO LIVRAMENTO                  5896.
- 2 BALSAS                                 5160.
- 3 FELIZ NATAL                            4293.
- 4 TASSO FRAGOSO                          4230.
- 5 ALEGRETE                               4188.
- 6 LUIS EDUARDO MAGALHAES                 3915.
- 7 FORMOSA DO RIO PRETO                   3818.
- 8 SAO DESIDERIO                          3443.
- 9 DOM PEDRITO                            3435.
-10 SAO GABRIEL                            3102.</code></pre>
+<pre><code># A tibble: 5 × 2
+  LVL6_NAME_PROD        soy_def_harvest3y_exp
+  &lt;chr&gt;                                 &lt;dbl&gt;
+1 SANTANA DO LIVRAMENTO                 5896.
+2 BALSAS                                5160.
+3 FELIZ NATAL                           4293.
+4 TASSO FRAGOSO                         4230.
+5 ALEGRETE                              4188.</code></pre>
 </div>
 </div>
 </section>
 <section id="key-insights-4" class="level3">
 <h3 class="anchored" data-anchor-id="key-insights-4">key insights:</h3>
-<ul>
-<li>same 5 Traders with highest number of deforestation</li>
-<li>order chchanges for 2 companies only</li>
-</ul>
 </section>
 </section>
-<section id="top-10-importer-exposure-lists-country-groups" class="level2">
-<h2 class="anchored" data-anchor-id="top-10-importer-exposure-lists-country-groups">Top 10 Importer Exposure Lists (Country Groups)</h2>
+<section id="top-5-importer-exposure-lists-country-groups" class="level2">
+<h2 class="anchored" data-anchor-id="top-5-importer-exposure-lists-country-groups">Top 5 Importer Exposure Lists (Country Groups)</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -1019,22 +975,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(soy_def_5y_back_exp)) <span class="sc">|&gt;</span></span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(COUNTRY_GROUP, soy_def_5y_back_exp) <span class="sc">|&gt;</span></span>
 <span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>COUNTRY_GROUP <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"BRAZIL"</span>, <span class="st">"UNKNOWN COUNTRY EUROPEAN UNION"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 2
-   COUNTRY_GROUP    soy_def_5y_back_exp
-   &lt;chr&gt;                          &lt;dbl&gt;
- 1 CHINA (MAINLAND)             252211.
- 2 SINGAPORE                     78994.
- 3 SPAIN                         29256.
- 4 THAILAND                      25690.
- 5 INDONESIA                     23670.
- 6 SOUTH AFRICA                  21786.
- 7 IRAN                          19525.
- 8 INDIA                         19352.
- 9 VIETNAM                       17850.
-10 FRANCE                        15706.</code></pre>
+<pre><code># A tibble: 5 × 2
+  COUNTRY_GROUP    soy_def_5y_back_exp
+  &lt;chr&gt;                          &lt;dbl&gt;
+1 CHINA (MAINLAND)             252211.
+2 SINGAPORE                     78994.
+3 SPAIN                         29256.
+4 THAILAND                      25690.
+5 INDONESIA                     23670.</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -1049,22 +1000,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(soy_def_harvest5y_5y_amort_exp)) <span class="sc">|&gt;</span></span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(COUNTRY_GROUP, soy_def_harvest5y_5y_amort_exp) <span class="sc">|&gt;</span></span>
 <span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>COUNTRY_GROUP <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"BRAZIL"</span>, <span class="st">"UNKNOWN COUNTRY EUROPEAN UNION"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 2
-   COUNTRY_GROUP    soy_def_harvest5y_5y_amort_exp
-   &lt;chr&gt;                                     &lt;dbl&gt;
- 1 CHINA (MAINLAND)                         82951.
- 2 SINGAPORE                                26916.
- 3 THAILAND                                  9246.
- 4 SPAIN                                     9235.
- 5 SOUTH AFRICA                              7423.
- 6 INDONESIA                                 7420.
- 7 IRAN                                      6116.
- 8 INDIA                                     5886.
- 9 VIETNAM                                   5594.
-10 TURKEY                                    5370.</code></pre>
+<pre><code># A tibble: 5 × 2
+  COUNTRY_GROUP    soy_def_harvest5y_5y_amort_exp
+  &lt;chr&gt;                                     &lt;dbl&gt;
+1 CHINA (MAINLAND)                         82951.
+2 SINGAPORE                                26916.
+3 THAILAND                                  9246.
+4 SPAIN                                     9235.
+5 SOUTH AFRICA                              7423.</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -1079,22 +1025,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(soy_def_harvest3y_5y_amort_exp)) <span class="sc">|&gt;</span></span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(COUNTRY_GROUP, soy_def_harvest3y_5y_amort_exp) <span class="sc">|&gt;</span></span>
 <span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>COUNTRY_GROUP <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"BRAZIL"</span>, <span class="st">"UNKNOWN COUNTRY EUROPEAN UNION"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 2
-   COUNTRY_GROUP    soy_def_harvest3y_5y_amort_exp
-   &lt;chr&gt;                                     &lt;dbl&gt;
- 1 CHINA (MAINLAND)                         63788.
- 2 SINGAPORE                                19324.
- 3 SPAIN                                     7390.
- 4 THAILAND                                  6595.
- 5 INDONESIA                                 6083.
- 6 SOUTH AFRICA                              5330.
- 7 IRAN                                      5118.
- 8 INDIA                                     5029.
- 9 VIETNAM                                   4649.
-10 FRANCE                                    3859.</code></pre>
+<pre><code># A tibble: 5 × 2
+  COUNTRY_GROUP    soy_def_harvest3y_5y_amort_exp
+  &lt;chr&gt;                                     &lt;dbl&gt;
+1 CHINA (MAINLAND)                         63788.
+2 SINGAPORE                                19324.
+3 SPAIN                                     7390.
+4 THAILAND                                  6595.
+5 INDONESIA                                 6083.</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -1109,22 +1050,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(soy_def_harvest3y_exp)) <span class="sc">|&gt;</span></span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(COUNTRY_GROUP, soy_def_harvest3y_exp) <span class="sc">|&gt;</span></span>
 <span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>COUNTRY_GROUP <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"BRAZIL"</span>, <span class="st">"UNKNOWN COUNTRY EUROPEAN UNION"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 2
-   COUNTRY_GROUP    soy_def_harvest3y_exp
-   &lt;chr&gt;                            &lt;dbl&gt;
- 1 CHINA (MAINLAND)                82090.
- 2 SINGAPORE                       29202.
- 3 THAILAND                         8923.
- 4 SPAIN                            8887.
- 5 SOUTH AFRICA                     8053.
- 6 INDONESIA                        7385.
- 7 IRAN                             5730.
- 8 INDIA                            5221.
- 9 VIETNAM                          5159.
-10 TURKEY                           5147.</code></pre>
+<pre><code># A tibble: 5 × 2
+  COUNTRY_GROUP    soy_def_harvest3y_exp
+  &lt;chr&gt;                            &lt;dbl&gt;
+1 CHINA (MAINLAND)                82090.
+2 SINGAPORE                       29202.
+3 THAILAND                         8923.
+4 SPAIN                            8887.
+5 SOUTH AFRICA                     8053.</code></pre>
 </div>
 </div>
 </section>

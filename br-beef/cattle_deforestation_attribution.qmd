@@ -59,9 +59,9 @@ beef_br <- read_parquet(
 beef_states <- read_parquet(
   "~/documents/data/annual_metrics/beef_annual_br_states.parquet"
 )
-# soy_supply_chain_2022_v2 <- read_parquet(
-#   "~/documents/data/annual_metrics/soy_2022_post_embedding_quants_v2.parquet"
-# )
+beef_supply_chain_2023_v1 <- read_parquet(
+  "~/documents/data/annual_metrics/beef_2023_post_embedding_quants_v1.parquet"
+)
 ```
 
 # Country-level analysis: Pasture
@@ -591,7 +591,93 @@ ggplot(
   theme(legend.position = "bottom")
 ```
 
-## key insights 
+## Key insights 
 - looks good - no concerns. 
 
-# supply chain: companies exposure
+# Supply chain: companies exposure
+## Cattle deforestation
+```{r}
+beef_supply_chain_2023_v1_exp <- beef_supply_chain_2023_v1 |>
+  group_by(EXPORTER) |>
+  summarize(across(
+    starts_with("pasture") | starts_with("cattle"),
+    ~ sum(.x, na.rm = TRUE)
+  ))
+
+cat("Trase 5 year sum Cattle deforestation \n")
+beef_supply_chain_2023_v1_exp |>
+  arrange(desc(cattle_def_back_ha_5y_summed_ha)) |>
+  select(EXPORTER, cattle_def_back_ha_5y_summed_ha) |>
+  filter(
+    !EXPORTER %in% c("DOMESTIC PROCESSING AND CONSUMPTION", "UNKNOWN COMPANY")
+  ) |>
+  top_n(5)
+
+cat("3 year ff looking pasture deforestation \n")
+beef_supply_chain_2023_v1_exp |>
+  arrange(desc(cattle_def_harvest3y_ha_5y_summed_ha)) |>
+  select(EXPORTER, cattle_def_harvest3y_ha_5y_summed_ha) |>
+  filter(
+    !EXPORTER %in% c("DOMESTIC PROCESSING AND CONSUMPTION", "UNKNOWN COMPANY")
+  ) |>
+  top_n(5)
+
+cat("5 year ff looking pasture deforestation \n")
+beef_supply_chain_2023_v1_exp |>
+  arrange(desc(cattle_def_harvest5y_ha_5y_summed_ha)) |>
+  select(EXPORTER, cattle_def_harvest5y_ha_5y_summed_ha) |>
+  filter(
+    !EXPORTER %in% c("DOMESTIC PROCESSING AND CONSUMPTION", "UNKNOWN COMPANY")
+  ) |>
+  top_n(5)
+```
+## Pasture deforestation
+```{r}
+cat("Trase 5 year sum pasture deforestation \n")
+beef_supply_chain_2023_v1_exp |>
+  arrange(desc(pasture_def_back_ha)) |>
+  select(EXPORTER, pasture_def_back_ha) |>
+  filter(
+    !EXPORTER %in% c("DOMESTIC PROCESSING AND CONSUMPTION", "UNKNOWN COMPANY")
+  ) |>
+  top_n(5)
+
+cat("3 year ff looking amortized  pasture deforestation \n")
+beef_supply_chain_2023_v1_exp |>
+  arrange(desc(pasture_def_harvest3y_ha_5y_amort)) |>
+  select(EXPORTER, pasture_def_harvest3y_ha_5y_amort) |>
+  filter(
+    !EXPORTER %in% c("DOMESTIC PROCESSING AND CONSUMPTION", "UNKNOWN COMPANY")
+  ) |>
+  top_n(5)
+
+cat("5 year ff looking amortized  pasture deforestation \n")
+beef_supply_chain_2023_v1_exp |>
+  arrange(desc(pasture_def_harvest5y_ha_5y_amort)) |>
+  select(EXPORTER, pasture_def_harvest5y_ha_5y_amort) |>
+  filter(
+    !EXPORTER %in% c("DOMESTIC PROCESSING AND CONSUMPTION", "UNKNOWN COMPANY")
+  ) |>
+  top_n(5)
+
+cat("3 year ff looking pasture deforestation \n")
+beef_supply_chain_2023_v1_exp |>
+  arrange(desc(pasture_def_harvest3y_ha)) |>
+  select(EXPORTER, pasture_def_harvest3y_ha) |>
+  filter(
+    !EXPORTER %in% c("DOMESTIC PROCESSING AND CONSUMPTION", "UNKNOWN COMPANY")
+  ) |>
+  top_n(5)
+
+cat("5 year ff looking  pasture deforestation \n")
+beef_supply_chain_2023_v1_exp |>
+  arrange(desc(pasture_def_harvest5y_ha)) |>
+  select(EXPORTER, pasture_def_harvest5y_ha) |>
+  filter(
+    !EXPORTER %in% c("DOMESTIC PROCESSING AND CONSUMPTION", "UNKNOWN COMPANY")
+  ) |>
+  top_n(5)
+```
+
+## Key insights
+- ranking is very consitent, with position changes in 4 and 5 ran 

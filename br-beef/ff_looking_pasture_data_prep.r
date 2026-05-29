@@ -494,10 +494,6 @@ write_parquet(
   "~/documents/data/annual_metrics/beef_annual_br_muni.parquet"
 )
 
-write_parquet(
-  cattle_def_per_ton_cleaned,
-  "~/documents/data/annual_metrics/cattle_per_ton_annual_br_muni.parquet"
-)
 ###############################
 ## plots country levelh
 ###############################
