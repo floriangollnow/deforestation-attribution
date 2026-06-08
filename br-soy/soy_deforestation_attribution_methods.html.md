@@ -51,9 +51,11 @@ library(sf)
 library(zoo)
 
 # Load datasets
-soy_br <- read_parquet("~/documents/data/annual_metrics/soy_annual_br.parquet")
+soy_br <- read_parquet(
+  "~/documents/data/annual_metrics/soy_annual_br_v2.parquet"
+)
 soy_states <- read_parquet(
-  "~/documents/data/annual_metrics/soy_annual_br_states.parquet"
+  "~/documents/data/annual_metrics/soy_annual_br_states_v2.parquet"
 )
 soy_supply_chain_2022_v2 <- read_parquet(
   "~/documents/data/annual_metrics/soy_2022_post_embedding_quants_v2.parquet"
@@ -156,7 +158,9 @@ ggplot(
           "soy_def_5y_back",
           "soy_def_5y_annualized_back",
           "soy_def_harvest5y_5y_amortized",
-          "soy_def_harvest3y_5y_amortized"
+          "soy_def_harvest3y_5y_amortized",
+          "soy_def_def5y_5y_amortized",
+          "soy_def_def3y_5y_amortized"
         )
     ) |>
     mutate(
@@ -167,6 +171,8 @@ ggplot(
           "soy_def_harvest5y_5y_amortized" ~ "Soy-def-@harvest_5y_amort",
         variable ==
           "soy_def_harvest3y_5y_amortized" ~ "Soy-def-@harvest_3y_amort",
+        variable == "soy_def_def5y_5y_amortized" ~ "Soy-def-@def_5y_amort",
+        variable == "soy_def_def3y_5y_amortized" ~ "Soy-def-@def_3y_amort",
         .default = variable
       )
     ),
@@ -201,6 +207,7 @@ ggplot(
 relevant context information:
 - Deduce dashboard reports annual deforestation
 - Trase factsheets use 5 year amortized DeDuCE deforestation
+
 
 ## Percentage differences between methods
 To quantify the divergence between backward-looking and forward-looking metrics, I also look at the relative percentage differences.
@@ -263,26 +270,29 @@ As the intention is to align methods between Trase subnational context and DeDuC
 ```{.r .cell-code}
 ggplot(
   soy_br |>
-    filter(year >= 2010 & year <= 2024) |>
+    filter(year >= 2013 & year <= 2024) |>
     filter(
       variable %in%
         c(
-          "soy_def_5y_back",
+          #"soy_def_5y_back",
           #"soy_def_harvest5y",
-          "soy_def_harvest3y",
-          "soy_def_def3y",
-          "deduce_unarmotized",
-          "soy_def_def3y_gfc"
+          "soy_def_5y_annualized_back",
+          "soy_def_harvest3y_5y_amortized" #,
+          #"soy_def_def3y_5y_amortized",
+          #"deduce_unarmotized_5y_amortized" #,
+          #"soy_def_def3y_gfc_5y_amortized"
         )
     ) |>
     mutate(
       variable = case_when(
         variable == "soy_def_5y_back" ~ "Trase-5y-sum",
         #variable == "soy_def_harvest5y" ~ "Soy-def-@harvest_5y",
-        variable == "soy_def_harvest3y" ~ "Soy-def-@harvest_3y",
-        variable == "soy_def_def3y" ~ "Soy-def-@def_3y",
-        variable == "deduce_unarmotized" ~ "DeDuCE_unarmotized",
-        variable == "soy_def_def3y_gfc" ~ "DeDuCE_spatial",
+        variable == "soy_def_5y_annualized_back" ~ "Trase-5y-sum_annualized",
+        variable ==
+          "soy_def_harvest3y_5y_amortized" ~ "Soy-def-@harvest_3y_amort",
+        variable == "soy_def_def3y_5y_amortized" ~ "Soy-def-@def_3y_amort",
+        variable == "deduce_unarmotized_5y_amortized" ~ "DeDuCE_armotized",
+        variable == "soy_def_def3y_gfc_5y_amortized" ~ "DeDuCE_spatial_amort",
         .default = variable
       )
     ),
@@ -290,13 +300,13 @@ ggplot(
 ) +
   geom_line(lwd = 1.5) +
   labs(
-    title = "Soy Deforestation: Comparing Trase and DeDuCE",
+    title = "Soy Deforestation: Trase @harvest amortized and Trase 5y annualized",
     y = "Deforestation (kha)",
     x = "Year",
     color = NULL
   ) +
-
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom") +
+  guides(color = guide_legend(nrow = 2))
 ```
 
 ::: {.cell-output-display}
@@ -311,26 +321,27 @@ ggplot(
 ```{.r .cell-code}
 ggplot(
   soy_br |>
-    filter(year >= 2010 & year <= 2024) |>
+    filter(year >= 2012 & year <= 2024) |>
     filter(
       variable %in%
         c(
           #"soy_def_5y_back",
           #"soy_def_harvest5y",
-          #"soy_def_harvest3y",
-          "soy_def_def3y",
-          "deduce_unarmotized",
-          "soy_def_def3y_gfc"
+          #"soy_def_harvest3y_5y_amortized",
+          "soy_def_def3y_5y_amortized",
+          "deduce_unarmotized_5y_amortized",
+          "soy_def_def3y_gfc_5y_amortized"
         )
     ) |>
     mutate(
       variable = case_when(
-        # variable == "soy_def_5y_back" ~ "Trase-5y-sum",
+        #variable == "soy_def_5y_back" ~ "Trase-5y-sum",
         #variable == "soy_def_harvest5y" ~ "Soy-def-@harvest_5y",
-        #variable == "soy_def_harvest3y" ~ "Soy-def-@harvest_3y",
-        variable == "soy_def_def3y" ~ "Soy-def-@def_3y",
-        variable == "deduce_unarmotized" ~ "DeDuCE_unarmotized",
-        variable == "soy_def_def3y_gfc" ~ "DeDuCE_spatial",
+        variable ==
+          "soy_def_harvest3y_5y_amortized" ~ "Soy-def-@harvest_3y_amort",
+        variable == "soy_def_def3y_5y_amortized" ~ "Soy-def-@def_3y_amort",
+        variable == "deduce_unarmotized_5y_amortized" ~ "DeDuCE_armotized",
+        variable == "soy_def_def3y_gfc_5y_amortized" ~ "DeDuCE_spatial_amort",
         .default = variable
       )
     ),
@@ -338,13 +349,13 @@ ggplot(
 ) +
   geom_line(lwd = 1.5) +
   labs(
-    title = "Soy Deforestation: Comparing Trase and DeDuCE at deforestation event",
+    title = "Soy Deforestation: Trase @ deforestation event and DeDuCE amortized",
     y = "Deforestation (kha)",
     x = "Year",
     color = NULL
   ) +
-
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom") +
+  guides(color = guide_legend(nrow = 2))
 ```
 
 ::: {.cell-output-display}

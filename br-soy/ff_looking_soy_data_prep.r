@@ -3,7 +3,8 @@
 library(tidyverse)
 library(geofacet)
 library(sf)
-library(zoo)
+#library(zoo)
+library(slider)
 library(aws.signature)
 library(aws.s3)
 library(googledrive)
@@ -34,21 +35,21 @@ hidden_def_orig <- read_csv(
 
 ## new assets
 # drive_download(
-#   "soy_def_5yr_windowSize_glad_mb_orig_q4_v2_2025.csv",
-#   "~/downloads/soy_def_5yr_windowSize_glad_mb_orig_q4_v2_2025.csv",
+#   "soy_def_5yr_windowSize_glad_mb_orig_q4_v3_2025.csv",
+#   "~/documents/data/annual_metrics/soy_def_5yr_windowSize_glad_mb_orig_q4_v3_2025.csv",
 #   overwrite = T
 # )
 hidden_def_5yr <- read_csv(
-  "~/documents/data/annual_metrics/soy_def_5yr_windowSize_glad_mb_orig_q4_v2_2025.csv"
+  "~/documents/data/annual_metrics/soy_def_5yr_windowSize_glad_mb_orig_q4_v3_2025.csv"
 )
 
 # drive_download(
-#   "soy_def_3yr_windowSize_glad_mb_orig_q4_v2_2025.csv",
-#   "~/downloads/soy_def_3yr_windowSize_glad_mb_orig_q4_v2_2025.csv",
+#   "soy_def_3yr_windowSize_glad_mb_orig_q4_v3_2025.csv",
+#   "~/documents/data/annual_metrics/soy_def_3yr_windowSize_glad_mb_orig_q4_v3_2025.csv",
 #   overwrite = T
 # )
 hidden_def_3yr <- read_csv(
-  "~/documents/data/annual_metrics/soy_def_3yr_windowSize_glad_mb_orig_q4_v2_2025.csv"
+  "~/documents/data/annual_metrics/soy_def_3yr_windowSize_glad_mb_orig_q4_v3_2025.csv"
 )
 
 # # drive_download(
@@ -97,12 +98,12 @@ hidden_def_3yr_JRCforest <- read_csv(
 
 
 # drive_download(
-#   "soy_def_3yr_windowSize_glad_mb_orig_q4_GFC_v2_2025.csv",
-#   "~/downloads/soy_def_3yr_windowSize_glad_mb_orig_q4_GFC_v2_2025.csv",
+#   "soy_def_3yr_windowSize_glad_mb_orig_q4_GFC_v3_2025.csv",
+#   "~/documents/data/annual_metrics/soy_def_3yr_windowSize_glad_mb_orig_q4_GFC_v3_2025.csv",
 #   overwrite = T
 # )
 hidden_def_3yr_gfc <- read_csv(
-  "~/documents/data/annual_metrics/soy_def_3yr_windowSize_glad_mb_orig_q4_GFC_v2_2025.csv"
+  "~/documents/data/annual_metrics/soy_def_3yr_windowSize_glad_mb_orig_q4_GFC_v3_2025.csv"
 )
 
 # drive_download(
@@ -231,6 +232,35 @@ deduce_br <- deduce |>
   group_by(Year) |>
   summarize(ha = sum(`Deforestation attribution_ unamortized _ha_`)) |>
   mutate(variable = "deduce_unarmotized")
+
+##amortize deduce:
+deduce_br_amort <- deduce_br |>
+  ungroup() |>
+  group_by(variable) |>
+  arrange(Year, .by_group = TRUE) |>
+  mutate(
+    ha_5y_amort = slide_index_dbl(
+      ha,
+      .i = Year, # Explicitly look at the calendar year
+      .f = mean,
+      na.rm = TRUE, # Apply mean
+      .before = 4, # Current year + 4 years prior = 5-year window
+      .complete = TRUE # Returns NA if a full 5-year window doesn't exist
+    )
+  ) |>
+  ungroup() |>
+  # Filter out the NAs (the first 4 years) so you don't append empty rows
+  filter(!is.na(ha_5y_amort)) |>
+  mutate(
+    variable = paste0(variable, "_5y_amortized"),
+    ha = ha_5y_amort
+  ) |>
+  select(-ha_5y_amort)
+
+# Combine back to original dataset
+deduce_br <- deduce_br |> bind_rows(deduce_br_amort)
+
+#####
 
 ## state dictionary
 state_names <- matrix(
@@ -446,23 +476,49 @@ hidden_def_new <- hidden_def_5yr_l |>
   bind_rows(hidden_def_3yr_gfc_only_l) |>
   bind_rows(hidden_def_orig_l)
 
+# hidden_def_new_amort <- hidden_def_new |>
+#   ungroup() |>
+#   group_by(ibge_munic, ibge_state, name, trase_id, variable) |>
+#   arrange(year, .by_group = TRUE) |>
+#   mutate(
+#     ha_5y_amort = rollmean(
+#       ha,
+#       k = 5,
+#       align = "right",
+#       fill = NA,
+#       na.rm = TRUE
+#     )
+#   ) |>
+#   ungroup() |>
+#   mutate(variable = paste0(variable, "_5y_amortized"), ha = ha_5y_amort) |>
+#   select(-ha_5y_amort)
+
+# hidden_def_new <- hidden_def_new |> bind_rows(hidden_def_new_amort)
+
 hidden_def_new_amort <- hidden_def_new |>
   ungroup() |>
   group_by(ibge_munic, ibge_state, name, trase_id, variable) |>
   arrange(year, .by_group = TRUE) |>
   mutate(
-    ha_5y_amort = rollmean(
+    ha_5y_amort = slide_index_dbl(
       ha,
-      k = 5,
-      align = "right",
-      fill = NA,
-      na.rm = TRUE
+      .i = year, # Explicitly look at the calendar year
+      .f = mean,
+      na.rm = TRUE, # Apply mean
+      .before = 4, # Current year + 4 years prior = 5-year window
+      .complete = TRUE # Returns NA if a full 5-year window doesn't exist
     )
   ) |>
   ungroup() |>
-  mutate(variable = paste0(variable, "_5y_amortized"), ha = ha_5y_amort) |>
+  # Filter out the NAs (the first 4 years) so you don't append empty rows
+  filter(!is.na(ha_5y_amort)) |>
+  mutate(
+    variable = paste0(variable, "_5y_amortized"),
+    ha = ha_5y_amort
+  ) |>
   select(-ha_5y_amort)
 
+# Combine back to original dataset
 hidden_def_new <- hidden_def_new |> bind_rows(hidden_def_new_amort)
 
 ###############################
@@ -471,7 +527,7 @@ hidden_def_new <- hidden_def_new |> bind_rows(hidden_def_new_amort)
 
 write_parquet(
   hidden_def_new,
-  "~/documents/data/annual_metrics/soy_annual_br_muni.parquet"
+  "~/documents/data/annual_metrics/soy_annual_br_muni_v2.parquet"
 )
 
 ###############################
@@ -491,7 +547,7 @@ hidden_def_new_agg <- hidden_def_new |>
 
 write_parquet(
   hidden_def_new_agg,
-  "~/documents/data/annual_metrics/soy_annual_br.parquet"
+  "~/documents/data/annual_metrics/soy_annual_br_v2.parquet"
 )
 
 #####################################################
@@ -517,5 +573,5 @@ hidden_def_new_state_all <- hidden_def_new_state |>
 
 write_parquet(
   hidden_def_new_state_all,
-  "~/documents/data/annual_metrics/soy_annual_br_states.parquet"
+  "~/documents/data/annual_metrics/soy_annual_br_states_v2.parquet"
 )
