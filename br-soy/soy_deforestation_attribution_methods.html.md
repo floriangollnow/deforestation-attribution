@@ -329,8 +329,8 @@ ggplot(
           #"soy_def_harvest5y",
           #"soy_def_harvest3y_5y_amortized",
           "soy_def_def3y_5y_amortized",
-          "deduce_unarmotized_5y_amortized",
-          "soy_def_def3y_gfc_5y_amortized"
+          "deduce_unarmotized_5y_amortized" #,
+          #"soy_def_def3y_gfc_5y_amortized"
         )
     ) |>
     mutate(
@@ -363,6 +363,55 @@ ggplot(
 :::
 :::
 
+
+
+::: {.cell}
+
+```{.r .cell-code}
+ggplot(
+  soy_br |>
+    filter(year >= 2012 & year <= 2024) |>
+    filter(
+      variable %in%
+        c(
+          #"soy_def_5y_back",
+          #"soy_def_harvest5y",
+          #"soy_def_harvest3y_5y_amortized",
+          #"soy_def_def3y_5y_amortized",
+          "deduce_unarmotized",
+          "deduce_spatial",
+          "soy_def_def3y_gfc"
+        )
+    ) |>
+    mutate(
+      variable = case_when(
+        #variable == "soy_def_5y_back" ~ "Trase-5y-sum",
+        #variable == "soy_def_harvest5y" ~ "Soy-def-@harvest_5y",
+        variable ==
+          "soy_def_harvest3y_5y_amortized" ~ "Soy-def-@harvest_3y_amort",
+        variable == "soy_def_def3y_5y_amortized" ~ "Soy-def-@def_3y_amort",
+        variable == "deduce_unarmotized_5y_amortized" ~ "DeDuCE_armotized",
+        variable == "soy_def_def3y_gfc_5y_amortized" ~ "DeDuCE_spatial_amort",
+        .default = variable
+      )
+    ),
+  aes(year, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
+) +
+  geom_line(lwd = 1.5) +
+  labs(
+    title = "Soy Deforestation: Trase @ deforestation event and DeDuCE amortized",
+    y = "Deforestation (kha)",
+    x = "Year",
+    color = NULL
+  ) +
+  theme(legend.position = "bottom") +
+  guides(color = guide_legend(nrow = 2))
+```
+
+::: {.cell-output-display}
+![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-2-1.png){width=672}
+:::
+:::
 
 ## key difference
 - difference of trends due to different attribution year DeDuCE attributes to deforestation, while Trase commonly aims to attribute to harvest. 
@@ -475,7 +524,7 @@ ggplot(
 ```
 
 ::: {.cell-output-display}
-![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-2-1.png){width=960}
+![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-3-1.png){width=960}
 :::
 :::
 
@@ -517,7 +566,7 @@ ggplot(
 ```
 
 ::: {.cell-output-display}
-![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-3-1.png){width=960}
+![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-4-1.png){width=960}
 :::
 :::
 
@@ -557,7 +606,7 @@ ggplot(
 ```
 
 ::: {.cell-output-display}
-![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-4-1.png){width=960}
+![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-5-1.png){width=960}
 :::
 :::
 
