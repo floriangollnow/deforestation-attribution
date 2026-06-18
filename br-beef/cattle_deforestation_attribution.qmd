@@ -470,7 +470,8 @@ ggplot(
           "pasture_def_annualized_back_ha",
           #"pasture_def_harvest5y_ha_5y_amort",
           "pasture_def_harvest3y_ha_5y_amort",
-          "pasture_def_def3y_gfc_ha"
+          "pasture_def_def3y_gfc_ha",
+          "deduce_unarmotized"
         )
     ) |>
     mutate(
