@@ -134,6 +134,191 @@ The 5 year sum still takes the 5 year average of the 5 year sum deforestation - 
 - 5-year / 3-year cattle attribution: Forward-looking spatial attribution windows.
 
 
+::: {.cell}
+
+```{.r .cell-code}
+ggplot(
+  beef_br |>
+    filter(year >= 2014 & year <= 2024) |>
+    filter(
+      variable %in%
+        c(
+          "cattle_def_back_ha_5y_summed_ha",
+          "pasture_def_back_ha",
+          "pasture_def_def3y_gfc_ha",
+          "deduce_unarmotized"
+        )
+    ) |>
+    mutate(
+      variable = case_when(
+        variable == "cattle_def_back_ha_5y_summed_ha" ~ "Cattle-Trase-5y-sum",
+        variable == "pasture_def_back_ha" ~ "Pasture-Trase-5y-sum",
+        variable == "deduce_unarmotized" ~ "Cattle - DeDuCE-product",
+        variable == "pasture_def_def3y_gfc_ha" ~ "Pasture - DeDuCE-spatial",
+        .default = variable
+      )
+    ),
+  aes(year, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
+) +
+  geom_line(lwd = 1) +
+  labs(
+    title = "Cattle deforestation: Comparing Trase and DeDuCE",
+    y = "Deforestation (kha)",
+    x = "Year",
+    color = NULL
+  ) +
+  #theme_minimal() +
+  theme(legend.position = "bottom") +
+  guides(color = guide_legend(nrow = 2))
+```
+
+::: {.cell-output-display}
+![](cattle_deforestation_attribution_files/figure-html/country-annual-comparison-cattle-1.png){width=864}
+:::
+:::
+
+
+
+::: {.cell}
+
+```{.r .cell-code}
+ggplot(
+  beef_br |>
+    filter(year >= 2014 & year <= 2024) |>
+    filter(
+      variable %in%
+        c(
+          "cattle_def_back_ha_5y_summed_ha",
+          "pasture_def_back_ha",
+          "cattle_def_harvest3y_ha_5y_summed_ha",
+          "pasture_def_harvest3y_ha_5y_amort" #,
+          #"pasture_def_def3y_gfc_ha",
+          #"deduce_unarmotized"
+        )
+    ) |>
+    mutate(
+      variable = case_when(
+        variable == "cattle_def_back_ha_5y_summed_ha" ~ "Cattle-Trase-5y-sum",
+        variable == "pasture_def_back_ha" ~ "Pasture-Trase-5y-sum",
+        variable == "cattle_def_harvest3y_ha_5y_summed_ha" ~ "Cattle-def-New",
+        variable ==
+          "pasture_def_harvest3y_ha_5y_amort" ~ "Pasture-def-New_amortized5",
+        variable == "deduce_unarmotized" ~ "Cattle - DeDuCE-product",
+        variable == "pasture_def_def3y_gfc_ha" ~ "Pasture - DeDuCE-spatial",
+        .default = variable
+      )
+    ),
+  aes(year, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
+) +
+  geom_line(lwd = 1) +
+  labs(
+    title = "Cattle deforestation: Comparing Trase and DeDuCE",
+    y = "Deforestation (kha)",
+    x = "Year",
+    color = NULL
+  ) +
+  #theme_minimal() +
+  theme(legend.position = "bottom") +
+  guides(color = guide_legend(nrow = 2))
+```
+
+::: {.cell-output-display}
+![](cattle_deforestation_attribution_files/figure-html/country-annual-comparison-cattle_2-1.png){width=864}
+:::
+:::
+
+
+
+::: {.cell}
+
+```{.r .cell-code}
+beef_br |>
+  filter(year >= 201 & year <= 2024) |>
+  filter(
+    variable %in%
+      c(
+        "cattle_def_back_ha_5y_summed_ha",
+        #"pasture_def_back_ha",
+        "cattle_def_harvest3y_ha_5y_summed_ha",
+        #"pasture_def_harvest3y_ha_5y_amort"#,
+        #"pasture_def_def3y_gfc_ha",
+        "deduce_unarmotized"
+      )
+  ) |>
+  filter(year > 2019) |>
+  mutate(kha = round(ha / 1000, 2)) |>
+  select(-ha) |>
+  pivot_wider(year, names_from = variable, values_from = kha) |>
+  mutate(
+    fraction_1 = cattle_def_harvest3y_ha_5y_summed_ha /
+      cattle_def_back_ha_5y_summed_ha,
+    fraction_2 = deduce_unarmotized / cattle_def_back_ha_5y_summed_ha
+  ) |>
+  knitr::kable(format = "html")
+```
+
+::: {.cell-output-display}
+`````{=html}
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> year </th>
+   <th style="text-align:right;"> cattle_def_back_ha_5y_summed_ha </th>
+   <th style="text-align:right;"> cattle_def_harvest3y_ha_5y_summed_ha </th>
+   <th style="text-align:right;"> deduce_unarmotized </th>
+   <th style="text-align:right;"> fraction_1 </th>
+   <th style="text-align:right;"> fraction_2 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 2020 </td>
+   <td style="text-align:right;"> 5847.20 </td>
+   <td style="text-align:right;"> 1415.23 </td>
+   <td style="text-align:right;"> 1410.33 </td>
+   <td style="text-align:right;"> 0.2420355 </td>
+   <td style="text-align:right;"> 0.2411975 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2021 </td>
+   <td style="text-align:right;"> 5859.45 </td>
+   <td style="text-align:right;"> 1462.03 </td>
+   <td style="text-align:right;"> 1472.10 </td>
+   <td style="text-align:right;"> 0.2495166 </td>
+   <td style="text-align:right;"> 0.2512352 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2022 </td>
+   <td style="text-align:right;"> 6672.35 </td>
+   <td style="text-align:right;"> 1736.96 </td>
+   <td style="text-align:right;"> 1629.54 </td>
+   <td style="text-align:right;"> 0.2603221 </td>
+   <td style="text-align:right;"> 0.2442228 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2023 </td>
+   <td style="text-align:right;"> 7930.17 </td>
+   <td style="text-align:right;"> 1997.96 </td>
+   <td style="text-align:right;"> 1088.05 </td>
+   <td style="text-align:right;"> 0.2519442 </td>
+   <td style="text-align:right;"> 0.1372039 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2024 </td>
+   <td style="text-align:right;"> 7483.19 </td>
+   <td style="text-align:right;"> 1545.11 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 0.2064775 </td>
+   <td style="text-align:right;"> NA </td>
+  </tr>
+</tbody>
+</table>
+
+`````
+:::
+:::
+
+
 
 ::: {.cell}
 
@@ -179,7 +364,7 @@ ggplot(
 ```
 
 ::: {.cell-output-display}
-![](cattle_deforestation_attribution_files/figure-html/country-annual-comparison-cattle-1.png){width=864}
+![](cattle_deforestation_attribution_files/figure-html/country-annual-comparison-cattle_3-1.png){width=864}
 :::
 :::
 
@@ -522,7 +707,8 @@ ggplot(
           "pasture_def_annualized_back_ha",
           #"pasture_def_harvest5y_ha_5y_amort",
           "pasture_def_harvest3y_ha_5y_amort",
-          "pasture_def_def3y_gfc_ha"
+          "pasture_def_def3y_gfc_ha",
+          "deduce_unarmotized"
         )
     ) |>
     mutate(
@@ -996,4 +1182,4 @@ beef_supply_chain_2023_v1_exp |>
 
 
 ## Key insights
-- ranking is very consitent, with position changes in 4 and 5 rank 
+- ranking is very consitent, with position changes in 4 and 5 ran 

@@ -123,9 +123,117 @@ The 5 year sum still takes the 5 year average of the 5 year sum deforestation - 
 - 5-year Annualized: Backward-looking annualized deforestation.
 - 5-year / 3-year cattle attribution: Forward-looking spatial attribution windows.
 
-
 ```{r}
 #| label: country-annual-comparison-cattle
+#| fig-width: 9
+#| fig-height: 6
+ggplot(
+  beef_br |>
+    filter(year >= 2014 & year <= 2024) |>
+    filter(
+      variable %in%
+        c(
+          "cattle_def_back_ha_5y_summed_ha",
+          "pasture_def_back_ha",
+          "pasture_def_def3y_gfc_ha",
+          "deduce_unarmotized"
+        )
+    ) |>
+    mutate(
+      variable = case_when(
+        variable == "cattle_def_back_ha_5y_summed_ha" ~ "Cattle-Trase-5y-sum",
+        variable == "pasture_def_back_ha" ~ "Pasture-Trase-5y-sum",
+        variable == "deduce_unarmotized" ~ "Cattle - DeDuCE-product",
+        variable == "pasture_def_def3y_gfc_ha" ~ "Pasture - DeDuCE-spatial",
+        .default = variable
+      )
+    ),
+  aes(year, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
+) +
+  geom_line(lwd = 1) +
+  labs(
+    title = "Cattle deforestation: Comparing Trase and DeDuCE",
+    y = "Deforestation (kha)",
+    x = "Year",
+    color = NULL
+  ) +
+  #theme_minimal() +
+  theme(legend.position = "bottom") +
+  guides(color = guide_legend(nrow = 2))
+```
+
+```{r}
+#| label: country-annual-comparison-cattle_2
+#| fig-width: 9
+#| fig-height: 6
+ggplot(
+  beef_br |>
+    filter(year >= 2014 & year <= 2024) |>
+    filter(
+      variable %in%
+        c(
+          "cattle_def_back_ha_5y_summed_ha",
+          "pasture_def_back_ha",
+          "cattle_def_harvest3y_ha_5y_summed_ha",
+          "pasture_def_harvest3y_ha_5y_amort" #,
+          #"pasture_def_def3y_gfc_ha",
+          #"deduce_unarmotized"
+        )
+    ) |>
+    mutate(
+      variable = case_when(
+        variable == "cattle_def_back_ha_5y_summed_ha" ~ "Cattle-Trase-5y-sum",
+        variable == "pasture_def_back_ha" ~ "Pasture-Trase-5y-sum",
+        variable == "cattle_def_harvest3y_ha_5y_summed_ha" ~ "Cattle-def-New",
+        variable ==
+          "pasture_def_harvest3y_ha_5y_amort" ~ "Pasture-def-New_amortized5",
+        variable == "deduce_unarmotized" ~ "Cattle - DeDuCE-product",
+        variable == "pasture_def_def3y_gfc_ha" ~ "Pasture - DeDuCE-spatial",
+        .default = variable
+      )
+    ),
+  aes(year, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
+) +
+  geom_line(lwd = 1) +
+  labs(
+    title = "Cattle deforestation: Comparing Trase and DeDuCE",
+    y = "Deforestation (kha)",
+    x = "Year",
+    color = NULL
+  ) +
+  #theme_minimal() +
+  theme(legend.position = "bottom") +
+  guides(color = guide_legend(nrow = 2))
+```
+
+```{r}
+beef_br |>
+  filter(year >= 201 & year <= 2024) |>
+  filter(
+    variable %in%
+      c(
+        "cattle_def_back_ha_5y_summed_ha",
+        #"pasture_def_back_ha",
+        "cattle_def_harvest3y_ha_5y_summed_ha",
+        #"pasture_def_harvest3y_ha_5y_amort"#,
+        #"pasture_def_def3y_gfc_ha",
+        "deduce_unarmotized"
+      )
+  ) |>
+  filter(year > 2019) |>
+  mutate(kha = round(ha / 1000, 2)) |>
+  select(-ha) |>
+  pivot_wider(year, names_from = variable, values_from = kha) |>
+  mutate(
+    fraction_1 = cattle_def_harvest3y_ha_5y_summed_ha /
+      cattle_def_back_ha_5y_summed_ha,
+    fraction_2 = deduce_unarmotized / cattle_def_back_ha_5y_summed_ha
+  ) |>
+  knitr::kable(format = "html")
+```
+
+```{r}
+#| label: country-annual-comparison-cattle_3
 #| fig-width: 9
 #| fig-height: 6
 ggplot(
