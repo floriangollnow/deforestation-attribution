@@ -116,6 +116,94 @@ ggplot(
 :::
 
 
+
+::: {.cell}
+
+```{.r .cell-code}
+soy_br |>
+  filter(year >= 2021 & year <= 2024) |>
+  filter(
+    variable %in%
+      c(
+        "soy_def_5y_back",
+        "soy_def_5y_annualized_back",
+        "soy_def_harvest5y",
+        "soy_def_harvest3y"
+      )
+  ) |>
+  filter(year > 2019) |>
+  mutate(kha = round(ha / 1000, 2)) |>
+  select(-ha) |>
+  pivot_wider(year, names_from = variable, values_from = kha) |>
+  mutate(
+    fraction_3y = soy_def_harvest3y /
+      soy_def_5y_back,
+    fraction_5y = soy_def_harvest5y /
+      soy_def_5y_back,
+  ) |>
+  knitr::kable(format = "html")
+```
+
+::: {.cell-output-display}
+`````{=html}
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> year </th>
+   <th style="text-align:right;"> soy_def_5y_annualized_back </th>
+   <th style="text-align:right;"> soy_def_5y_back </th>
+   <th style="text-align:right;"> soy_def_harvest3y </th>
+   <th style="text-align:right;"> soy_def_harvest5y </th>
+   <th style="text-align:right;"> fraction_3y </th>
+   <th style="text-align:right;"> fraction_5y </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 2021 </td>
+   <td style="text-align:right;"> 175.76 </td>
+   <td style="text-align:right;"> 878.78 </td>
+   <td style="text-align:right;"> 308.03 </td>
+   <td style="text-align:right;"> 393.99 </td>
+   <td style="text-align:right;"> 0.3505200 </td>
+   <td style="text-align:right;"> 0.4483375 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2022 </td>
+   <td style="text-align:right;"> 180.23 </td>
+   <td style="text-align:right;"> 901.13 </td>
+   <td style="text-align:right;"> 291.38 </td>
+   <td style="text-align:right;"> 358.81 </td>
+   <td style="text-align:right;"> 0.3233496 </td>
+   <td style="text-align:right;"> 0.3981778 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2023 </td>
+   <td style="text-align:right;"> 200.44 </td>
+   <td style="text-align:right;"> 1002.20 </td>
+   <td style="text-align:right;"> 311.01 </td>
+   <td style="text-align:right;"> 376.06 </td>
+   <td style="text-align:right;"> 0.3103273 </td>
+   <td style="text-align:right;"> 0.3752345 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2024 </td>
+   <td style="text-align:right;"> 168.89 </td>
+   <td style="text-align:right;"> 844.46 </td>
+   <td style="text-align:right;"> 160.38 </td>
+   <td style="text-align:right;"> 199.66 </td>
+   <td style="text-align:right;"> 0.1899202 </td>
+   <td style="text-align:right;"> 0.2364351 </td>
+  </tr>
+</tbody>
+</table>
+
+`````
+:::
+:::
+
+
+
 ## Key insights:
 
 - 5-year Sum inherently double-counts annual deforestation over the evaluation window.
@@ -359,7 +447,7 @@ ggplot(
 ```
 
 ::: {.cell-output-display}
-![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-1-1.png){width=672}
+![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-2-1.png){width=672}
 :::
 :::
 
@@ -409,7 +497,7 @@ ggplot(
 ```
 
 ::: {.cell-output-display}
-![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-2-1.png){width=672}
+![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-3-1.png){width=672}
 :::
 :::
 
@@ -524,7 +612,7 @@ ggplot(
 ```
 
 ::: {.cell-output-display}
-![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-3-1.png){width=960}
+![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-4-1.png){width=960}
 :::
 :::
 
@@ -566,7 +654,7 @@ ggplot(
 ```
 
 ::: {.cell-output-display}
-![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-4-1.png){width=960}
+![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-5-1.png){width=960}
 :::
 :::
 
@@ -606,7 +694,7 @@ ggplot(
 ```
 
 ::: {.cell-output-display}
-![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-5-1.png){width=960}
+![](soy_deforestation_attribution_methods_files/figure-html/unnamed-chunk-6-1.png){width=960}
 :::
 :::
 

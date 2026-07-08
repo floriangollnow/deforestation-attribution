@@ -106,6 +106,32 @@ ggplot(
   theme(legend.position = "bottom")
 ```
 
+```{r}
+soy_br |>
+  filter(year >= 2021 & year <= 2024) |>
+  filter(
+    variable %in%
+      c(
+        "soy_def_5y_back",
+        "soy_def_5y_annualized_back",
+        "soy_def_harvest5y",
+        "soy_def_harvest3y"
+      )
+  ) |>
+  filter(year > 2019) |>
+  mutate(kha = round(ha / 1000, 2)) |>
+  select(-ha) |>
+  pivot_wider(year, names_from = variable, values_from = kha) |>
+  mutate(
+    fraction_3y = soy_def_harvest3y /
+      soy_def_5y_back,
+    fraction_5y = soy_def_harvest5y /
+      soy_def_5y_back,
+  ) |>
+  knitr::kable(format = "html")
+```
+
+
 ## Key insights:
 
 - 5-year Sum inherently double-counts annual deforestation over the evaluation window.
