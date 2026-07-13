@@ -121,7 +121,7 @@ ggplot(
 
 ```{.r .cell-code}
 soy_br |>
-  filter(year >= 2021 & year <= 2024) |>
+  filter(year >= 2014 & year <= 2024) |>
   filter(
     variable %in%
       c(
@@ -131,7 +131,7 @@ soy_br |>
         "soy_def_harvest3y"
       )
   ) |>
-  filter(year > 2019) |>
+  filter(year >= 2014) |>
   mutate(kha = round(ha / 1000, 2)) |>
   select(-ha) |>
   pivot_wider(year, names_from = variable, values_from = kha) |>
@@ -159,6 +159,69 @@ soy_br |>
   </tr>
  </thead>
 <tbody>
+  <tr>
+   <td style="text-align:right;"> 2014 </td>
+   <td style="text-align:right;"> 103.37 </td>
+   <td style="text-align:right;"> 516.87 </td>
+   <td style="text-align:right;"> 281.04 </td>
+   <td style="text-align:right;"> 339.09 </td>
+   <td style="text-align:right;"> 0.5437344 </td>
+   <td style="text-align:right;"> 0.6560450 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2015 </td>
+   <td style="text-align:right;"> 147.21 </td>
+   <td style="text-align:right;"> 736.05 </td>
+   <td style="text-align:right;"> 337.69 </td>
+   <td style="text-align:right;"> 394.23 </td>
+   <td style="text-align:right;"> 0.4587868 </td>
+   <td style="text-align:right;"> 0.5356022 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2016 </td>
+   <td style="text-align:right;"> 124.89 </td>
+   <td style="text-align:right;"> 624.47 </td>
+   <td style="text-align:right;"> 176.84 </td>
+   <td style="text-align:right;"> 225.73 </td>
+   <td style="text-align:right;"> 0.2831841 </td>
+   <td style="text-align:right;"> 0.3614745 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2017 </td>
+   <td style="text-align:right;"> 189.67 </td>
+   <td style="text-align:right;"> 948.33 </td>
+   <td style="text-align:right;"> 262.56 </td>
+   <td style="text-align:right;"> 375.47 </td>
+   <td style="text-align:right;"> 0.2768656 </td>
+   <td style="text-align:right;"> 0.3959276 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2018 </td>
+   <td style="text-align:right;"> 169.51 </td>
+   <td style="text-align:right;"> 847.57 </td>
+   <td style="text-align:right;"> 176.53 </td>
+   <td style="text-align:right;"> 257.98 </td>
+   <td style="text-align:right;"> 0.2082778 </td>
+   <td style="text-align:right;"> 0.3043760 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2019 </td>
+   <td style="text-align:right;"> 161.67 </td>
+   <td style="text-align:right;"> 808.37 </td>
+   <td style="text-align:right;"> 221.31 </td>
+   <td style="text-align:right;"> 293.97 </td>
+   <td style="text-align:right;"> 0.2737731 </td>
+   <td style="text-align:right;"> 0.3636577 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2020 </td>
+   <td style="text-align:right;"> 126.63 </td>
+   <td style="text-align:right;"> 633.17 </td>
+   <td style="text-align:right;"> 150.22 </td>
+   <td style="text-align:right;"> 189.13 </td>
+   <td style="text-align:right;"> 0.2372507 </td>
+   <td style="text-align:right;"> 0.2987033 </td>
+  </tr>
   <tr>
    <td style="text-align:right;"> 2021 </td>
    <td style="text-align:right;"> 175.76 </td>

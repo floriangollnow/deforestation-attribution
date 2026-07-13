@@ -108,7 +108,7 @@ ggplot(
 
 ```{r}
 soy_br |>
-  filter(year >= 2021 & year <= 2024) |>
+  filter(year >= 2014 & year <= 2024) |>
   filter(
     variable %in%
       c(
@@ -118,7 +118,7 @@ soy_br |>
         "soy_def_harvest3y"
       )
   ) |>
-  filter(year > 2019) |>
+  filter(year >= 2014) |>
   mutate(kha = round(ha / 1000, 2)) |>
   select(-ha) |>
   pivot_wider(year, names_from = variable, values_from = kha) |>
