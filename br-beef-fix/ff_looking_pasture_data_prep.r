@@ -27,36 +27,57 @@ cw_production <- s3read_using(
 ###############################
 
 # drive_download(
-#   #"hidden_pasture_deforestation_glad_mb_orig_q4_backward_v2_2025.csv",
-#   "pasture_deforestation_q4_2025_test.geojson",
-#   "~/downloads/pasture_deforestation_q4_2025_test.geojson",
-#   #"~/downloads/hidden_pasture_deforestation_glad_mb_orig_q4_backward_v2_2025.csv",
+#   "hidden_pasture_deforestation_glad_mb_orig_q4_backward_forest_v4_2025.csv",
+#   "~/documents/data/annual_metrics/hidden_pasture_deforestation_glad_mb_orig_q4_backward_forest_v4_2025.csv",
 #   overwrite = T
 # )
-hidden_def_orig <- read_sf(
-  #read_csv(
-  #"~/downloads/hidden_pasture_deforestation_glad_mb_orig_q4_backward_v2_2025.csv"
-  "~/documents/data/annual_metrics/pasture_deforestation_q4_2025_test.geojson"
+hidden_def_forest_orig <- read_csv(
+  "~/documents/data/annual_metrics/hidden_pasture_deforestation_glad_mb_orig_q4_backward_forest_v4_2025.csv"
 )
-#hidden_def_orig #<- hidden_def_orig |> as_tibble() |> mutate(pasture_def_5y_annualized_back= )
+# drive_download(
+#   "hidden_pasture_deforestation_glad_mb_orig_q4_backward_non_forest_v4_2025.csv",
+#   "~/documents/data/annual_metrics/hidden_pasture_deforestation_glad_mb_orig_q4_backward_non_forest_v4_2025.csv",
+#   overwrite = T
+# )
+hidden_def_non_forest_orig <- read_csv(
+  "~/documents/data/annual_metrics/hidden_pasture_deforestation_glad_mb_orig_q4_backward_non_forest_v4_2025.csv"
+)
+
 
 ## new assets
 # drive_download(
-#   "pasture_def_6yr_windowSize_glad_mb_orig_q4_v2_2025.csv",
-#   "~/downloads/pasture_def_6yr_windowSize_glad_mb_orig_q4_v2_2025.csv",
+#   "pasture_def_5yr_windowSize_glad_mb_orig_q4_forest_v4_2025.csv",
+#   "~/documents/data/annual_metrics/pasture_def_5yr_windowSize_glad_mb_orig_q4_forest_v4_2025.csv",
 #   overwrite = T
 # )
-hidden_def_6yr <- read_csv(
-  "~/documents/data/annual_metrics/pasture_def_6yr_windowSize_glad_mb_orig_q4_v2_2025.csv"
+hidden_def_6yr_forest <- read_csv(
+  "~/documents/data/annual_metrics/pasture_def_5yr_windowSize_glad_mb_orig_q4_forest_v4_2025.csv"
+)
+# drive_download(
+#   "pasture_def_5yr_windowSize_glad_mb_orig_q4_non_forest_v4_2025.csv",
+#   "~/documents/data/annual_metrics/pasture_def_5yr_windowSize_glad_mb_orig_q4_non_forest_v4_2025.csv",
+#   overwrite = T
+# )
+hidden_def_6yr_non_forest <- read_csv(
+  "~/documents/data/annual_metrics/pasture_def_5yr_windowSize_glad_mb_orig_q4_non_forest_v4_2025.csv"
 )
 
 # drive_download(
-#   "pasture_def_4yr_windowSize_glad_mb_orig_q4_v2_2025.csv",
-#   "~/downloads/pasture_def_4yr_windowSize_glad_mb_orig_q4_v2_2025.csv",
+#   "pasture_def_3yr_windowSize_glad_mb_orig_q4_forest_v4_2025.csv",
+#   "~/documents/data/annual_metrics/pasture_def_3yr_windowSize_glad_mb_orig_q4_forest_v4_2025.csv",
 #   overwrite = T
 # )
-hidden_def_3yr <- read_csv(
-  "~/documents/data/annual_metrics/pasture_def_4yr_windowSize_glad_mb_orig_q4_v2_2025.csv"
+hidden_def_3yr_forest <- read_csv(
+  "~/documents/data/annual_metrics/pasture_def_3yr_windowSize_glad_mb_orig_q4_forest_v4_2025.csv"
+)
+
+# drive_download(
+#   "pasture_def_3yr_windowSize_glad_mb_orig_q4_non_forest_v4_2025.csv",
+#   "~/documents/data/annual_metrics/pasture_def_3yr_windowSize_glad_mb_orig_q4_non_forest_v4_2025.csv",
+#   overwrite = T
+# )
+hidden_def_3yr_non_forest <- read_csv(
+  "~/documents/data/annual_metrics/pasture_def_3yr_windowSize_glad_mb_orig_q4_non_forest_v4_2025.csv"
 )
 
 # drive_download(
@@ -81,26 +102,26 @@ hidden_def_3yr_mb8 <- read_csv(
 #   "~/downloads/pasture_def_6yr_windowSize_glad_mb_orig_q4_forest_prodes_mb_v2_2025.csv",
 #   overwrite = T
 # )
-hidden_def_6yr_forest <- read_csv(
-  "~/documents/data/annual_metrics/pasture_def_6yr_windowSize_glad_mb_orig_q4_forest_prodes_mb_v2_2025.csv"
-)
+# hidden_def_6yr_forest <- read_csv(
+#   "~/documents/data/annual_metrics/pasture_def_6yr_windowSize_glad_mb_orig_q4_forest_prodes_mb_v2_2025.csv"
+# )
 
 # drive_download(
 #   "pasture_def_4yr_windowSize_glad_mb_orig_q4_forest_v2_2025.csv",
 #   "~/downloads/pasture_def_4yr_windowSize_glad_mb_orig_q4_forest_v2_2025.csv",
 #   overwrite = T
 # )
-hidden_def_3yr_forest <- read_csv(
-  "~/documents/data/annual_metrics/pasture_def_4yr_windowSize_glad_mb_orig_q4_forest_v2_2025.csv"
-)
+# hidden_def_3yr_forest <- read_csv(
+#   "~/documents/data/annual_metrics/pasture_def_4yr_windowSize_glad_mb_orig_q4_forest_v2_2025.csv"
+# )
 # drive_download(
 #   "pasture_def_4yr_windowSize_glad_mb_orig_q4_forest_prodes_mb_v2_2025.csv",
 #   "~/downloads/pasture_def_4yr_windowSize_glad_mb_orig_q4_forest_prodes_mb_v2_2025.csv",
 #   overwrite = T
 # )
-hidden_def_3yr_forest <- read_csv(
-  "~/documents/data/annual_metrics/pasture_def_4yr_windowSize_glad_mb_orig_q4_forest_prodes_mb_v2_2025.csv"
-)
+# hidden_def_3yr_forest <- read_csv(
+#   "~/documents/data/annual_metrics/pasture_def_4yr_windowSize_glad_mb_orig_q4_forest_prodes_mb_v2_2025.csv"
+# )
 
 # drive_download(
 #   "pasture_def_gpw_v1_4yr_gpw_v1_cultivated_only.csv",
@@ -237,9 +258,9 @@ deduce <- deduce |> left_join(state_names)
 #################################
 # to long
 #################################
-hidden_def_orig_l <- hidden_def_orig |>
+hidden_def_forest_orig_l <- hidden_def_forest_orig |>
   as_tibble() |>
-  select(-c(id, geometry)) |>
+  select(-c(`system:index`, `.geo`)) |>
   pivot_longer(
     -c(ibge_munic, ibge_state, name, trase_id),
     names_to = 'variable',
@@ -247,17 +268,18 @@ hidden_def_orig_l <- hidden_def_orig |>
   ) |>
   mutate(
     year = as.numeric(str_sub(variable, start = -4)),
-    variable = paste0(str_sub(variable, end = -6), "_back")
+    variable = paste0(str_sub(variable, end = -6), "_forest_back")
   ) |>
-  filter(variable == "pasture_def_back")
+  filter(variable == "pasture_def_5y_forest_back")
 
-hidden_def_orig_l_ann <- hidden_def_orig_l |>
-  mutate(ha = ha / 5, variable = "pasture_def_annualized_back")
-hidden_def_orig_l <- hidden_def_orig_l |> bind_rows(hidden_def_orig_l_ann)
+hidden_def_forest_orig_l_ann <- hidden_def_forest_orig_l |>
+  mutate(ha = ha / 5, variable = "pasture_def_5y_annualized_forest_back")
+hidden_def_forest_orig_l <- hidden_def_forest_orig_l |>
+  bind_rows(hidden_def_forest_orig_l_ann)
 
-
-hidden_def_6yr_l <- hidden_def_6yr |>
-  select(-c(`system:index`, .geo)) |>
+hidden_def_non_forest_orig_l <- hidden_def_non_forest_orig |>
+  as_tibble() |>
+  select(-c(`system:index`, `.geo`)) |>
   pivot_longer(
     -c(ibge_munic, ibge_state, name, trase_id),
     names_to = 'variable',
@@ -265,23 +287,36 @@ hidden_def_6yr_l <- hidden_def_6yr |>
   ) |>
   mutate(
     year = as.numeric(str_sub(variable, start = -4)),
-    variable = paste0(str_sub(variable, end = -6), "5y")
+    variable = paste0(str_sub(variable, end = -6), "_non_forest_back")
+  ) |>
+  filter(variable == "pasture_def_5y_non_forest_back")
+
+hidden_def_non_forest_orig_l_ann <- hidden_def_non_forest_orig_l |>
+  mutate(ha = ha / 5, variable = "pasture_def_5y_annualized_non_forest_back")
+hidden_def_non_forest_orig_l <- hidden_def_non_forest_orig_l |>
+  bind_rows(hidden_def_non_forest_orig_l_ann)
+
+hidden_def_total_orig_l <- hidden_def_forest_orig_l |>
+  bind_rows(hidden_def_non_forest_orig_l) |>
+  pivot_wider(
+    id_cols = c(year, ibge_munic, ibge_state, name, trase_id),
+    names_from = "variable",
+    values_from = "ha"
+  ) |>
+  mutate(
+    pasture_def_5y_back = pasture_def_5y_forest_back +
+      pasture_def_5y_non_forest_back,
+    pasture_def_5y_annualized_back = pasture_def_5y_annualized_forest_back +
+      pasture_def_5y_annualized_non_forest_back
+  ) |>
+  pivot_longer(
+    -c(year, ibge_munic, ibge_state, name, trase_id),
+    names_to = "variable",
+    values_to = "ha"
   )
+###
 
-hidden_def_3yr_l <- hidden_def_3yr |>
-  select(-c(`system:index`, .geo)) |>
-  pivot_longer(
-    -c(ibge_munic, ibge_state, name, trase_id),
-    names_to = 'variable',
-    values_to = 'ha'
-  ) |>
-  mutate(
-    year = as.numeric(str_sub(variable, start = -4)),
-    variable = paste0(str_sub(variable, end = -6), "3y")
-  )
-
-
-hidden_def_6yr_forest_l <- hidden_def_6yr_forest |>
+hidden_def_5yr_forest_l <- hidden_def_6yr_forest |>
   select(-c(`system:index`, .geo)) |>
   pivot_longer(
     -c(ibge_munic, ibge_state, name, trase_id),
@@ -293,6 +328,36 @@ hidden_def_6yr_forest_l <- hidden_def_6yr_forest |>
     variable = paste0(str_sub(variable, end = -6), "5y_forest")
   )
 
+hidden_def_5yr_non_forest_l <- hidden_def_6yr_non_forest |>
+  select(-c(`system:index`, .geo)) |>
+  pivot_longer(
+    -c(ibge_munic, ibge_state, name, trase_id),
+    names_to = 'variable',
+    values_to = 'ha'
+  ) |>
+  mutate(
+    year = as.numeric(str_sub(variable, start = -4)),
+    variable = paste0(str_sub(variable, end = -6), "5y_non_forest")
+  )
+
+hidden_def_5yr_l <- hidden_def_5yr_forest_l |>
+  bind_rows(hidden_def_5yr_non_forest_l) |>
+  pivot_wider(
+    id_cols = c(year, ibge_munic, ibge_state, name, trase_id),
+    names_from = "variable",
+    values_from = "ha"
+  ) |>
+  mutate(
+    pasture_def_def5y = pasture_def_def5y_forest + pasture_def_def5y_non_forest,
+    pasture_def_harvest5y = pasture_def_harvest5y_forest +
+      pasture_def_harvest5y_non_forest
+  ) |>
+  pivot_longer(
+    -c(year, ibge_munic, ibge_state, name, trase_id),
+    names_to = "variable",
+    values_to = "ha"
+  )
+###
 hidden_def_3yr_forest_l <- hidden_def_3yr_forest |>
   select(-c(`system:index`, .geo)) |>
   pivot_longer(
@@ -305,6 +370,37 @@ hidden_def_3yr_forest_l <- hidden_def_3yr_forest |>
     variable = paste0(str_sub(variable, end = -6), "3y_forest")
   )
 
+hidden_def_3yr_non_forest_l <- hidden_def_3yr_non_forest |>
+  select(-c(`system:index`, .geo)) |>
+  pivot_longer(
+    -c(ibge_munic, ibge_state, name, trase_id),
+    names_to = 'variable',
+    values_to = 'ha'
+  ) |>
+  mutate(
+    year = as.numeric(str_sub(variable, start = -4)),
+    variable = paste0(str_sub(variable, end = -6), "3y_non_forest")
+  )
+
+hidden_def_3yr_l <- hidden_def_3yr_forest_l |>
+  bind_rows(hidden_def_3yr_non_forest_l) |>
+  pivot_wider(
+    id_cols = c(year, ibge_munic, ibge_state, name, trase_id),
+    names_from = "variable",
+    values_from = "ha"
+  ) |>
+  mutate(
+    pasture_def_def3y = pasture_def_def3y_forest + pasture_def_def3y_non_forest,
+    pasture_def_harvest3y = pasture_def_harvest3y_forest +
+      pasture_def_harvest3y_non_forest
+  ) |>
+  pivot_longer(
+    -c(year, ibge_munic, ibge_state, name, trase_id),
+    names_to = "variable",
+    values_to = "ha"
+  )
+
+###
 hidden_def_3yr_gpw_l <- hidden_def_3yr_gpw |>
   select(-c(`system:index`, .geo)) |>
   pivot_longer(
@@ -342,27 +438,13 @@ hidden_def_3yr_gfc_l <- hidden_def_3yr_gfc |>
 
 # combine for analysise
 
-hidden_def_new <- hidden_def_6yr_l |>
+hidden_def_new <- hidden_def_5yr_l |>
   mutate(
     ibge_munic = as.character(ibge_munic),
     ibge_state = as.character(ibge_state)
   ) |>
   bind_rows(
     hidden_def_3yr_l |>
-      mutate(
-        ibge_munic = as.character(ibge_munic),
-        ibge_state = as.character(ibge_state)
-      )
-  ) |>
-  bind_rows(
-    hidden_def_6yr_forest_l |>
-      mutate(
-        ibge_munic = as.character(ibge_munic),
-        ibge_state = as.character(ibge_state)
-      )
-  ) |>
-  bind_rows(
-    hidden_def_3yr_forest_l |>
       mutate(
         ibge_munic = as.character(ibge_munic),
         ibge_state = as.character(ibge_state)
@@ -389,8 +471,13 @@ hidden_def_new <- hidden_def_6yr_l |>
         ibge_state = as.character(ibge_state)
       )
   ) |>
-  bind_rows(hidden_def_orig_l)
-
+  bind_rows(
+    hidden_def_total_orig_l |>
+      mutate(
+        ibge_munic = as.character(ibge_munic),
+        ibge_state = as.character(ibge_state)
+      )
+  )
 ## add cw production data
 # cw_production_l <- cw_production |>
 #   select(-CW_PRODUCTION_TONS_5_YR) |>
@@ -491,7 +578,7 @@ hidden_def_new_means_sum_l <- hidden_def_new_means_sum_l |>
 
 write_parquet(
   hidden_def_new_means_sum_l,
-  "~/documents/data/annual_metrics/beef_annual_br_muni.parquet"
+  "~/documents/data/annual_metrics/beef_annual_br_muni_v4.parquet"
 )
 
 ###############################
@@ -509,7 +596,7 @@ hidden_def_new_agg <- hidden_def_new_means_sum_l |>
 
 write_parquet(
   hidden_def_new_agg,
-  "~/documents/data/annual_metrics/beef_annual_br.parquet"
+  "~/documents/data/annual_metrics/beef_annual_br_v4.parquet"
 )
 
 #####################################################
@@ -539,5 +626,5 @@ hidden_def_new_state_all <- hidden_def_new_state |>
 
 write_parquet(
   hidden_def_new_state_all,
-  "~/documents/data/annual_metrics/beef_annual_br_states.parquet"
+  "~/documents/data/annual_metrics/beef_annual_br_states_v4.parquet"
 )
