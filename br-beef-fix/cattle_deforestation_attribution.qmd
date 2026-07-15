@@ -54,13 +54,13 @@ library(zoo)
 
 # Load datasets
 beef_br <- read_parquet(
-  "~/documents/data/annual_metrics/beef_annual_br.parquet"
+  "~/documents/data/annual_metrics/beef_annual_br_v4.parquet"
 )
 beef_states <- read_parquet(
-  "~/documents/data/annual_metrics/beef_annual_br_states.parquet"
+  "~/documents/data/annual_metrics/beef_annual_br_states_v4.parquet"
 )
 beef_supply_chain_2023_v1 <- read_parquet(
-  "~/documents/data/annual_metrics/beef_2023_post_embedding_quants_v1.parquet"
+  "~/documents/data/annual_metrics/beef_2023_post_embedding_quants_v4.parquet"
 )
 ```
 
@@ -83,8 +83,8 @@ ggplot(
     filter(
       variable %in%
         c(
-          "pasture_def_back_ha",
-          "pasture_def_annualized_back_ha",
+          "pasture_def_5y_back_ha",
+          "pasture_def_5y_annualized_back_ha",
           "pasture_def_harvest5y_ha_5y_amort",
           "pasture_def_harvest3y_ha_5y_amort",
           "pasture_def_def3y_gfc_ha"
@@ -92,10 +92,12 @@ ggplot(
     ) |>
     mutate(
       variable = case_when(
-        variable == "pasture_def_5y_back" ~ "Trase-5y-sum",
-        variable == "pasture_def_5y_annualized_back" ~ "Trase-5y-annualized",
-        variable == "pasture_def_harvest5y" ~ "Pasture-def-@harvest_5y",
-        variable == "pasture_def_harvest3y" ~ "Pasture-def-@harvest_3y",
+        variable == "pasture_def_5y_back_ha" ~ "Trase-5y-sum",
+        variable == "pasture_def_5y_annualized_back_ha" ~ "Trase-5y-annualized",
+        variable ==
+          "pasture_def_harvest5y_ha_5y_amort" ~ "Pasture-def-@harvest_5y",
+        variable ==
+          "pasture_def_harvest3y_ha_5y_amort" ~ "Pasture-def-@harvest_3y",
         variable == "pasture_def_def3y_gfc_ha" ~ "DeDuCE-spatial",
         .default = variable
       )
@@ -133,16 +135,17 @@ ggplot(
     filter(
       variable %in%
         c(
-          "cattle_def_back_ha_5y_summed_ha",
-          "pasture_def_back_ha",
+          "cattle_def_5y_back_ha_5y_summed_ha",
+          "pasture_def_5y_back_ha",
           "pasture_def_def3y_gfc_ha",
           "deduce_unarmotized"
         )
     ) |>
     mutate(
       variable = case_when(
-        variable == "cattle_def_back_ha_5y_summed_ha" ~ "Cattle-Trase-5y-sum",
-        variable == "pasture_def_back_ha" ~ "Pasture-Trase-5y-sum",
+        variable ==
+          "cattle_def_5y_back_ha_5y_summed_ha" ~ "Cattle-Trase-5y-sum",
+        variable == "pasture_def_5y_back_ha" ~ "Pasture-Trase-5y-sum",
         variable == "deduce_unarmotized" ~ "Cattle - DeDuCE-product",
         variable == "pasture_def_def3y_gfc_ha" ~ "Pasture - DeDuCE-spatial",
         .default = variable
@@ -172,8 +175,8 @@ ggplot(
     filter(
       variable %in%
         c(
-          "cattle_def_back_ha_5y_summed_ha",
-          "pasture_def_back_ha",
+          "cattle_def_5y_back_ha_5y_summed_ha",
+          "pasture_def_5y_back_ha",
           "cattle_def_harvest3y_ha_5y_summed_ha",
           "pasture_def_harvest3y_ha_5y_amort" #,
           #"pasture_def_def3y_gfc_ha",
@@ -182,7 +185,8 @@ ggplot(
     ) |>
     mutate(
       variable = case_when(
-        variable == "cattle_def_back_ha_5y_summed_ha" ~ "Cattle-Trase-5y-sum",
+        variable ==
+          "cattle_def_5y_back_ha_5y_summed_ha" ~ "Cattle-Trase-5y-sum",
         variable == "pasture_def_back_ha" ~ "Pasture-Trase-5y-sum",
         variable == "cattle_def_harvest3y_ha_5y_summed_ha" ~ "Cattle-def-New",
         variable ==
@@ -208,11 +212,11 @@ ggplot(
 
 ```{r}
 beef_br |>
-  filter(year >= 201 & year <= 2024) |>
+  filter(year >= 2015 & year <= 2024) |>
   filter(
     variable %in%
       c(
-        "cattle_def_back_ha_5y_summed_ha",
+        "cattle_def_5y_back_ha_5y_summed_ha",
         #"pasture_def_back_ha",
         "cattle_def_harvest3y_ha_5y_summed_ha",
         #"pasture_def_harvest3y_ha_5y_amort"#,
@@ -220,14 +224,14 @@ beef_br |>
         "deduce_unarmotized"
       )
   ) |>
-  filter(year > 2019) |>
+  filter(year > 2015) |>
   mutate(kha = round(ha / 1000, 2)) |>
   select(-ha) |>
   pivot_wider(year, names_from = variable, values_from = kha) |>
   mutate(
     fraction_1 = cattle_def_harvest3y_ha_5y_summed_ha /
-      cattle_def_back_ha_5y_summed_ha,
-    fraction_2 = deduce_unarmotized / cattle_def_back_ha_5y_summed_ha
+      cattle_def_5y_back_ha_5y_summed_ha,
+    fraction_2 = deduce_unarmotized / cattle_def_5y_back_ha_5y_summed_ha
   ) |>
   knitr::kable(format = "html")
 ```
@@ -242,8 +246,8 @@ ggplot(
     filter(
       variable %in%
         c(
-          "cattle_def_back_ha_5y_summed_ha",
-          "cattle_def_annualized_back_ha_5y_summed_ha",
+          "cattle_def_5y_back_ha_5y_summed_ha",
+          "cattle_def_5y_annualized_back_ha_5y_summed_ha",
           "cattle_def_harvest5y_ha_5y_summed_ha",
           "cattle_def_harvest3y_ha_5y_summed_ha",
           "cattle_def_def3y_gfc_ha_5y_summed_ha"
@@ -251,9 +255,9 @@ ggplot(
     ) |>
     mutate(
       variable = case_when(
-        variable == "cattle_def_back_ha_5y_summed_ha" ~ "Trase-5y-sum",
+        variable == "cattle_def_5y_back_ha_5y_summed_ha" ~ "Trase-5y-sum",
         variable ==
-          "cattle_def_annualized_back_ha_5y_summed_ha" ~ "Trase-5y-annualized",
+          "cattle_def_5y_annualized_back_ha_5y_summed_ha" ~ "Trase-5y-annualized",
         variable ==
           "cattle_def_harvest5y_ha_5y_summed_ha" ~ "Cattle-def-@slaugher_5y",
         variable ==
@@ -286,7 +290,7 @@ ggplot(
     filter(
       variable %in%
         c(
-          "pasture_def_annualized_back_ha",
+          "pasture_def_5y_annualized_back_ha",
           "pasture_def_harvest5y_ha",
           "pasture_def_harvest3y_ha",
           "pasture_def_def3y_gfc_ha"
@@ -294,7 +298,7 @@ ggplot(
     ) |>
     mutate(
       variable = case_when(
-        variable == "pasture_def_5y_annualized_back" ~ "Trase-5y-annualized",
+        variable == "pasture_def_5y_annualized_back_ha" ~ "Trase-5y-annualized",
         variable == "pasture_def_harvest3y_ha" ~ "Pasture-def-@harvest_5y",
         variable == "pasture_def_harvest5y_ha" ~ "Pasture-def-@harvest_3y",
         variable == "pasture_def_def3y_gfc_ha" ~ "DeDuCE-spatial",
@@ -325,7 +329,7 @@ ggplot(
     filter(
       variable %in%
         c(
-          "cattle_def_annualized_back_ha_5y_summed_ha",
+          "cattle_def_5y_annualized_back_ha_5y_summed_ha",
           "cattle_def_harvest5y_ha_5y_summed_ha",
           "cattle_def_harvest3y_ha_5y_summed_ha",
           "pasture_def_def3y_gfc_ha"
@@ -334,7 +338,7 @@ ggplot(
     mutate(
       variable = case_when(
         variable ==
-          "cattle_def_annualized_back_ha_5y_summed_ha" ~ "Trase-5y-annualized",
+          "cattle_def_5y_annualized_back_ha_5y_summed_ha" ~ "Trase-5y-annualized",
         variable ==
           "cattle_def_harvest5y_ha_5y_summed_ha" ~ "Cattle-def-@slaugher_5y",
         variable ==
@@ -354,7 +358,7 @@ ggplot(
   ) +
   #theme_minimal() +
   theme(legend.position = "bottom") +
-  guides(color = guide_legend(nrow = 3))
+  guides(color = guide_legend(nrow = 2))
 ```
 
 
@@ -457,7 +461,7 @@ ggplot(
   ) +
   #theme_minimal() +
   theme(legend.position = "bottom") +
-  guides(color = guide_legend(nrow = 3))
+  guides(color = guide_legend(nrow = 2))
 ```
 
 ## Key insights
@@ -487,11 +491,11 @@ pasture_br_amort_perc <- beef_br_amort_wide |>
   filter(year >= 2013) |>
   transmute(
     year = year,
-    diff_perc_5y_Trase_ann_5y_ff_amort = ((pasture_def_annualized_back_ha -
+    diff_perc_5y_Trase_ann_5y_ff_amort = ((pasture_def_5y_annualized_back_ha -
       pasture_def_harvest5y_ha_5y_amort) /
       pasture_def_harvest5y_ha_5y_amort) *
       100,
-    diff_perc_5y_Trase_ann_3y_ff_amort = ((pasture_def_annualized_back_ha -
+    diff_perc_5y_Trase_ann_3y_ff_amort = ((pasture_def_5y_annualized_back_ha -
       pasture_def_harvest3y_ha_5y_amort) /
       pasture_def_harvest3y_ha_5y_amort) *
       100,
@@ -526,11 +530,11 @@ cattle_br_amort_perc <- beef_br_amort_wide |>
   filter(year >= 2013) |>
   transmute(
     year = year,
-    diff_perc_5y_Trase_ann_5y_ff_amort = ((cattle_def_annualized_back_ha_5y_summed_ha -
+    diff_perc_5y_Trase_ann_5y_ff_amort = ((cattle_def_5y_annualized_back_ha_5y_summed_ha -
       cattle_def_harvest5y_ha_5y_summed_ha) /
       cattle_def_harvest5y_ha_5y_summed_ha) *
       100,
-    diff_perc_5y_Trase_ann_3y_ff_amort = ((cattle_def_annualized_back_ha_5y_summed_ha -
+    diff_perc_5y_Trase_ann_3y_ff_amort = ((cattle_def_5y_annualized_back_ha_5y_summed_ha -
       cattle_def_harvest3y_ha_5y_summed_ha) /
       cattle_def_harvest3y_ha_5y_summed_ha) *
       100,
@@ -575,7 +579,7 @@ ggplot(
       variable %in%
         c(
           #"pasture_def_back_ha",
-          "pasture_def_annualized_back_ha",
+          "pasture_def_5y_annualized_back_ha",
           #"pasture_def_harvest5y_ha_5y_amort",
           "pasture_def_harvest3y_ha_5y_amort",
           "pasture_def_def3y_gfc_ha",
@@ -584,8 +588,8 @@ ggplot(
     ) |>
     mutate(
       variable = case_when(
-        variable == "pasture_def_back" ~ "Trase-5y-sum",
-        variable == "pasture_def_annualized_back_ha" ~ "Trase-5y-annualized",
+        variable == "pasture_def_5y_back_ha" ~ "Trase-5y-sum",
+        variable == "pasture_def_5y_annualized_back_ha" ~ "Trase-5y-annualized",
         variable ==
           "pasture_def_harvest5y_amort" ~ "Pasture-def-@harvest_5y_amort",
         variable ==
@@ -620,8 +624,8 @@ ggplot(
     filter(
       variable %in%
         c(
-          "cattle_def_back_ha_5y_summed_ha",
-          "cattle_def_annualized_back_ha_5y_summed_ha",
+          "cattle_def_5y_back_ha_5y_summed_ha",
+          "cattle_def_5y_annualized_back_ha_5y_summed_ha",
           "cattle_def_harvest5y_ha_5y_summed_ha",
           "cattle_def_harvest3y_ha_5y_summed_ha" #,
           #"pasture_def_def3y_gfc_ha"
@@ -629,11 +633,11 @@ ggplot(
     ) |>
     mutate(
       variable = case_when(
-        variable == "cattle_def_back_ha_5y_summed_ha" ~ "Trase-5y-sum",
+        variable == "cattle_def_5y_back_ha_5y_summed_ha" ~ "Trase-5y-sum",
         variable ==
-          "cattle_def_annualized_back_ha_5y_summed_ha" ~ "Trase-5y-annualized",
+          "cattle_def_5y_annualized_back_ha_5y_summed_ha" ~ "Trase-5y-annualized",
         variable ==
-          "cattle_def_harvest5y_ha_5y_summed_ha" ~ "Pasture-def-@harvest_5y_amort",
+          "cattle_def_5y_harvest5y_ha_5y_summed_ha" ~ "Pasture-def-@harvest_5y_amort",
         variable ==
           "cattle_def_harvest3y_ha_5y_summed_ha" ~ "Pasture-def-@harvest_3y_amort",
         variable == "pasture_def_def3y_gfc_ha" ~ "DeDuCE-spatial",
@@ -666,7 +670,7 @@ ggplot(
       variable %in%
         c(
           #"cattle_def_back_ha_5y_summed_ha",
-          "cattle_def_annualized_back_ha_5y_summed_ha",
+          "cattle_def_5y_annualized_back_ha_5y_summed_ha",
           "cattle_def_harvest5y_ha_5y_summed_ha",
           "cattle_def_harvest3y_ha_5y_summed_ha" #,
           #"pasture_def_def3y_gfc_ha"
@@ -674,7 +678,7 @@ ggplot(
     ) |>
     mutate(
       variable = case_when(
-        variable == "cattle_def_back_ha_5y_summed_ha" ~ "Trase-5y-sum",
+        variable == "cattle_def_5y_back_ha_5y_summed_ha" ~ "Trase-5y-sum",
         variable ==
           "cattle_def_annualized_back_ha_5y_summed_ha" ~ "Trase-5y-annualized",
         variable ==
@@ -715,8 +719,8 @@ beef_supply_chain_2023_v1_exp <- beef_supply_chain_2023_v1 |>
 
 cat("Trase 5 year sum Cattle deforestation \n")
 beef_supply_chain_2023_v1_exp |>
-  arrange(desc(cattle_def_back_ha_5y_summed_ha)) |>
-  select(EXPORTER, cattle_def_back_ha_5y_summed_ha) |>
+  arrange(desc(cattle_def_5y_back_ha_5y_summed_ha)) |>
+  select(EXPORTER, cattle_def_5y_back_ha_5y_summed_ha) |>
   filter(
     !EXPORTER %in% c("DOMESTIC PROCESSING AND CONSUMPTION", "UNKNOWN COMPANY")
   ) |>
@@ -744,8 +748,8 @@ beef_supply_chain_2023_v1_exp |>
 ```{r}
 cat("Trase 5 year sum pasture deforestation \n")
 beef_supply_chain_2023_v1_exp |>
-  arrange(desc(pasture_def_back_ha)) |>
-  select(EXPORTER, pasture_def_back_ha) |>
+  arrange(desc(pasture_def_5y_back_ha)) |>
+  select(EXPORTER, pasture_def_5y_back_ha) |>
   filter(
     !EXPORTER %in% c("DOMESTIC PROCESSING AND CONSUMPTION", "UNKNOWN COMPANY")
   ) |>

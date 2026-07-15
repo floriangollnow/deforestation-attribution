@@ -13,13 +13,13 @@ aws.signature::use_credentials()
 # --------------------------------------------------------
 
 # Paths to input and output files in S3
-PATH_SPATIAL_METRICS = '~/documents/data/annual_metrics/beef_annual_br_muni.parquet'
-CW_PRODUCTION = "s3://trase-storage/brazil/production/statistics/anualpec/gold/cattle_production_4_annual_and_5year_2025-10-02.parquet"
+PATH_SPATIAL_METRICS <- '~/documents/data/annual_metrics/beef_annual_br_muni_v4.parquet'
+CW_PRODUCTION <- "s3://trase-storage/brazil/production/statistics/anualpec/gold/cattle_production_4_annual_and_5year_2025-10-02.parquet"
 
-PATH_SEIPCS_V221 = 'brazil/beef/sei_pcs/v2.2.1/SEIPCS_BRAZIL_BEEF_{year}.csv'
+PATH_SEIPCS_V221 <- 'brazil/beef/sei_pcs/v2.2.1/SEIPCS_BRAZIL_BEEF_{year}.csv'
 PATH_OUTPUT_MUN_STATISTICS <- 'brazil/beef/sei_pcs/v2.2.1/municipality_production_{year}.parquet'
 # PATH_OUTPUT = 'brazil/beef/sei_pcs/v2.2.1/post_embedding/quants_post_embedding_quants_{year}_c9.parquet'
-PATH_OUTPUT = '~/documents/data/annual_metrics/beef_{year}_post_embedding_quants_v1.parquet'
+PATH_OUTPUT <- '~/documents/data/annual_metrics/beef_{year}_post_embedding_quants_v4.parquet'
 
 
 # List of columns that define individual flows
@@ -47,14 +47,14 @@ FLOWS_COLS <- c(
 
 #Spatial metrics normalized per ton (to be multiplied by volume)
 EMBEDDING_SPATIAL_METRICS_PER_TON <- c(
-    'pasture_def_back_ha_per_ton',
-    'pasture_def_annualized_back_ha_per_ton',
+    'pasture_def_5y_back_ha_per_ton',
+    'pasture_def_5y_annualized_back_ha_per_ton',
     'pasture_def_harvest3y_ha_per_ton',
     'pasture_def_harvest3y_ha_5y_amort_per_ton',
     'pasture_def_harvest5y_ha_per_ton',
     'pasture_def_harvest5y_ha_5y_amort_per_ton',
-    'cattle_def_back_ha_5y_summed_ha_per_ton',
-    'cattle_def_annualized_back_ha_5y_summed_ha_per_ton',
+    'cattle_def_5y_back_ha_5y_summed_ha_per_ton',
+    'cattle_def_5y_annualized_back_ha_5y_summed_ha_per_ton',
     'cattle_def_harvest5y_ha_5y_summed_ha_per_ton',
     'cattle_def_harvest3y_ha_5y_summed_ha_per_ton'
 )

@@ -56,13 +56,13 @@ library(zoo)
 
 # Load datasets
 beef_br <- read_parquet(
-  "~/documents/data/annual_metrics/beef_annual_br.parquet"
+  "~/documents/data/annual_metrics/beef_annual_br_v4.parquet"
 )
 beef_states <- read_parquet(
-  "~/documents/data/annual_metrics/beef_annual_br_states.parquet"
+  "~/documents/data/annual_metrics/beef_annual_br_states_v4.parquet"
 )
 beef_supply_chain_2023_v1 <- read_parquet(
-  "~/documents/data/annual_metrics/beef_2023_post_embedding_quants_v1.parquet"
+  "~/documents/data/annual_metrics/beef_2023_post_embedding_quants_v4.parquet"
 )
 ```
 :::
@@ -87,8 +87,8 @@ ggplot(
     filter(
       variable %in%
         c(
-          "pasture_def_back_ha",
-          "pasture_def_annualized_back_ha",
+          "pasture_def_5y_back_ha",
+          "pasture_def_5y_annualized_back_ha",
           "pasture_def_harvest5y_ha_5y_amort",
           "pasture_def_harvest3y_ha_5y_amort",
           "pasture_def_def3y_gfc_ha"
@@ -96,10 +96,12 @@ ggplot(
     ) |>
     mutate(
       variable = case_when(
-        variable == "pasture_def_5y_back" ~ "Trase-5y-sum",
-        variable == "pasture_def_5y_annualized_back" ~ "Trase-5y-annualized",
-        variable == "pasture_def_harvest5y" ~ "Pasture-def-@harvest_5y",
-        variable == "pasture_def_harvest3y" ~ "Pasture-def-@harvest_3y",
+        variable == "pasture_def_5y_back_ha" ~ "Trase-5y-sum",
+        variable == "pasture_def_5y_annualized_back_ha" ~ "Trase-5y-annualized",
+        variable ==
+          "pasture_def_harvest5y_ha_5y_amort" ~ "Pasture-def-@harvest_5y",
+        variable ==
+          "pasture_def_harvest3y_ha_5y_amort" ~ "Pasture-def-@harvest_3y",
         variable == "pasture_def_def3y_gfc_ha" ~ "DeDuCE-spatial",
         .default = variable
       )
@@ -143,16 +145,17 @@ ggplot(
     filter(
       variable %in%
         c(
-          "cattle_def_back_ha_5y_summed_ha",
-          "pasture_def_back_ha",
+          "cattle_def_5y_back_ha_5y_summed_ha",
+          "pasture_def_5y_back_ha",
           "pasture_def_def3y_gfc_ha",
           "deduce_unarmotized"
         )
     ) |>
     mutate(
       variable = case_when(
-        variable == "cattle_def_back_ha_5y_summed_ha" ~ "Cattle-Trase-5y-sum",
-        variable == "pasture_def_back_ha" ~ "Pasture-Trase-5y-sum",
+        variable ==
+          "cattle_def_5y_back_ha_5y_summed_ha" ~ "Cattle-Trase-5y-sum",
+        variable == "pasture_def_5y_back_ha" ~ "Pasture-Trase-5y-sum",
         variable == "deduce_unarmotized" ~ "Cattle - DeDuCE-product",
         variable == "pasture_def_def3y_gfc_ha" ~ "Pasture - DeDuCE-spatial",
         .default = variable
@@ -188,8 +191,8 @@ ggplot(
     filter(
       variable %in%
         c(
-          "cattle_def_back_ha_5y_summed_ha",
-          "pasture_def_back_ha",
+          "cattle_def_5y_back_ha_5y_summed_ha",
+          "pasture_def_5y_back_ha",
           "cattle_def_harvest3y_ha_5y_summed_ha",
           "pasture_def_harvest3y_ha_5y_amort" #,
           #"pasture_def_def3y_gfc_ha",
@@ -198,7 +201,8 @@ ggplot(
     ) |>
     mutate(
       variable = case_when(
-        variable == "cattle_def_back_ha_5y_summed_ha" ~ "Cattle-Trase-5y-sum",
+        variable ==
+          "cattle_def_5y_back_ha_5y_summed_ha" ~ "Cattle-Trase-5y-sum",
         variable == "pasture_def_back_ha" ~ "Pasture-Trase-5y-sum",
         variable == "cattle_def_harvest3y_ha_5y_summed_ha" ~ "Cattle-def-New",
         variable ==
@@ -233,11 +237,11 @@ ggplot(
 
 ```{.r .cell-code}
 beef_br |>
-  filter(year >= 201 & year <= 2024) |>
+  filter(year >= 2015 & year <= 2024) |>
   filter(
     variable %in%
       c(
-        "cattle_def_back_ha_5y_summed_ha",
+        "cattle_def_5y_back_ha_5y_summed_ha",
         #"pasture_def_back_ha",
         "cattle_def_harvest3y_ha_5y_summed_ha",
         #"pasture_def_harvest3y_ha_5y_amort"#,
@@ -245,14 +249,14 @@ beef_br |>
         "deduce_unarmotized"
       )
   ) |>
-  filter(year > 2019) |>
+  filter(year > 2015) |>
   mutate(kha = round(ha / 1000, 2)) |>
   select(-ha) |>
   pivot_wider(year, names_from = variable, values_from = kha) |>
   mutate(
     fraction_1 = cattle_def_harvest3y_ha_5y_summed_ha /
-      cattle_def_back_ha_5y_summed_ha,
-    fraction_2 = deduce_unarmotized / cattle_def_back_ha_5y_summed_ha
+      cattle_def_5y_back_ha_5y_summed_ha,
+    fraction_2 = deduce_unarmotized / cattle_def_5y_back_ha_5y_summed_ha
   ) |>
   knitr::kable(format = "html")
 ```
@@ -263,7 +267,7 @@ beef_br |>
  <thead>
   <tr>
    <th style="text-align:right;"> year </th>
-   <th style="text-align:right;"> cattle_def_back_ha_5y_summed_ha </th>
+   <th style="text-align:right;"> cattle_def_5y_back_ha_5y_summed_ha </th>
    <th style="text-align:right;"> cattle_def_harvest3y_ha_5y_summed_ha </th>
    <th style="text-align:right;"> deduce_unarmotized </th>
    <th style="text-align:right;"> fraction_1 </th>
@@ -272,43 +276,75 @@ beef_br |>
  </thead>
 <tbody>
   <tr>
+   <td style="text-align:right;"> 2016 </td>
+   <td style="text-align:right;"> 4773.27 </td>
+   <td style="text-align:right;"> 1267.25 </td>
+   <td style="text-align:right;"> 1636.44 </td>
+   <td style="text-align:right;"> 0.2654889 </td>
+   <td style="text-align:right;"> 0.3428342 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2017 </td>
+   <td style="text-align:right;"> 4889.91 </td>
+   <td style="text-align:right;"> 1241.38 </td>
+   <td style="text-align:right;"> 1464.10 </td>
+   <td style="text-align:right;"> 0.2538656 </td>
+   <td style="text-align:right;"> 0.2994125 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2018 </td>
+   <td style="text-align:right;"> 5336.82 </td>
+   <td style="text-align:right;"> 1259.83 </td>
+   <td style="text-align:right;"> 1163.06 </td>
+   <td style="text-align:right;"> 0.2360638 </td>
+   <td style="text-align:right;"> 0.2179313 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2019 </td>
+   <td style="text-align:right;"> 5625.06 </td>
+   <td style="text-align:right;"> 1337.20 </td>
+   <td style="text-align:right;"> 1278.83 </td>
+   <td style="text-align:right;"> 0.2377219 </td>
+   <td style="text-align:right;"> 0.2273451 </td>
+  </tr>
+  <tr>
    <td style="text-align:right;"> 2020 </td>
-   <td style="text-align:right;"> 5847.20 </td>
-   <td style="text-align:right;"> 1415.23 </td>
+   <td style="text-align:right;"> 5584.72 </td>
+   <td style="text-align:right;"> 1330.46 </td>
    <td style="text-align:right;"> 1410.33 </td>
-   <td style="text-align:right;"> 0.2420355 </td>
-   <td style="text-align:right;"> 0.2411975 </td>
+   <td style="text-align:right;"> 0.2382322 </td>
+   <td style="text-align:right;"> 0.2525337 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 2021 </td>
-   <td style="text-align:right;"> 5859.45 </td>
-   <td style="text-align:right;"> 1462.03 </td>
+   <td style="text-align:right;"> 5618.55 </td>
+   <td style="text-align:right;"> 1383.37 </td>
    <td style="text-align:right;"> 1472.10 </td>
-   <td style="text-align:right;"> 0.2495166 </td>
-   <td style="text-align:right;"> 0.2512352 </td>
+   <td style="text-align:right;"> 0.2462148 </td>
+   <td style="text-align:right;"> 0.2620071 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 2022 </td>
-   <td style="text-align:right;"> 6672.35 </td>
-   <td style="text-align:right;"> 1736.96 </td>
+   <td style="text-align:right;"> 6421.68 </td>
+   <td style="text-align:right;"> 1653.61 </td>
    <td style="text-align:right;"> 1629.54 </td>
-   <td style="text-align:right;"> 0.2603221 </td>
-   <td style="text-align:right;"> 0.2442228 </td>
+   <td style="text-align:right;"> 0.2575043 </td>
+   <td style="text-align:right;"> 0.2537560 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 2023 </td>
-   <td style="text-align:right;"> 7930.17 </td>
-   <td style="text-align:right;"> 1997.96 </td>
+   <td style="text-align:right;"> 7677.25 </td>
+   <td style="text-align:right;"> 1909.36 </td>
    <td style="text-align:right;"> 1088.05 </td>
-   <td style="text-align:right;"> 0.2519442 </td>
-   <td style="text-align:right;"> 0.1372039 </td>
+   <td style="text-align:right;"> 0.2487036 </td>
+   <td style="text-align:right;"> 0.1417239 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 2024 </td>
-   <td style="text-align:right;"> 7483.19 </td>
-   <td style="text-align:right;"> 1545.11 </td>
+   <td style="text-align:right;"> 7275.04 </td>
+   <td style="text-align:right;"> 1475.42 </td>
    <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> 0.2064775 </td>
+   <td style="text-align:right;"> 0.2028058 </td>
    <td style="text-align:right;"> NA </td>
   </tr>
 </tbody>
@@ -329,8 +365,8 @@ ggplot(
     filter(
       variable %in%
         c(
-          "cattle_def_back_ha_5y_summed_ha",
-          "cattle_def_annualized_back_ha_5y_summed_ha",
+          "cattle_def_5y_back_ha_5y_summed_ha",
+          "cattle_def_5y_annualized_back_ha_5y_summed_ha",
           "cattle_def_harvest5y_ha_5y_summed_ha",
           "cattle_def_harvest3y_ha_5y_summed_ha",
           "cattle_def_def3y_gfc_ha_5y_summed_ha"
@@ -338,9 +374,9 @@ ggplot(
     ) |>
     mutate(
       variable = case_when(
-        variable == "cattle_def_back_ha_5y_summed_ha" ~ "Trase-5y-sum",
+        variable == "cattle_def_5y_back_ha_5y_summed_ha" ~ "Trase-5y-sum",
         variable ==
-          "cattle_def_annualized_back_ha_5y_summed_ha" ~ "Trase-5y-annualized",
+          "cattle_def_5y_annualized_back_ha_5y_summed_ha" ~ "Trase-5y-annualized",
         variable ==
           "cattle_def_harvest5y_ha_5y_summed_ha" ~ "Cattle-def-@slaugher_5y",
         variable ==
@@ -379,7 +415,7 @@ ggplot(
     filter(
       variable %in%
         c(
-          "pasture_def_annualized_back_ha",
+          "pasture_def_5y_annualized_back_ha",
           "pasture_def_harvest5y_ha",
           "pasture_def_harvest3y_ha",
           "pasture_def_def3y_gfc_ha"
@@ -387,7 +423,7 @@ ggplot(
     ) |>
     mutate(
       variable = case_when(
-        variable == "pasture_def_5y_annualized_back" ~ "Trase-5y-annualized",
+        variable == "pasture_def_5y_annualized_back_ha" ~ "Trase-5y-annualized",
         variable == "pasture_def_harvest3y_ha" ~ "Pasture-def-@harvest_5y",
         variable == "pasture_def_harvest5y_ha" ~ "Pasture-def-@harvest_3y",
         variable == "pasture_def_def3y_gfc_ha" ~ "DeDuCE-spatial",
@@ -424,7 +460,7 @@ ggplot(
     filter(
       variable %in%
         c(
-          "cattle_def_annualized_back_ha_5y_summed_ha",
+          "cattle_def_5y_annualized_back_ha_5y_summed_ha",
           "cattle_def_harvest5y_ha_5y_summed_ha",
           "cattle_def_harvest3y_ha_5y_summed_ha",
           "pasture_def_def3y_gfc_ha"
@@ -433,7 +469,7 @@ ggplot(
     mutate(
       variable = case_when(
         variable ==
-          "cattle_def_annualized_back_ha_5y_summed_ha" ~ "Trase-5y-annualized",
+          "cattle_def_5y_annualized_back_ha_5y_summed_ha" ~ "Trase-5y-annualized",
         variable ==
           "cattle_def_harvest5y_ha_5y_summed_ha" ~ "Cattle-def-@slaugher_5y",
         variable ==
@@ -453,7 +489,7 @@ ggplot(
   ) +
   #theme_minimal() +
   theme(legend.position = "bottom") +
-  guides(color = guide_legend(nrow = 3))
+  guides(color = guide_legend(nrow = 2))
 ```
 
 ::: {.cell-output-display}
@@ -568,7 +604,7 @@ ggplot(
   ) +
   #theme_minimal() +
   theme(legend.position = "bottom") +
-  guides(color = guide_legend(nrow = 3))
+  guides(color = guide_legend(nrow = 2))
 ```
 
 ::: {.cell-output-display}
@@ -604,11 +640,11 @@ pasture_br_amort_perc <- beef_br_amort_wide |>
   filter(year >= 2013) |>
   transmute(
     year = year,
-    diff_perc_5y_Trase_ann_5y_ff_amort = ((pasture_def_annualized_back_ha -
+    diff_perc_5y_Trase_ann_5y_ff_amort = ((pasture_def_5y_annualized_back_ha -
       pasture_def_harvest5y_ha_5y_amort) /
       pasture_def_harvest5y_ha_5y_amort) *
       100,
-    diff_perc_5y_Trase_ann_3y_ff_amort = ((pasture_def_annualized_back_ha -
+    diff_perc_5y_Trase_ann_3y_ff_amort = ((pasture_def_5y_annualized_back_ha -
       pasture_def_harvest3y_ha_5y_amort) /
       pasture_def_harvest3y_ha_5y_amort) *
       100,
@@ -649,11 +685,11 @@ cattle_br_amort_perc <- beef_br_amort_wide |>
   filter(year >= 2013) |>
   transmute(
     year = year,
-    diff_perc_5y_Trase_ann_5y_ff_amort = ((cattle_def_annualized_back_ha_5y_summed_ha -
+    diff_perc_5y_Trase_ann_5y_ff_amort = ((cattle_def_5y_annualized_back_ha_5y_summed_ha -
       cattle_def_harvest5y_ha_5y_summed_ha) /
       cattle_def_harvest5y_ha_5y_summed_ha) *
       100,
-    diff_perc_5y_Trase_ann_3y_ff_amort = ((cattle_def_annualized_back_ha_5y_summed_ha -
+    diff_perc_5y_Trase_ann_3y_ff_amort = ((cattle_def_5y_annualized_back_ha_5y_summed_ha -
       cattle_def_harvest3y_ha_5y_summed_ha) /
       cattle_def_harvest3y_ha_5y_summed_ha) *
       100,
@@ -704,7 +740,7 @@ ggplot(
       variable %in%
         c(
           #"pasture_def_back_ha",
-          "pasture_def_annualized_back_ha",
+          "pasture_def_5y_annualized_back_ha",
           #"pasture_def_harvest5y_ha_5y_amort",
           "pasture_def_harvest3y_ha_5y_amort",
           "pasture_def_def3y_gfc_ha",
@@ -713,8 +749,8 @@ ggplot(
     ) |>
     mutate(
       variable = case_when(
-        variable == "pasture_def_back" ~ "Trase-5y-sum",
-        variable == "pasture_def_annualized_back_ha" ~ "Trase-5y-annualized",
+        variable == "pasture_def_5y_back_ha" ~ "Trase-5y-sum",
+        variable == "pasture_def_5y_annualized_back_ha" ~ "Trase-5y-annualized",
         variable ==
           "pasture_def_harvest5y_amort" ~ "Pasture-def-@harvest_5y_amort",
         variable ==
@@ -755,8 +791,8 @@ ggplot(
     filter(
       variable %in%
         c(
-          "cattle_def_back_ha_5y_summed_ha",
-          "cattle_def_annualized_back_ha_5y_summed_ha",
+          "cattle_def_5y_back_ha_5y_summed_ha",
+          "cattle_def_5y_annualized_back_ha_5y_summed_ha",
           "cattle_def_harvest5y_ha_5y_summed_ha",
           "cattle_def_harvest3y_ha_5y_summed_ha" #,
           #"pasture_def_def3y_gfc_ha"
@@ -764,11 +800,11 @@ ggplot(
     ) |>
     mutate(
       variable = case_when(
-        variable == "cattle_def_back_ha_5y_summed_ha" ~ "Trase-5y-sum",
+        variable == "cattle_def_5y_back_ha_5y_summed_ha" ~ "Trase-5y-sum",
         variable ==
-          "cattle_def_annualized_back_ha_5y_summed_ha" ~ "Trase-5y-annualized",
+          "cattle_def_5y_annualized_back_ha_5y_summed_ha" ~ "Trase-5y-annualized",
         variable ==
-          "cattle_def_harvest5y_ha_5y_summed_ha" ~ "Pasture-def-@harvest_5y_amort",
+          "cattle_def_5y_harvest5y_ha_5y_summed_ha" ~ "Pasture-def-@harvest_5y_amort",
         variable ==
           "cattle_def_harvest3y_ha_5y_summed_ha" ~ "Pasture-def-@harvest_3y_amort",
         variable == "pasture_def_def3y_gfc_ha" ~ "DeDuCE-spatial",
@@ -807,7 +843,7 @@ ggplot(
       variable %in%
         c(
           #"cattle_def_back_ha_5y_summed_ha",
-          "cattle_def_annualized_back_ha_5y_summed_ha",
+          "cattle_def_5y_annualized_back_ha_5y_summed_ha",
           "cattle_def_harvest5y_ha_5y_summed_ha",
           "cattle_def_harvest3y_ha_5y_summed_ha" #,
           #"pasture_def_def3y_gfc_ha"
@@ -815,7 +851,7 @@ ggplot(
     ) |>
     mutate(
       variable = case_when(
-        variable == "cattle_def_back_ha_5y_summed_ha" ~ "Trase-5y-sum",
+        variable == "cattle_def_5y_back_ha_5y_summed_ha" ~ "Trase-5y-sum",
         variable ==
           "cattle_def_annualized_back_ha_5y_summed_ha" ~ "Trase-5y-annualized",
         variable ==
@@ -877,8 +913,8 @@ Trase 5 year sum Cattle deforestation
 
 ```{.r .cell-code}
 beef_supply_chain_2023_v1_exp |>
-  arrange(desc(cattle_def_back_ha_5y_summed_ha)) |>
-  select(EXPORTER, cattle_def_back_ha_5y_summed_ha) |>
+  arrange(desc(cattle_def_5y_back_ha_5y_summed_ha)) |>
+  select(EXPORTER, cattle_def_5y_back_ha_5y_summed_ha) |>
   filter(
     !EXPORTER %in% c("DOMESTIC PROCESSING AND CONSUMPTION", "UNKNOWN COMPANY")
   ) |>
@@ -889,13 +925,13 @@ beef_supply_chain_2023_v1_exp |>
 
 ```
 # A tibble: 5 × 2
-  EXPORTER                cattle_def_back_ha_5y_summed_ha
-  <chr>                                             <dbl>
-1 JBS SA                                          312940.
-2 MINERVA SA                                      140724.
-3 MARFRIG GLOBAL FOODS SA                         129893.
-4 PLENA ALIMENTOS SA                               61680.
-5 MERCURIO ALIMENTOS SA                            41969.
+  EXPORTER                cattle_def_5y_back_ha_5y_summed_ha
+  <chr>                                                <dbl>
+1 JBS SA                                             302382.
+2 MINERVA SA                                         135892.
+3 MARFRIG GLOBAL FOODS SA                            125847.
+4 PLENA ALIMENTOS SA                                  59193.
+5 MERCURIO ALIMENTOS SA                               41927.
 ```
 
 
@@ -930,11 +966,11 @@ beef_supply_chain_2023_v1_exp |>
 # A tibble: 5 × 2
   EXPORTER                cattle_def_harvest3y_ha_5y_summed_ha
   <chr>                                                  <dbl>
-1 JBS SA                                                73517.
-2 MINERVA SA                                            33097.
-3 MARFRIG GLOBAL FOODS SA                               31300.
-4 PLENA ALIMENTOS SA                                    13120.
-5 MERCURIO ALIMENTOS SA                                 10752.
+1 JBS SA                                                70053.
+2 MINERVA SA                                            31445.
+3 MARFRIG GLOBAL FOODS SA                               29776.
+4 PLENA ALIMENTOS SA                                    12372.
+5 MERCURIO ALIMENTOS SA                                 10563.
 ```
 
 
@@ -969,11 +1005,11 @@ beef_supply_chain_2023_v1_exp |>
 # A tibble: 5 × 2
   EXPORTER                cattle_def_harvest5y_ha_5y_summed_ha
   <chr>                                                  <dbl>
-1 JBS SA                                                75894.
-2 MINERVA SA                                            34173.
-3 MARFRIG GLOBAL FOODS SA                               32406.
-4 PLENA ALIMENTOS SA                                    13630.
-5 MERCURIO ALIMENTOS SA                                 10997.
+1 JBS SA                                                72730.
+2 MINERVA SA                                            32727.
+3 MARFRIG GLOBAL FOODS SA                               31048.
+4 PLENA ALIMENTOS SA                                    12945.
+5 MERCURIO ALIMENTOS SA                                 10874.
 ```
 
 
@@ -999,8 +1035,8 @@ Trase 5 year sum pasture deforestation
 
 ```{.r .cell-code}
 beef_supply_chain_2023_v1_exp |>
-  arrange(desc(pasture_def_back_ha)) |>
-  select(EXPORTER, pasture_def_back_ha) |>
+  arrange(desc(pasture_def_5y_back_ha)) |>
+  select(EXPORTER, pasture_def_5y_back_ha) |>
   filter(
     !EXPORTER %in% c("DOMESTIC PROCESSING AND CONSUMPTION", "UNKNOWN COMPANY")
   ) |>
@@ -1011,13 +1047,13 @@ beef_supply_chain_2023_v1_exp |>
 
 ```
 # A tibble: 5 × 2
-  EXPORTER                pasture_def_back_ha
-  <chr>                                 <dbl>
-1 JBS SA                              288394.
-2 MINERVA SA                          128457.
-3 MARFRIG GLOBAL FOODS SA             121031.
-4 PLENA ALIMENTOS SA                   51800.
-5 FRIGOL SA                            42443.
+  EXPORTER                pasture_def_5y_back_ha
+  <chr>                                    <dbl>
+1 JBS SA                                 279865.
+2 MINERVA SA                             124576.
+3 MARFRIG GLOBAL FOODS SA                118029.
+4 PLENA ALIMENTOS SA                      49907.
+5 FRIGOL SA                               42238.
 ```
 
 
@@ -1052,11 +1088,11 @@ beef_supply_chain_2023_v1_exp |>
 # A tibble: 5 × 2
   EXPORTER                pasture_def_harvest3y_ha_5y_amort
   <chr>                                               <dbl>
-1 JBS SA                                             63881.
-2 MINERVA SA                                         28494.
-3 MARFRIG GLOBAL FOODS SA                            27017.
-4 PLENA ALIMENTOS SA                                 11711.
-5 FRIGOL SA                                           9077.
+1 JBS SA                                             60815.
+2 MINERVA SA                                         27024.
+3 MARFRIG GLOBAL FOODS SA                            25675.
+4 PLENA ALIMENTOS SA                                 11034.
+5 FRIGOL SA                                           8886.
 ```
 
 
@@ -1091,11 +1127,11 @@ beef_supply_chain_2023_v1_exp |>
 # A tibble: 5 × 2
   EXPORTER                pasture_def_harvest5y_ha_5y_amort
   <chr>                                               <dbl>
-1 JBS SA                                             65958.
-2 MINERVA SA                                         29435.
-3 MARFRIG GLOBAL FOODS SA                            27984.
-4 PLENA ALIMENTOS SA                                 12172.
-5 FRIGOL SA                                           9277.
+1 JBS SA                                             63159.
+2 MINERVA SA                                         28145.
+3 MARFRIG GLOBAL FOODS SA                            26788.
+4 PLENA ALIMENTOS SA                                 11551.
+5 FRIGOL SA                                           9141.
 ```
 
 
@@ -1130,11 +1166,11 @@ beef_supply_chain_2023_v1_exp |>
 # A tibble: 5 × 2
   EXPORTER                pasture_def_harvest3y_ha
   <chr>                                      <dbl>
-1 JBS SA                                    57339.
-2 MINERVA SA                                24630.
-3 MARFRIG GLOBAL FOODS SA                   24401.
-4 PLENA ALIMENTOS SA                        10428.
-5 MERCURIO ALIMENTOS SA                      8332.
+1 JBS SA                                    54073.
+2 MINERVA SA                                23088.
+3 MARFRIG GLOBAL FOODS SA                   23012.
+4 PLENA ALIMENTOS SA                         9768.
+5 MERCURIO ALIMENTOS SA                      8101.
 ```
 
 
@@ -1169,11 +1205,11 @@ beef_supply_chain_2023_v1_exp |>
 # A tibble: 5 × 2
   EXPORTER                pasture_def_harvest5y_ha
   <chr>                                      <dbl>
-1 JBS SA                                    59491.
-2 MINERVA SA                                25552.
-3 MARFRIG GLOBAL FOODS SA                   25263.
-4 PLENA ALIMENTOS SA                        10840.
-5 MERCURIO ALIMENTOS SA                      8593.
+1 JBS SA                                    56725.
+2 MINERVA SA                                24314.
+3 MARFRIG GLOBAL FOODS SA                   24297.
+4 PLENA ALIMENTOS SA                        10299.
+5 MERCURIO ALIMENTOS SA                      8473.
 ```
 
 
