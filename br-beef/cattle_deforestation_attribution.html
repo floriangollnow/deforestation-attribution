@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -70,7 +70,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="cattle_deforestation_attribution_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="cattle_deforestation_attribution_files/libs/quarto-html/anchor.min.js"></script>
 <link href="cattle_deforestation_attribution_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="cattle_deforestation_attribution_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="cattle_deforestation_attribution_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="cattle_deforestation_attribution_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="cattle_deforestation_attribution_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="cattle_deforestation_attribution_files/libs/bootstrap/bootstrap-8ffd5f67044e5306d9846f29df41dda5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -193,13 +193,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Load datasets</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>beef_br <span class="ot">&lt;-</span> <span class="fu">read_parquet</span>(</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"~/documents/data/annual_metrics/beef_annual_br.parquet"</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"~/documents/data/annual_metrics/beef_annual_br_v2.parquet"</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>beef_states <span class="ot">&lt;-</span> <span class="fu">read_parquet</span>(</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"~/documents/data/annual_metrics/beef_annual_br_states.parquet"</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"~/documents/data/annual_metrics/beef_annual_br_states_v2.parquet"</span></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>beef_supply_chain_2023_v1 <span class="ot">&lt;-</span> <span class="fu">read_parquet</span>(</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"~/documents/data/annual_metrics/beef_2023_post_embedding_quants_v1.parquet"</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"~/documents/data/annual_metrics/beef_2023_post_embedding_quants_v2.parquet"</span></span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
@@ -233,26 +233,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">variable =</span> <span class="fu">case_when</span>(</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span> <span class="st">"pasture_def_5y_back"</span> <span class="sc">~</span> <span class="st">"Trase-5y-sum"</span>,</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span> <span class="st">"pasture_def_5y_annualized_back"</span> <span class="sc">~</span> <span class="st">"Trase-5y-annualized"</span>,</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span> <span class="st">"pasture_def_harvest5y"</span> <span class="sc">~</span> <span class="st">"Pasture-def-@harvest_5y"</span>,</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span> <span class="st">"pasture_def_harvest3y"</span> <span class="sc">~</span> <span class="st">"Pasture-def-@harvest_3y"</span>,</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span> <span class="st">"pasture_def_def3y_gfc_ha"</span> <span class="sc">~</span> <span class="st">"DeDuCE-spatial"</span>,</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">.default =</span> variable</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(year, ha <span class="sc">/</span> <span class="dv">1000</span>, <span class="at">color =</span> <span class="fu">fct_reorder</span>(variable, ha, <span class="at">.desc =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Pasture Deforestation: Comparing Attribution Methods (Annual)"</span>,</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Deforestation (kha)"</span>,</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Year"</span>,</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="cn">NULL</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="co">#theme_minimal() +</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span> <span class="st">"pasture_def_back_ha"</span> <span class="sc">~</span> <span class="st">"Trase-5y-sum"</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span> <span class="st">"pasture_def_annualized_back_ha"</span> <span class="sc">~</span> <span class="st">"Trase-5y-annualized"</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>          <span class="st">"pasture_def_harvest5y_ha_5y_amort"</span> <span class="sc">~</span> <span class="st">"Pasture-def-@harvest_5y"</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>          <span class="st">"pasture_def_harvest3y_ha_5y_amort"</span> <span class="sc">~</span> <span class="st">"Pasture-def-@harvest_3y"</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        variable <span class="sc">==</span> <span class="st">"pasture_def_def3y_gfc_ha"</span> <span class="sc">~</span> <span class="st">"DeDuCE-spatial"</span>,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">.default =</span> variable</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(year, ha <span class="sc">/</span> <span class="dv">1000</span>, <span class="at">color =</span> <span class="fu">fct_reorder</span>(variable, ha, <span class="at">.desc =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Pasture Deforestation: Comparing Attribution Methods (Annual)"</span>,</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Deforestation (kha)"</span>,</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Year"</span>,</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="cn">NULL</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="co">#theme_minimal() +</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -409,42 +411,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">2020</td>
-<td style="text-align: right;">5847.20</td>
-<td style="text-align: right;">1415.23</td>
+<td style="text-align: right;">5565.75</td>
+<td style="text-align: right;">1325.43</td>
 <td style="text-align: right;">1410.33</td>
-<td style="text-align: right;">0.2420355</td>
-<td style="text-align: right;">0.2411975</td>
+<td style="text-align: right;">0.2381404</td>
+<td style="text-align: right;">0.2533944</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2021</td>
-<td style="text-align: right;">5859.45</td>
-<td style="text-align: right;">1462.03</td>
+<td style="text-align: right;">5600.70</td>
+<td style="text-align: right;">1379.04</td>
 <td style="text-align: right;">1472.10</td>
-<td style="text-align: right;">0.2495166</td>
-<td style="text-align: right;">0.2512352</td>
+<td style="text-align: right;">0.2462264</td>
+<td style="text-align: right;">0.2628421</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2022</td>
-<td style="text-align: right;">6672.35</td>
-<td style="text-align: right;">1736.96</td>
+<td style="text-align: right;">6398.04</td>
+<td style="text-align: right;">1643.89</td>
 <td style="text-align: right;">1629.54</td>
-<td style="text-align: right;">0.2603221</td>
-<td style="text-align: right;">0.2442228</td>
+<td style="text-align: right;">0.2569365</td>
+<td style="text-align: right;">0.2546936</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2023</td>
-<td style="text-align: right;">7930.17</td>
-<td style="text-align: right;">1997.96</td>
+<td style="text-align: right;">7641.62</td>
+<td style="text-align: right;">1896.75</td>
 <td style="text-align: right;">1088.05</td>
-<td style="text-align: right;">0.2519442</td>
-<td style="text-align: right;">0.1372039</td>
+<td style="text-align: right;">0.2482131</td>
+<td style="text-align: right;">0.1423847</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2024</td>
-<td style="text-align: right;">7483.19</td>
-<td style="text-align: right;">1545.11</td>
+<td style="text-align: right;">7233.83</td>
+<td style="text-align: right;">1465.03</td>
 <td style="text-align: right;">NA</td>
-<td style="text-align: right;">0.2064775</td>
+<td style="text-align: right;">0.2025248</td>
 <td style="text-align: right;">NA</td>
 </tr>
 </tbody>
@@ -584,7 +586,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>  <span class="co">#theme_minimal() +</span></span>
 <span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1024,11 +1026,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 5 × 2
   EXPORTER                cattle_def_back_ha_5y_summed_ha
   &lt;chr&gt;                                             &lt;dbl&gt;
-1 JBS SA                                          312940.
-2 MINERVA SA                                      140724.
-3 MARFRIG GLOBAL FOODS SA                         129893.
-4 PLENA ALIMENTOS SA                               61680.
-5 MERCURIO ALIMENTOS SA                            41969.</code></pre>
+1 JBS SA                                          298995.
+2 MINERVA SA                                      133973.
+3 MARFRIG GLOBAL FOODS SA                         122096.
+4 PLENA ALIMENTOS SA                               59136.
+5 MERCURIO ALIMENTOS SA                            41861.</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -1051,11 +1053,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 5 × 2
   EXPORTER                cattle_def_harvest3y_ha_5y_summed_ha
   &lt;chr&gt;                                                  &lt;dbl&gt;
-1 JBS SA                                                73517.
-2 MINERVA SA                                            33097.
-3 MARFRIG GLOBAL FOODS SA                               31300.
-4 PLENA ALIMENTOS SA                                    13120.
-5 MERCURIO ALIMENTOS SA                                 10752.</code></pre>
+1 JBS SA                                                68881.
+2 MINERVA SA                                            30836.
+3 MARFRIG GLOBAL FOODS SA                               28412.
+4 PLENA ALIMENTOS SA                                    12353.
+5 MERCURIO ALIMENTOS SA                                 10538.</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -1078,11 +1080,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 5 × 2
   EXPORTER                cattle_def_harvest5y_ha_5y_summed_ha
   &lt;chr&gt;                                                  &lt;dbl&gt;
-1 JBS SA                                                75894.
-2 MINERVA SA                                            34173.
-3 MARFRIG GLOBAL FOODS SA                               32406.
-4 PLENA ALIMENTOS SA                                    13630.
-5 MERCURIO ALIMENTOS SA                                 10997.</code></pre>
+1 JBS SA                                                71532.
+2 MINERVA SA                                            32104.
+3 MARFRIG GLOBAL FOODS SA                               29660.
+4 PLENA ALIMENTOS SA                                    12925.
+5 MERCURIO ALIMENTOS SA                                 10849.</code></pre>
 </div>
 </div>
 </section>
@@ -1110,11 +1112,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 5 × 2
   EXPORTER                pasture_def_back_ha
   &lt;chr&gt;                                 &lt;dbl&gt;
-1 JBS SA                              288394.
-2 MINERVA SA                          128457.
-3 MARFRIG GLOBAL FOODS SA             121031.
-4 PLENA ALIMENTOS SA                   51800.
-5 FRIGOL SA                            42443.</code></pre>
+1 JBS SA                              275263.
+2 MINERVA SA                          122104.
+3 MARFRIG GLOBAL FOODS SA             112317.
+4 PLENA ALIMENTOS SA                   49823.
+5 FRIGOL SA                            42060.</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -1137,11 +1139,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 5 × 2
   EXPORTER                pasture_def_harvest3y_ha_5y_amort
   &lt;chr&gt;                                               &lt;dbl&gt;
-1 JBS SA                                             63881.
-2 MINERVA SA                                         28494.
-3 MARFRIG GLOBAL FOODS SA                            27017.
-4 PLENA ALIMENTOS SA                                 11711.
-5 FRIGOL SA                                           9077.</code></pre>
+1 JBS SA                                             59785.
+2 MINERVA SA                                         26497.
+3 MARFRIG GLOBAL FOODS SA                            24494.
+4 PLENA ALIMENTOS SA                                 11016.
+5 FRIGOL SA                                           8849.</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -1164,11 +1166,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 5 × 2
   EXPORTER                pasture_def_harvest5y_ha_5y_amort
   &lt;chr&gt;                                               &lt;dbl&gt;
-1 JBS SA                                             65958.
-2 MINERVA SA                                         29435.
-3 MARFRIG GLOBAL FOODS SA                            27984.
-4 PLENA ALIMENTOS SA                                 12172.
-5 FRIGOL SA                                           9277.</code></pre>
+1 JBS SA                                             62107.
+2 MINERVA SA                                         27606.
+3 MARFRIG GLOBAL FOODS SA                            25586.
+4 PLENA ALIMENTOS SA                                 11533.
+5 FRIGOL SA                                           9102.</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -1191,11 +1193,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 5 × 2
   EXPORTER                pasture_def_harvest3y_ha
   &lt;chr&gt;                                      &lt;dbl&gt;
-1 JBS SA                                    57339.
-2 MINERVA SA                                24630.
-3 MARFRIG GLOBAL FOODS SA                   24401.
-4 PLENA ALIMENTOS SA                        10428.
-5 MERCURIO ALIMENTOS SA                      8332.</code></pre>
+1 JBS SA                                    53025.
+2 MINERVA SA                                22683.
+3 MARFRIG GLOBAL FOODS SA                   22442.
+4 PLENA ALIMENTOS SA                         9747.
+5 MERCURIO ALIMENTOS SA                      8068.</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -1218,11 +1220,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 5 × 2
   EXPORTER                pasture_def_harvest5y_ha
   &lt;chr&gt;                                      &lt;dbl&gt;
-1 JBS SA                                    59491.
-2 MINERVA SA                                25552.
-3 MARFRIG GLOBAL FOODS SA                   25263.
-4 PLENA ALIMENTOS SA                        10840.
-5 MERCURIO ALIMENTOS SA                      8593.</code></pre>
+1 JBS SA                                    55620.
+2 MINERVA SA                                23882.
+3 MARFRIG GLOBAL FOODS SA                   23699.
+4 PLENA ALIMENTOS SA                        10276.
+5 MERCURIO ALIMENTOS SA                      8438.</code></pre>
 </div>
 </div>
 </section>

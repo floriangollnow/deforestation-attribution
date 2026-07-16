@@ -7,7 +7,7 @@ library(aws.s3)
 library(googledrive)
 library(arrow)
 options(scipen = 999)
-#drive_auth()
+drive_auth()
 
 ###########################
 # CW production
@@ -26,51 +26,47 @@ cw_production <- s3read_using(
 ## loading GEE assets
 ###############################
 
-# drive_download(
-#   #"hidden_pasture_deforestation_glad_mb_orig_q4_backward_v2_2025.csv",
-#   "pasture_deforestation_q4_2025_test.geojson",
-#   "~/downloads/pasture_deforestation_q4_2025_test.geojson",
-#   #"~/downloads/hidden_pasture_deforestation_glad_mb_orig_q4_backward_v2_2025.csv",
-#   overwrite = T
-# )
-hidden_def_orig <- read_sf(
-  #read_csv(
-  #"~/downloads/hidden_pasture_deforestation_glad_mb_orig_q4_backward_v2_2025.csv"
-  "~/documents/data/annual_metrics/pasture_deforestation_q4_2025_test.geojson"
+drive_download(
+  "hidden_pasture_deforestation_glad_mb_orig_q4_backward_v2_2025_fix.csv",
+  "~/documents/data/annual_metrics/hidden_pasture_deforestation_glad_mb_orig_q4_backward_v2_2025_fix.csv",
+  overwrite = T
+)
+hidden_def_orig <- read_csv(
+  "~/documents/data/annual_metrics/hidden_pasture_deforestation_glad_mb_orig_q4_backward_v2_2025_fix.csv"
 )
 #hidden_def_orig #<- hidden_def_orig |> as_tibble() |> mutate(pasture_def_5y_annualized_back= )
 
 ## new assets
-# drive_download(
-#   "pasture_def_6yr_windowSize_glad_mb_orig_q4_v2_2025.csv",
-#   "~/downloads/pasture_def_6yr_windowSize_glad_mb_orig_q4_v2_2025.csv",
-#   overwrite = T
-# )
-hidden_def_6yr <- read_csv(
-  "~/documents/data/annual_metrics/pasture_def_6yr_windowSize_glad_mb_orig_q4_v2_2025.csv"
+drive_download(
+  "pasture_def_5yr_windowSize_glad_mb_orig_q4_v2_2025_fix.csv",
+  "~/documents/data/annual_metrics/pasture_def_5yr_windowSize_glad_mb_orig_q4_v2_2025_fix.csv",
+  overwrite = T
+)
+hidden_def_5yr <- read_csv(
+  "~/documents/data/annual_metrics/pasture_def_5yr_windowSize_glad_mb_orig_q4_v2_2025_fix.csv"
 )
 
-# drive_download(
-#   "pasture_def_4yr_windowSize_glad_mb_orig_q4_v2_2025.csv",
-#   "~/downloads/pasture_def_4yr_windowSize_glad_mb_orig_q4_v2_2025.csv",
-#   overwrite = T
-# )
+drive_download(
+  "pasture_def_3yr_windowSize_glad_mb_orig_q4_v2_2025_fix.csv",
+  "~/documents/data/annual_metrics/pasture_def_3yr_windowSize_glad_mb_orig_q4_v2_2025_fix.csv",
+  overwrite = T
+)
 hidden_def_3yr <- read_csv(
-  "~/documents/data/annual_metrics/pasture_def_4yr_windowSize_glad_mb_orig_q4_v2_2025.csv"
+  "~/documents/data/annual_metrics/pasture_def_3yr_windowSize_glad_mb_orig_q4_v2_2025_fix.csv"
 )
 
-# drive_download(
-#   "pasture_def_4yr_windowSize_glad_mb8_orig_q4_v2_2025.csv",
-#   "~/downloads/pasture_def_4yr_windowSize_glad_mb8_orig_q4_v2_2025.csv",
-#   overwrite = T
-# )
+drive_download(
+  "pasture_def_3yr_windowSize_glad_mb8_orig_q4_v2_2025_fix.csv",
+  "~/documents/data/annual_metrics/pasture_def_3yr_windowSize_glad_mb8_orig_q4_v2_2025_fix.csv",
+  overwrite = T
+)
 hidden_def_3yr_mb8 <- read_csv(
-  "~/documents/data/annual_metrics/pasture_def_4yr_windowSize_glad_mb8_orig_q4_v2_2025.csv"
+  "~/documents/data/annual_metrics/pasture_def_3yr_windowSize_glad_mb8_orig_q4_v2_2025_fix.csv"
 )
 
 # drive_download(
-#   "pasture_def_6yr_windowSize_glad_mb_orig_q4_forest_v2_2025.csv",
-#   "~/downloads/pasture_def_6yr_windowSize_glad_mb_orig_q4_forest_v2_2025.csv",
+#   "pasture_def_5yr_windowSize_glad_mb_orig_q4_forest_v2_2025_fix.csv",
+#   "~/documents/data/annual_metrics/pasture_def_5yr_windowSize_glad_mb_orig_q4_forest_v2_2025_fix.csv",
 #   overwrite = T
 # )
 # hidden_def_6yr_forest <- read_csv(
@@ -81,7 +77,7 @@ hidden_def_3yr_mb8 <- read_csv(
 #   "~/downloads/pasture_def_6yr_windowSize_glad_mb_orig_q4_forest_prodes_mb_v2_2025.csv",
 #   overwrite = T
 # )
-hidden_def_6yr_forest <- read_csv(
+hidden_def_5yr_forest <- read_csv(
   "~/documents/data/annual_metrics/pasture_def_6yr_windowSize_glad_mb_orig_q4_forest_prodes_mb_v2_2025.csv"
 )
 
@@ -102,13 +98,13 @@ hidden_def_3yr_forest <- read_csv(
   "~/documents/data/annual_metrics/pasture_def_4yr_windowSize_glad_mb_orig_q4_forest_prodes_mb_v2_2025.csv"
 )
 
-# drive_download(
-#   "pasture_def_gpw_v1_4yr_gpw_v1_cultivated_only.csv",
-#   "~/documents/data/pasture_def_gpw_v1_4yr_gpw_v1_cultivated_only.csv",
-#   overwrite = T
-# )
+drive_download(
+  "pasture_def_gpw_v1_5yr_gpw_v1_cultivated_only_fix.csv",
+  "~/documents/data/annual_metrics/pasture_def_gpw_v1_5yr_gpw_v1_cultivated_only_fix.csv",
+  overwrite = T
+)
 hidden_def_3yr_gpw <- read_csv(
-  "~/documents/data/pasture_def_gpw_v1_4yr_gpw_v1_cultivated_only.csv"
+  "~/documents/data/annual_metrics/pasture_def_gpw_v1_5yr_gpw_v1_cultivated_only_fix.csv"
 )
 
 
@@ -239,7 +235,7 @@ deduce <- deduce |> left_join(state_names)
 #################################
 hidden_def_orig_l <- hidden_def_orig |>
   as_tibble() |>
-  select(-c(id, geometry)) |>
+  select(-c(`system:index`, .geo)) |>
   pivot_longer(
     -c(ibge_munic, ibge_state, name, trase_id),
     names_to = 'variable',
@@ -256,7 +252,7 @@ hidden_def_orig_l_ann <- hidden_def_orig_l |>
 hidden_def_orig_l <- hidden_def_orig_l |> bind_rows(hidden_def_orig_l_ann)
 
 
-hidden_def_6yr_l <- hidden_def_6yr |>
+hidden_def_5yr_l <- hidden_def_5yr |>
   select(-c(`system:index`, .geo)) |>
   pivot_longer(
     -c(ibge_munic, ibge_state, name, trase_id),
@@ -281,7 +277,7 @@ hidden_def_3yr_l <- hidden_def_3yr |>
   )
 
 
-hidden_def_6yr_forest_l <- hidden_def_6yr_forest |>
+hidden_def_5yr_forest_l <- hidden_def_5yr_forest |>
   select(-c(`system:index`, .geo)) |>
   pivot_longer(
     -c(ibge_munic, ibge_state, name, trase_id),
@@ -342,7 +338,7 @@ hidden_def_3yr_gfc_l <- hidden_def_3yr_gfc |>
 
 # combine for analysise
 
-hidden_def_new <- hidden_def_6yr_l |>
+hidden_def_new <- hidden_def_5yr_l |>
   mutate(
     ibge_munic = as.character(ibge_munic),
     ibge_state = as.character(ibge_state)
@@ -355,7 +351,7 @@ hidden_def_new <- hidden_def_6yr_l |>
       )
   ) |>
   bind_rows(
-    hidden_def_6yr_forest_l |>
+    hidden_def_5yr_forest_l |>
       mutate(
         ibge_munic = as.character(ibge_munic),
         ibge_state = as.character(ibge_state)
@@ -389,7 +385,13 @@ hidden_def_new <- hidden_def_6yr_l |>
         ibge_state = as.character(ibge_state)
       )
   ) |>
-  bind_rows(hidden_def_orig_l)
+  bind_rows(
+    hidden_def_orig_l |>
+      mutate(
+        ibge_munic = as.character(ibge_munic),
+        ibge_state = as.character(ibge_state)
+      )
+  )
 
 ## add cw production data
 # cw_production_l <- cw_production |>
@@ -453,7 +455,7 @@ hidden_def_new_means_sum_l <- hidden_def_new_means_sums |>
 
 cattle <- hidden_def_new_means_sum_l |>
   filter(str_ends(variable, "summed")) |>
-  left_join(cw_production)
+  left_join(cw_production, join_by(trase_id, year == YEAR))
 cattle_def_per_ton <- cattle |>
   mutate(ha_per_ton = ha / CW_PRODUCTION_TONS_5_YR) |>
   filter(year >= 2010)
@@ -491,7 +493,7 @@ hidden_def_new_means_sum_l <- hidden_def_new_means_sum_l |>
 
 write_parquet(
   hidden_def_new_means_sum_l,
-  "~/documents/data/annual_metrics/beef_annual_br_muni.parquet"
+  "~/documents/data/annual_metrics/beef_annual_br_muni_v2.parquet"
 )
 
 ###############################
@@ -509,7 +511,7 @@ hidden_def_new_agg <- hidden_def_new_means_sum_l |>
 
 write_parquet(
   hidden_def_new_agg,
-  "~/documents/data/annual_metrics/beef_annual_br.parquet"
+  "~/documents/data/annual_metrics/beef_annual_br_v2.parquet"
 )
 
 #####################################################
@@ -539,5 +541,5 @@ hidden_def_new_state_all <- hidden_def_new_state |>
 
 write_parquet(
   hidden_def_new_state_all,
-  "~/documents/data/annual_metrics/beef_annual_br_states.parquet"
+  "~/documents/data/annual_metrics/beef_annual_br_states_v2.parquet"
 )

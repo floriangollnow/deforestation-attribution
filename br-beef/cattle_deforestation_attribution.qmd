@@ -54,13 +54,13 @@ library(zoo)
 
 # Load datasets
 beef_br <- read_parquet(
-  "~/documents/data/annual_metrics/beef_annual_br.parquet"
+  "~/documents/data/annual_metrics/beef_annual_br_v2.parquet"
 )
 beef_states <- read_parquet(
-  "~/documents/data/annual_metrics/beef_annual_br_states.parquet"
+  "~/documents/data/annual_metrics/beef_annual_br_states_v2.parquet"
 )
 beef_supply_chain_2023_v1 <- read_parquet(
-  "~/documents/data/annual_metrics/beef_2023_post_embedding_quants_v1.parquet"
+  "~/documents/data/annual_metrics/beef_2023_post_embedding_quants_v2.parquet"
 )
 ```
 
@@ -92,10 +92,12 @@ ggplot(
     ) |>
     mutate(
       variable = case_when(
-        variable == "pasture_def_5y_back" ~ "Trase-5y-sum",
-        variable == "pasture_def_5y_annualized_back" ~ "Trase-5y-annualized",
-        variable == "pasture_def_harvest5y" ~ "Pasture-def-@harvest_5y",
-        variable == "pasture_def_harvest3y" ~ "Pasture-def-@harvest_3y",
+        variable == "pasture_def_back_ha" ~ "Trase-5y-sum",
+        variable == "pasture_def_annualized_back_ha" ~ "Trase-5y-annualized",
+        variable ==
+          "pasture_def_harvest5y_ha_5y_amort" ~ "Pasture-def-@harvest_5y",
+        variable ==
+          "pasture_def_harvest3y_ha_5y_amort" ~ "Pasture-def-@harvest_3y",
         variable == "pasture_def_def3y_gfc_ha" ~ "DeDuCE-spatial",
         .default = variable
       )
@@ -354,7 +356,7 @@ ggplot(
   ) +
   #theme_minimal() +
   theme(legend.position = "bottom") +
-  guides(color = guide_legend(nrow = 3))
+  guides(color = guide_legend(nrow = 2))
 ```
 
 
