@@ -6,6 +6,7 @@ library(aws.signature)
 library(aws.s3)
 library(googledrive)
 library(arrow)
+library(slider)
 options(scipen = 999)
 #drive_auth()
 
@@ -86,7 +87,7 @@ hidden_def_3yr_non_forest <- read_csv(
 #   overwrite = T
 # )
 hidden_def_3yr_mb8 <- read_csv(
-  "~/documents/data/annual_metrics/pasture_def_4yr_windowSize_glad_mb8_orig_q4_v2_2025.csv"
+  "~/documents/data/annual_metrics/pasture_def_3yr_windowSize_glad_mb8_orig_q4_v2_2025_fix.csv"
 )
 
 # drive_download(
@@ -152,6 +153,33 @@ deduce_br <- deduce |>
   group_by(Year) |>
   summarize(ha = sum(`Deforestation attribution_ unamortized _ha_`)) |>
   mutate(variable = "deduce_unarmotized")
+
+##amortize deduce:
+deduce_br_amort <- deduce_br |>
+  ungroup() |>
+  group_by(variable) |>
+  arrange(Year, .by_group = TRUE) |>
+  mutate(
+    ha_5y_amort = slide_index_dbl(
+      ha,
+      .i = Year, # Explicitly look at the calendar year
+      .f = mean,
+      na.rm = TRUE, # Apply mean
+      .before = 4, # Current year + 4 years prior = 5-year window
+      .complete = TRUE # Returns NA if a full 5-year window doesn't exist
+    )
+  ) |>
+  ungroup() |>
+  # Filter out the NAs (the first 4 years) so you don't append empty rows
+  filter(!is.na(ha_5y_amort)) |>
+  mutate(
+    variable = paste0(variable, "_5y_amortized"),
+    ha = ha_5y_amort
+  ) |>
+  select(-ha_5y_amort)
+
+# Combine back to original dataset
+deduce_br <- deduce_br |> bind_rows(deduce_br_amort)
 
 ## state dictionary
 state_names <- matrix(
