@@ -8,7 +8,7 @@ library(googledrive)
 library(arrow)
 library(slider)
 options(scipen = 999)
-#drive_auth()
+drive_auth()
 
 ###########################
 # CW production
@@ -27,27 +27,34 @@ cw_production <- s3read_using(
 ## loading GEE assets
 ###############################
 
-# drive_download(
-#   "hidden_pasture_deforestation_glad_mb_orig_q4_backward_forest_v4_2025.csv",
-#   "~/documents/data/annual_metrics/hidden_pasture_deforestation_glad_mb_orig_q4_backward_forest_v4_2025.csv",
-#   overwrite = T
-# )
+drive_download(
+  "hidden_pasture_deforestation_glad_mb_orig_q4_backward_forest_v5_2025.csv",
+  "~/documents/data/annual_metrics/hidden_pasture_deforestation_glad_mb_orig_q4_backward_forest_v5_2025.csv",
+  overwrite = T
+)
 hidden_def_forest_orig <- read_csv(
-  "~/documents/data/annual_metrics/hidden_pasture_deforestation_glad_mb_orig_q4_backward_forest_v4_2025.csv"
+  "~/documents/data/annual_metrics/hidden_pasture_deforestation_glad_mb_orig_q4_backward_forest_v5_2025.csv"
+)
+drive_download(
+  "hidden_pasture_deforestation_glad_mb_orig_q4_backward_non_forest_v5_2025.csv",
+  "~/documents/data/annual_metrics/hidden_pasture_deforestation_glad_mb_orig_q4_backward_non_forest_v5_2025.csv",
+  overwrite = T
+)
+hidden_def_non_forest_orig <- read_csv(
+  "~/documents/data/annual_metrics/hidden_pasture_deforestation_glad_mb_orig_q4_backward_non_forest_v5_2025.csv"
 )
 # drive_download(
-#   "hidden_pasture_deforestation_glad_mb_orig_q4_backward_non_forest_v4_2025.csv",
-#   "~/documents/data/annual_metrics/hidden_pasture_deforestation_glad_mb_orig_q4_backward_non_forest_v4_2025.csv",
+#   "hidden_pasture_deforestation_glad_mb_orig_q4_backward_v2_2025_fix.csv",
+#   "~/documents/data/annual_metrics/hidden_pasture_deforestation_glad_mb_orig_q4_backward_v2_2025_fix.csv",
 #   overwrite = T
 # )
-hidden_def_non_forest_orig <- read_csv(
-  "~/documents/data/annual_metrics/hidden_pasture_deforestation_glad_mb_orig_q4_backward_non_forest_v4_2025.csv"
+hidden_def_orig <- read_csv(
+  "~/documents/data/annual_metrics/hidden_pasture_deforestation_glad_mb_orig_q4_backward_v2_2025_fix.csv"
 )
-
 
 ## new assets
 # drive_download(
-#   "pasture_def_5yr_windowSize_glad_mb_orig_q4_forest_v4_2025.csv",
+#   "pasture_def_5yr_windowSize_glad_mb_orig_q4_forest_v5_2025.csv",
 #   "~/documents/data/annual_metrics/pasture_def_5yr_windowSize_glad_mb_orig_q4_forest_v4_2025.csv",
 #   overwrite = T
 # )
@@ -63,23 +70,33 @@ hidden_def_6yr_non_forest <- read_csv(
   "~/documents/data/annual_metrics/pasture_def_5yr_windowSize_glad_mb_orig_q4_non_forest_v4_2025.csv"
 )
 
-# drive_download(
-#   "pasture_def_3yr_windowSize_glad_mb_orig_q4_forest_v4_2025.csv",
-#   "~/documents/data/annual_metrics/pasture_def_3yr_windowSize_glad_mb_orig_q4_forest_v4_2025.csv",
-#   overwrite = T
-# )
+drive_download(
+  "pasture_def_3yr_windowSize_glad_mb_orig_q4_forest_v5_2025.csv",
+  "~/documents/data/annual_metrics/pasture_def_3yr_windowSize_glad_mb_orig_q4_forest_v5_2025.csv",
+  overwrite = T
+)
 hidden_def_3yr_forest <- read_csv(
-  "~/documents/data/annual_metrics/pasture_def_3yr_windowSize_glad_mb_orig_q4_forest_v4_2025.csv"
+  "~/documents/data/annual_metrics/pasture_def_3yr_windowSize_glad_mb_orig_q4_forest_v5_2025.csv"
+)
+
+drive_download(
+  "pasture_def_3yr_windowSize_glad_mb_orig_q4_non_forest_v5_2025.csv",
+  "~/documents/data/annual_metrics/pasture_def_3yr_windowSize_glad_mb_orig_q4_non_forest_v5_2025.csv",
+  overwrite = T
+)
+hidden_def_3yr_non_forest <- read_csv(
+  "~/documents/data/annual_metrics/pasture_def_3yr_windowSize_glad_mb_orig_q4_non_forest_v5_2025.csv"
 )
 
 # drive_download(
-#   "pasture_def_3yr_windowSize_glad_mb_orig_q4_non_forest_v4_2025.csv",
-#   "~/documents/data/annual_metrics/pasture_def_3yr_windowSize_glad_mb_orig_q4_non_forest_v4_2025.csv",
+#   "pasture_def_3yr_windowSize_glad_mb_orig_q4_v2_2025_fix.csv",
+#   "~/documents/data/annual_metrics/pasture_def_3yr_windowSize_glad_mb_orig_q4_v2_2025_fix.csv",
 #   overwrite = T
 # )
-hidden_def_3yr_non_forest <- read_csv(
-  "~/documents/data/annual_metrics/pasture_def_3yr_windowSize_glad_mb_orig_q4_non_forest_v4_2025.csv"
+hidden_def_3yr <- read_csv(
+  "~/documents/data/annual_metrics/pasture_def_3yr_windowSize_glad_mb_orig_q4_v2_2025_fix.csv"
 )
+
 
 # drive_download(
 #   "pasture_def_4yr_windowSize_glad_mb8_orig_q4_v2_2025.csv",
@@ -342,6 +359,25 @@ hidden_def_total_orig_l <- hidden_def_forest_orig_l |>
     names_to = "variable",
     values_to = "ha"
   )
+
+# hidden_def_total_orig_l <- hidden_def_orig |>
+#   as_tibble() |>
+#   select(-c(`system:index`, `.geo`)) |>
+#   pivot_longer(
+#     -c(ibge_munic, ibge_state, name, trase_id),
+#     names_to = 'variable',
+#     values_to = 'ha'
+#   ) |>
+#   mutate(
+#     year = as.numeric(str_sub(variable, start = -4)),
+#     variable = paste0(str_sub(variable, end = -6), "_def_5y_back")
+#   ) |>
+#   filter(variable == "pasture_def_5y_back")
+
+# hidden_def_total_orig_l_ann <- hidden_def_total_orig_l |>
+#   mutate(ha = ha / 5, variable = "pasture_def_5y_annualized_back")
+# hidden_def_total_orig_l <- hidden_def_total_orig_l |>
+#   bind_rows(hidden_def_total_orig_l_ann)
 ###
 
 hidden_def_5yr_forest_l <- hidden_def_6yr_forest |>
@@ -385,7 +421,7 @@ hidden_def_5yr_l <- hidden_def_5yr_forest_l |>
     names_to = "variable",
     values_to = "ha"
   )
-###
+##
 hidden_def_3yr_forest_l <- hidden_def_3yr_forest |>
   select(-c(`system:index`, .geo)) |>
   pivot_longer(
@@ -427,6 +463,17 @@ hidden_def_3yr_l <- hidden_def_3yr_forest_l |>
     names_to = "variable",
     values_to = "ha"
   )
+# hidden_def_3yr_l <- hidden_def_3yr |>
+#   select(-c(`system:index`, .geo)) |>
+#   pivot_longer(
+#     -c(ibge_munic, ibge_state, name, trase_id),
+#     names_to = 'variable',
+#     values_to = 'ha'
+#   ) |>
+#   mutate(
+#     year = as.numeric(str_sub(variable, start = -4)),
+#     variable = paste0(str_sub(variable, end = -6), "3y")
+#   )
 
 ###
 hidden_def_3yr_gpw_l <- hidden_def_3yr_gpw |>
@@ -606,7 +653,7 @@ hidden_def_new_means_sum_l <- hidden_def_new_means_sum_l |>
 
 write_parquet(
   hidden_def_new_means_sum_l,
-  "~/documents/data/annual_metrics/beef_annual_br_muni_v4.parquet"
+  "~/documents/data/annual_metrics/beef_annual_br_muni_v5.parquet"
 )
 
 ###############################
@@ -624,7 +671,7 @@ hidden_def_new_agg <- hidden_def_new_means_sum_l |>
 
 write_parquet(
   hidden_def_new_agg,
-  "~/documents/data/annual_metrics/beef_annual_br_v4.parquet"
+  "~/documents/data/annual_metrics/beef_annual_br_v5.parquet"
 )
 
 #####################################################
@@ -654,5 +701,5 @@ hidden_def_new_state_all <- hidden_def_new_state |>
 
 write_parquet(
   hidden_def_new_state_all,
-  "~/documents/data/annual_metrics/beef_annual_br_states_v4.parquet"
+  "~/documents/data/annual_metrics/beef_annual_br_states_v5.parquet"
 )

@@ -54,10 +54,10 @@ library(zoo)
 
 # Load datasets
 beef_br <- read_parquet(
-  "~/documents/data/annual_metrics/beef_annual_br_v4.parquet"
+  "~/documents/data/annual_metrics/beef_annual_br_v5.parquet"
 )
 beef_states <- read_parquet(
-  "~/documents/data/annual_metrics/beef_annual_br_states_v4.parquet"
+  "~/documents/data/annual_metrics/beef_annual_br_states_v5.parquet"
 )
 beef_supply_chain_2023_v1 <- read_parquet(
   "~/documents/data/annual_metrics/beef_2023_post_embedding_quants_v4.parquet"
@@ -97,7 +97,7 @@ ggplot(
     ),
   aes(year, ha / 1000, color = fct_reorder(variable, ha, .desc = TRUE))
 ) +
-  ylim(c(0, 8000)) +
+  #ylim(c(0, 8000)) +
   geom_line(lwd = 1) +
   labs(
     title = "Pasture Deforestation: Comparing 5 year sum vs annual deforestation",
